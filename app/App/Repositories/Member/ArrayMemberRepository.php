@@ -7,9 +7,9 @@ class ArrayMemberRepository implements MemberRepositoryInterface {
      * 
      * @return type
      */
-	public function getAll()
-	{
-		return array(
+    public function getAll()
+    {
+        return array(
             array(
                 'id' => 1,
                 'first_name' => 'Sonja',
@@ -21,7 +21,7 @@ class ArrayMemberRepository implements MemberRepositoryInterface {
                 'Last_name' => 'Pajic',
             ),
         );
-	}
+    }
 
     /**
      * Get member by ID
@@ -29,9 +29,9 @@ class ArrayMemberRepository implements MemberRepositoryInterface {
      * @param type $id = Member ID
      * @return type
      */
-	public function getById($id)
-	{
-		$members = $this->getAll();
+    public function getById($id)
+    {
+        $members = $this->getAll();
         
         foreach($members as $member)
         {
@@ -42,5 +42,5 @@ class ArrayMemberRepository implements MemberRepositoryInterface {
         }
         
         return null;
-	}
+    }
 }

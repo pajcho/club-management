@@ -5,12 +5,12 @@ interface MemberRepositoryInterface {
     /**
      * Get all members
      */
-	public function getAll();
+    public function getAll();
 
     /**
      * Get member by ID
      * 
      * @param type $id = Member ID
      */
-	public function getById($id);
+    public function getById($id);
 }

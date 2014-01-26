@@ -9,10 +9,10 @@ class DbMemberRepository implements MemberRepositoryInterface {
      * 
      * @return type
      */
-	public function getAll()
-	{
-		return Member::all();
-	}
+    public function getAll()
+    {
+        return Member::all();
+    }
 
     /**
      * Get member by ID
@@ -20,8 +20,8 @@ class DbMemberRepository implements MemberRepositoryInterface {
      * @param type $id = Member ID
      * @return type
      */
-	public function getById($id)
-	{
-		return Member::find((int)$id);
-	}
+    public function getById($id)
+    {
+        return Member::find((int)$id);
+    }
 }
