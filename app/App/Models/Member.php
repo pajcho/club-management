@@ -9,4 +9,14 @@ class Member extends BaseModel {
     
     protected $fillable = array('first_name', 'last_name', 'dob', 'dos');
     protected $dates = array('dob', 'dos');
+    
+    /**
+     * Get member full name
+     * 
+     * @return string
+     */
+    public function fullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

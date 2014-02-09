@@ -1,6 +1,10 @@
 <?php namespace App\Controllers;
 
+use App\Internal\Validators\MemberValidator;
 use App\Repositories\Member\MemberRepositoryInterface;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
 class MemberController extends BaseController {
@@ -24,7 +28,7 @@ class MemberController extends BaseController {
 		// Get all members
         $members = $this->members->getAll();
         
-        return View::make('member.all')->withMembers($members);;
+        return View::make('member.index')->withMembers($members);
 	}
 
 	/**
@@ -34,7 +38,7 @@ class MemberController extends BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('member.create');
 	}
 
 	/**
@@ -44,7 +48,18 @@ class MemberController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+        $validator = new MemberValidator();
+
+        if ($validator->validate(Input::all(), 'create'))
+        {
+            // validation passed
+            $this->members->create($validator->data());
+
+            return Redirect::route('member.index')->withSuccess('Member created!');
+        }
+
+        // validation failed
+		return Redirect::route('member.create')->withInput()->withErrors($validator->errors());
 	}
 
 	/**

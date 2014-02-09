@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('localhost', 'pajcho-PC'),
+	'local' => array('precise64'),
 	'stage' => array('stage.gkdif.io', '*'),
 	'live'  => array('gkdif.io'),
     
