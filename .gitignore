@@ -6,5 +6,7 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
+
+# PHP Storm and Vagrant related files and folders
 .idea
 .vagrant
