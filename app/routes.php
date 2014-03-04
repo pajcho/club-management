@@ -15,5 +15,5 @@ Route::resource('member', 'App\Controllers\MemberController');
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return Redirect::route('member.index');
 });

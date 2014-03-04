@@ -1,6 +1,11 @@
 <?php namespace App\Controllers;
 
+use App\Internal\Validators\MemberValidator;
 use App\Repositories\Member\MemberRepositoryInterface;
+use App\Service\Theme;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
 class MemberController extends BaseController {
@@ -24,7 +29,7 @@ class MemberController extends BaseController {
 		// Get all members
         $members = $this->members->getAll();
         
-        return View::make('member.all')->withMembers($members);;
+        return View::make(Theme::view('member.index'))->withMembers($members);
 	}
 
 	/**
@@ -34,7 +39,7 @@ class MemberController extends BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make(Theme::view('member.create'));
 	}
 
 	/**
@@ -44,7 +49,18 @@ class MemberController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+        $validator = new MemberValidator();
+
+        if ($validator->validate(Input::all(), 'create'))
+        {
+            // validation passed
+            $this->members->create($validator->data());
+
+            return Redirect::route('member.index')->withSuccess('Member created!');
+        }
+
+        // validation failed
+		return Redirect::route('member.create')->withInput()->withErrors($validator->errors());
 	}
 
 	/**
@@ -55,7 +71,9 @@ class MemberController extends BaseController {
 	 */
 	public function show($id)
 	{
-		//
+        $member = $this->members->getById($id);
+
+        return View::make(Theme::view('member.update'))->withMember($member);
 	}
 
 	/**
@@ -66,7 +84,7 @@ class MemberController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+        //
 	}
 
 	/**
@@ -77,7 +95,20 @@ class MemberController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+        $member = $this->members->getById($id);
+
+        $validator = new MemberValidator();
+
+        if ($validator->validate(Input::all(), 'update'))
+        {
+            // validation passed
+            $member->update($validator->data());
+
+            return Redirect::route('member.show', $member->id)->withSuccess('Details updated!');
+        }
+
+        // validation failed
+        return Redirect::route('member.show', $member->id)->withInput()->withErrors($validator->errors());
 	}
 
 	/**

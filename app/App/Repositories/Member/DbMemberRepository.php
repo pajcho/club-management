@@ -24,4 +24,14 @@ class DbMemberRepository implements MemberRepositoryInterface {
     {
         return Member::find((int)$id);
     }
+    
+    /**
+     * Create new member
+     * 
+     * @param type $data = Input data
+     */
+    public function create($data)
+    {
+        Member::create($data);
+    }
 }
