@@ -7,8 +7,8 @@ class Member extends BaseModel {
     protected $table = 'members';
     protected $softDelete = false;
     
-    protected $fillable = array('first_name', 'last_name', 'dob', 'dos');
-    protected $dates = array('dob', 'dos');
+    protected $fillable = array('uid', 'first_name', 'last_name', 'phone', 'notes', 'dob', 'dos', 'doc', 'active');
+    protected $dates = array('dob', 'dos', 'doc');
     protected $appends = array('full_name');
 
     /**

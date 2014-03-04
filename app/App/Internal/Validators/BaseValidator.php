@@ -55,9 +55,11 @@ abstract class BaseValidator
      * internal rules array.
      *
      * @param  mixed $data
+     * @param string $ruleset
+     * @param null $exclude
      * @return bool
      */
-    public function validate($data, $ruleset = 'create')
+    public function validate($data, $ruleset = 'create', $exclude = null)
     {
         $this->data = $data;
 
@@ -72,6 +74,9 @@ abstract class BaseValidator
         // Load the correct ruleset.
         $rules = $this->rules[$ruleset];
 
+        // Exclude certain ID if required
+        if($exclude) $this->attachExclude($rules, $exclude);
+
         // Create the validator instance and validate.
         $validator = Validator::make($this->data, $rules, $this->messages);
         if (!$result = $validator->passes()) {
@@ -80,6 +85,31 @@ abstract class BaseValidator
 
         // Return the validation result.
         return $result;
+    }
+
+    /**
+     * Attach exclude ID used when validating with unique rule
+     *
+     * @param $rules
+     * @param $exclude
+     */
+    private function attachExclude(&$rules, $exclude)
+    {
+        // Add exclude part to rules, mainly used for unique rules
+        foreach ($rules as $field => $rule)
+        {
+            if(is_array($rule))
+            {
+                foreach ($rule as $position => $single_rule)
+                {
+                    $rules[$field][$position] = sprintf($single_rule, $exclude);
+                }
+            }
+            else
+            {
+                $rules[$field] = sprintf($rule, $exclude);
+            }
+        }
     }
 
     /**

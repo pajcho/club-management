@@ -99,7 +99,7 @@ class MemberController extends BaseController {
 
         $validator = new MemberValidator();
 
-        if ($validator->validate(Input::all(), 'update'))
+        if ($validator->validate(Input::all(), 'update', $member->id))
         {
             // validation passed
             $member->update($validator->data());
@@ -119,7 +119,11 @@ class MemberController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+        $member = $this->members->getById($id);
+
+        $member->delete();
+
+        return Redirect::back()->withInput()->withSuccess('Member deleted!');
 	}
     
 }

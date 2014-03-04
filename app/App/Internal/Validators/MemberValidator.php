@@ -14,15 +14,19 @@ class MemberValidator extends BaseValidator
         'create' => array(
             'first_name' => array('required'),
             'last_name' => array('required'),
+            'uid'    => array('required', 'unique:members,uid'),
             'dob'    => array('required', 'date'),
             'dos'    => array('required', 'date'),
+            'doc'    => array('date'),
         ),
 
         'update' => array(
             'first_name' => array('required'),
             'last_name' => array('required'),
+            'uid'    => array('required', 'unique:members,uid,%s'),
             'dob'    => array('required', 'date'),
             'dos'    => array('required', 'date'),
+            'doc'    => array('date'),
         ),
 
     );
@@ -35,6 +39,6 @@ class MemberValidator extends BaseValidator
     {
         parent::__construct();
 
-        $this->attachSanitizer(new MemberSanitizer);
+        $this->attachSanitizer(new MemberSanitizer());
     }
 }

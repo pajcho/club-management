@@ -20,20 +20,22 @@
                     <th>Full Name</th>
                     <th>Date of Birth</th>
                     <th>Subscribed</th>
+                    <th>Active</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @if($members->count())
                     @foreach($members as $member)
-                        <tr>
+                        <tr class="{{ $member->active ? '' : 'danger' }}">
                             <td>{{ $member->id }}</td>
                             <td>{{ $member->full_name }}</td>
                             <td>{{ $member->dob->format('F j, Y') }}</td>
                             <td>{{ $member->dos->format('F j, Y') }} ({{ $member->dos->diffForHumans() }})</td>
+                            <td>{{ $member->active ? 'Yes' : 'No' }}</td>
                             <td>
-                                {{ link_to_route('member.show', 'Update', array($member->id), array('class' => 'btn btn-xs btn-success')) }}
-                                {{ link_to_route('member.destroy', 'Delete', array($member->id), array('class' => 'btn btn-xs btn-danger')) }}
+                                {{ link_to_route('member.show', 'Update', array($member->id), array('class' => 'btn btn-xs btn-success pull-left2')) }}
+                                {{ Form::delete(route('member.destroy', array($member->id)), 'Delete', array('class' => 'btn btn-xs pull-left2'), array('class' => 'btn btn-xs btn-danger')) }}
                             </td>
                         </tr>
                     @endforeach
