@@ -20,6 +20,7 @@
         
         <!-- BEGIN THEME STYLES -->
         <link href="{{ asset(theme_path('css/bootstrap.min.css')) }}" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="{{ asset(theme_path('css/bootstrap-datetimepicker.min.css')) }}" rel="stylesheet" type="text/css" id="style_color"/>
         <link href="{{ asset(theme_path('css/main.css')) }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 
@@ -54,11 +55,16 @@
             </div>
         </div>
 
-        <!-- Header -->
+        <!-- Footer -->
         @include(theme_view('includes/footer'))
         
         <script src="{{ asset(theme_path('js/jquery-1.11.0.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/bootstrap.min.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/moment.min.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/bootstrap-datetimepicker.js')) }}" type="text/javascript"></script>
+
+        <!-- Custom project scripts -->
+        <script src="{{ asset(theme_path('js/main.js')) }}" type="text/javascript"></script>
 
         @section('scripts')
 

@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider {
 
         // Include custom app helpers
         require_once __DIR__.'/helpers.php';
+        require_once __DIR__.'/macros.php';
     }
 
     /**
