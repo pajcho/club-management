@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->bindRepositories();
+
+        // Include custom app helpers
+        require_once __DIR__.'/helpers.php';
     }
 
     /**
@@ -31,7 +34,11 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->singleton('App\Repositories\Member\MemberRepositoryInterface', 'App\Repositories\Member\DbMemberRepository');
     }
 
-    public function register(){}
+    public function register()
+    {
+        // Bind custom app classes
+        $this->app->bind('App\Service\Theme', 'App\Service\Theme');
+    }
 
     /**
      * Get the services provided by the provider.

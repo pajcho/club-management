@@ -23,7 +23,7 @@ return array(
         'mysql' => array(
             'driver'    => 'mysql',
             'host'      => 'localhost',
-            'database'  => 'gkdif',
+            'database'  => 'club_management',
             'username'  => 'root',
             'password'  => 'root',
             'charset'   => 'utf8',
