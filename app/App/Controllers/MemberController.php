@@ -27,7 +27,7 @@ class MemberController extends BaseController {
 	public function index()
 	{
 		// Get all members
-        $members = $this->members->getAll();
+        $members = $this->members->filter(Input::get());
         
         return View::make(Theme::view('member.index'))->withMembers($members);
 	}
@@ -56,7 +56,14 @@ class MemberController extends BaseController {
             // validation passed
             $this->members->create($validator->data());
 
-            return Redirect::route('member.index')->withSuccess('Member created!');
+            // Create redirect depending on submit button
+            $redirect = Redirect::route('member.index');
+
+            if(Input::get('create_and_add', false))
+                $redirect = Redirect::route('member.create')->withInput();
+
+
+            return $redirect->withSuccess('Member created!');
         }
 
         // validation failed

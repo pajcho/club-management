@@ -12,6 +12,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>{{ link_to_route('member.index', 'Members') }}</li>
+                <li>{{ link_to('#', 'Groups') }}</li>
             </ul>
         </div>
     </div>

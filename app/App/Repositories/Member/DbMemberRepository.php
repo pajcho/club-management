@@ -4,6 +4,8 @@ use App\Models\Member;
 
 class DbMemberRepository implements MemberRepositoryInterface {
 
+    protected $perPage = 15;
+
     /**
      * Get all members
      * 
@@ -12,6 +14,24 @@ class DbMemberRepository implements MemberRepositoryInterface {
     public function getAll()
     {
         return Member::all();
+    }
+
+    /**
+     * Filter members
+     */
+    public function filter($params = array())
+    {
+        $members = new Member();
+
+        // Filter by active status
+        $active = array_get($params, 'active', false);
+
+        if($active !== false)
+        {
+            $members = $members->where('active', '=', $active);
+        }
+
+        return $members->paginate($this->perPage);
     }
 
     /**
