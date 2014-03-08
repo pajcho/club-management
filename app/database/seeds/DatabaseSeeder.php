@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder {
         Eloquent::unguard();
 
         $this->checkAndCall('MembersSeeder');
+        $this->checkAndCall('MemberGroupsSeeder');
     }
 
     /**

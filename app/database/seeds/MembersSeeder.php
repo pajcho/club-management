@@ -17,6 +17,7 @@ class MembersSeeder extends Seeder {
             $phone = '06' . $faker->randomElement(array(1, 2, 3, 4, 5, 6)) . '/' . $faker->randomElement(array($faker->numerify('###-####'), $faker->numerify('###-###')));
 
             array_push($members, array(
+                'group_id' => $faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8)),
                 'uid' => $faker->unique()->randomNumber(13),
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->firstName,

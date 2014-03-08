@@ -23,15 +23,49 @@ class DbMemberRepository implements MemberRepositoryInterface {
     {
         $members = new Member();
 
-        // Filter by active status
-        $active = array_get($params, 'active', false);
-
-        if($active !== false)
+        // Default filter by every database column
+        foreach($members->getColumnNames() as $column)
         {
-            $members = $members->where('active', '=', $active);
+            if(isset($params[$column]) && ($params[$column] === '0' || !empty($params[$column])))
+            {
+                $members = $members->where($column, '=', $params[$column]);
+            }
         }
 
-        return $members->paginate($this->perPage);
+        // Filter by name
+        if(isset($params['name']) && !empty($params['name']))
+        {
+            $names = explode(' ', $params['name'], 2);
+
+            switch(count($names))
+            {
+                case 1:
+                    $members = $members->where(function($query) use ($names){
+                        $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
+                        $query->orWhere('last_name', 'LIKE', '%' . $names[0] . '%');
+                    });
+                    break;
+                case 2:
+                    $members = $members->where(function($query) use ($names){
+                        $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
+                        $query->where('last_name', 'LIKE', '%' . $names[1] . '%');
+                    })->orWhere(function($query) use ($names){
+                        $query->where('last_name', 'LIKE', '%' . $names[0] . '%');
+                        $query->where('first_name', 'LIKE', '%' . $names[1] . '%');
+                    });
+                    break;
+            }
+        }
+
+        // Filter by location
+        if(isset($params['location']) && !empty($params['location']))
+        {
+            $members = $members->whereHas('group', function($query) use ($params){
+                $query->where('location', '=', $params['location']);
+            });
+        }
+
+        return $members->orderBy('dos', 'desc')->paginate($this->perPage);
     }
 
     /**

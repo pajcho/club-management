@@ -4,7 +4,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 
 class BaseController extends Controller {
-    
+
     /**
      * Initializer.
      *
@@ -14,6 +14,8 @@ class BaseController extends Controller {
     {
         // CSRF Protection
         $this->beforeFilter('csrf', array('on' => 'post'));
+
+        View::share('activeMenu', false);
     }
 
     /**

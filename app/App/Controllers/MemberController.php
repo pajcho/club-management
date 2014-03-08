@@ -2,7 +2,9 @@
 
 use App\Internal\Validators\MemberValidator;
 use App\Repositories\Member\MemberRepositoryInterface;
+use App\Repositories\MemberGroup\MemberGroupRepositoryInterface;
 use App\Service\Theme;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -11,25 +13,33 @@ use Illuminate\Support\Facades\View;
 class MemberController extends BaseController {
 
     private $members;
-    
-	public function __construct(MemberRepositoryInterface $members)
+    private $groups;
+
+    public function __construct(MemberRepositoryInterface $members, MemberGroupRepositoryInterface $groups)
 	{
 		parent::__construct();
-        
+
+        View::share('activeMenu', 'members');
+
         $this->members = $members;
-	}
+        $this->groups = $groups;
+    }
 
     /**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
 	public function index()
 	{
+        $input = Input::get();
+
 		// Get all members
-        $members = $this->members->filter(Input::get());
-        
-        return View::make(Theme::view('member.index'))->withMembers($members);
+        $members = $this->members->filter($input);
+        $groups = $this->groups->getAll();
+        $locations = $this->groups->getAllLocations();
+
+        return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations'));
 	}
 
 	/**
@@ -39,7 +49,8 @@ class MemberController extends BaseController {
 	 */
 	public function create()
 	{
-		return View::make(Theme::view('member.create'));
+        $groups = $this->groups->getAll();
+		return View::make(Theme::view('member.create'))->with(compact('groups'));
 	}
 
 	/**
@@ -80,7 +91,11 @@ class MemberController extends BaseController {
 	{
         $member = $this->members->getById($id);
 
-        return View::make(Theme::view('member.update'))->withMember($member);
+        if(!$member) App::abort(404);
+
+        $groups = $this->groups->getAll();
+
+        return View::make(Theme::view('member.update'))->with(compact('member', 'groups'));
 	}
 
 	/**

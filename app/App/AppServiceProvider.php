@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider {
     protected function bindRepositories()
     {
         $this->app->singleton('App\Repositories\Member\MemberRepositoryInterface', 'App\Repositories\Member\DbMemberRepository');
+        $this->app->singleton('App\Repositories\MemberGroup\MemberGroupRepositoryInterface', 'App\Repositories\MemberGroup\DbMemberGroupRepository');
     }
 
     public function register()

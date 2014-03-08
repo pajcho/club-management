@@ -7,9 +7,14 @@ class Member extends BaseModel {
     protected $table = 'members';
     protected $softDelete = false;
     
-    protected $fillable = array('uid', 'first_name', 'last_name', 'phone', 'notes', 'dob', 'dos', 'doc', 'active');
+    protected $fillable = array('group_id', 'uid', 'first_name', 'last_name', 'phone', 'notes', 'dob', 'dos', 'doc', 'active');
     protected $dates = array('dob', 'dos', 'doc');
     protected $appends = array('full_name');
+
+    public function group()
+    {
+        return $this->belongsTo('App\Models\MemberGroup');
+    }
 
     /**
      * Get member full name
