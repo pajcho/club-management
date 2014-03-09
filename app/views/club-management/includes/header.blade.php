@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">{{ site_title() }}</a>
+            {{ link_to('/', site_title(), array('class' => 'navbar-brand')) }}
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
