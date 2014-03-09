@@ -10,7 +10,7 @@ $(document).ready(function(){
         });
     });
     $('.timepicker input').each(function(){
-        $(this).attr('data-format', 'hh:mm A');
+        $(this).attr('data-format', 'HH:mm');
         $(this).datetimepicker({
             pickDate: false
         });

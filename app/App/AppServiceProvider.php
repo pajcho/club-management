@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider {
         // Include custom app helpers
         require_once __DIR__.'/helpers.php';
         require_once __DIR__.'/macros.php';
+
+        // Load settings option in configuration file so
+        // we don't make database queries every time
+        $settings = $this->app->make('App\Repositories\Settings\SettingsRepositoryInterface');
+        $this->app['config']->set('settings', $settings->getForConfig());
     }
 
     /**
@@ -33,6 +38,8 @@ class AppServiceProvider extends ServiceProvider {
     protected function bindRepositories()
     {
         $this->app->singleton('App\Repositories\Member\MemberRepositoryInterface', 'App\Repositories\Member\DbMemberRepository');
+        $this->app->singleton('App\Repositories\MemberGroup\MemberGroupRepositoryInterface', 'App\Repositories\MemberGroup\DbMemberGroupRepository');
+        $this->app->singleton('App\Repositories\Settings\SettingsRepositoryInterface', 'App\Repositories\Settings\DbSettingsRepository');
     }
 
     public function register()

@@ -15,11 +15,12 @@ class CreateMembersTable extends Migration {
 	{
 		Schema::create('members', function(Blueprint $table) {
 			$table->increments('id');
+			$table->integer('group_id')->nullable()->gefault(NULL);
 			$table->string('uid');
 			$table->string('first_name');
 			$table->string('last_name');
-			$table->string('phone');
-			$table->text('notes');
+			$table->string('phone')->nullable()->default(NULL);
+			$table->text('notes')->nullable()->default(NULL);
 			$table->dateTime('dob');
 			$table->dateTime('dos');
 			$table->dateTime('doc')->nullable()->default(NULL);

@@ -56,6 +56,9 @@ body {
     color: #fff;
     background-color: #428bca;
 }
+.nav-sidebar > .active > a:focus, .nav-sidebar > .active > a:hover {
+    background-color: #1d7aca;
+}
 
 
 /*

@@ -117,7 +117,7 @@ abstract class BaseValidator
      * to be executed before the validation process.
      *
      * @param  BaseSanitizer $sanitizer
-     * @return FooProject\Internal\Validators\BaseValidator
+     * @return BaseValidator
      */
     public function attachSanitizer(BaseSanitizer $sanitizer)
     {

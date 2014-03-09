@@ -49,6 +49,10 @@
                 </div>
 
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+                    <!-- Notifications -->
+                    @include(theme_view('includes/notifications'))
+
                     <!-- Content -->
                     @yield('content')
                 </div>

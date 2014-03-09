@@ -4,16 +4,18 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 
 class BaseController extends Controller {
-    
+
     /**
      * Initializer.
      *
-     * @return void
+     * @return \App\Controllers\BaseController
      */
     public function __construct()
     {
         // CSRF Protection
         $this->beforeFilter('csrf', array('on' => 'post'));
+
+        View::share('activeMenu', false);
     }
 
     /**

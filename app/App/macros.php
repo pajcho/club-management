@@ -28,7 +28,9 @@ Form::macro('delete',function($url, $button_label = 'Delete', $form_parameters =
         $form_parameters['class'] = trim($form_parameters['class'] . ' delete-form');
     }
 
+    $button_options['type'] = 'submit';
+
     return Form::open($form_parameters)
-    . Form::submit($button_label, $button_options)
+    . Form::button($button_label, $button_options)
     . Form::close();
 });
