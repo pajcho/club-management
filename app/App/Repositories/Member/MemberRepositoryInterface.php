@@ -25,4 +25,20 @@ interface MemberRepositoryInterface {
      * @param type $data = Input data
      */
     public function create($data);
+
+    /**
+     * Delete member
+     *
+     * @param $member
+     * @return mixed
+     */
+    public function delete($member);
+
+    /*
+     * Update member
+     *
+     * @param $member
+     * @param $data
+     */
+    public function update($member, $data);
 }

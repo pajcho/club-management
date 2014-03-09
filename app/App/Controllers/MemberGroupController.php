@@ -112,7 +112,7 @@ class MemberGroupController extends BaseController {
         if ($validator->validate(Input::all(), 'update', $memberGroup->id))
         {
             // validation passed
-            $memberGroup->update($this->prepareTimesForInsert($validator->data()));
+            $this->memberGroups->update($memberGroup, $this->prepareTimesForInsert($validator->data()));
 
             return Redirect::route('group.show', $memberGroup->id)->withSuccess('Details updated!');
         }
@@ -137,7 +137,7 @@ class MemberGroupController extends BaseController {
             return Redirect::back()->withInput()->withError('Member group already has members! In order to delete this group first remove all members from it.');
         }
 
-        $memberGroup->delete();
+        $this->memberGroups->delete($memberGroup);
 
         return Redirect::back()->withInput()->withSuccess('Member group deleted!');
 	}

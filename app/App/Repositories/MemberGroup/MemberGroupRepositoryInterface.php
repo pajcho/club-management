@@ -44,4 +44,21 @@ interface MemberGroupRepositoryInterface {
      * @return mixed
      */
     public function getLocationsForSelect();
+
+    /**
+     * Delete member group
+     *
+     * @param $memberGroup
+     * @return mixed
+     */
+    public function delete($memberGroup);
+
+    /**
+     * Update member group
+     *
+     * @param $memberGroup
+     * @param $data
+     * @return mixed
+     */
+    public function update($memberGroup, $data);
 }

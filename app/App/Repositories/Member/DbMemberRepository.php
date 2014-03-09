@@ -89,4 +89,26 @@ class DbMemberRepository implements MemberRepositoryInterface {
     {
         return Member::create($data);
     }
+
+    /**
+     * Delete member
+     *
+     * @param $member
+     * @return mixed
+     */
+    public function delete($member)
+    {
+        return $member->delete();
+    }
+
+    /**
+     * Update member
+     *
+     * @param $member
+     * @param $data
+     */
+    public function update($member, $data)
+    {
+        return $member->update($data);
+    }
 }

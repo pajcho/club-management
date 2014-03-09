@@ -82,4 +82,27 @@ class DbMemberGroupRepository implements MemberGroupRepositoryInterface {
     {
         return $this->getAllLocations()->lists('location', 'location');
     }
+
+    /**
+     * Delete member group
+     *
+     * @param $memberGroup
+     * @return mixed
+     */
+    public function delete($memberGroup)
+    {
+        return $memberGroup->delete();
+    }
+
+    /**
+     * Update member group
+     *
+     * @param $memberGroup
+     * @param $data
+     * @return mixed
+     */
+    public function update($memberGroup, $data)
+    {
+        return $memberGroup->update($data);
+    }
 }

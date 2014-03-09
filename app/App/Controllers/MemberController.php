@@ -124,7 +124,7 @@ class MemberController extends BaseController {
         if ($validator->validate(Input::all(), 'update', $member->id))
         {
             // validation passed
-            $member->update($validator->data());
+            $this->members->update($member, $validator->data());
 
             return Redirect::route('member.show', $member->id)->withSuccess('Details updated!');
         }
@@ -143,7 +143,7 @@ class MemberController extends BaseController {
 	{
         $member = $this->members->getById($id);
 
-        $member->delete();
+        $this->members->delete($member);
 
         return Redirect::back()->withInput()->withSuccess('Member deleted!');
 	}
