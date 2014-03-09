@@ -35,11 +35,11 @@
                             <td>{{ $memberGroup->location }}</td>
                             <td>{{ $memberGroup->total_monthly_time }} hours</td>
                             <td>
-                                {{ link_to_route('member.index', 'Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
+                                {{ link_to_route('member.index', 'View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>
                             <td width="150">
                                 {{ link_to_route('group.show', 'Update', array($memberGroup->id), array('class' => 'btn btn-xs btn-success')) }}
-                                {{ Form::delete(route('group.destroy', array($memberGroup->id)), 'Delete', array('class' => 'btn btn-xs pull-left2'), array('class' => 'btn btn-xs btn-danger')) }}
+                                {{ Form::delete(route('group.destroy', array($memberGroup->id)), 'Delete', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger')) }}
                             </td>
                         </tr>
                     @endforeach
