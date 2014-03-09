@@ -22,7 +22,7 @@
         <div class="well">
             {{ link_to_route('group.index', 'Cancel') }}
             {{ Form::button('Reset', array('type' => 'reset', 'class' => 'btn btn-default')) }}
-            {{ Form::submit('Update', array('class' => 'btn btn-success')) }}
+            {{ Form::button('Update', array('type' => 'submit', 'class' => 'btn btn-success')) }}
         </div>
     
     {{ Form::close() }}

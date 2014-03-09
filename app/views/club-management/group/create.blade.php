@@ -22,8 +22,8 @@
         <div class="well">
             {{ link_to_route('group.index', 'Cancel') }}
             {{ Form::button('Reset', array('type' => 'reset', 'class' => 'btn btn-default')) }}
-            {{ Form::submit('Create and Add New', array('class' => 'btn btn-info', 'name' => 'create_and_add', 'value' => '1')) }}
-            {{ Form::submit('Create and Exit', array('class' => 'btn btn-success', 'name' => 'create_and_exit', 'value' => '1')) }}
+            {{ Form::button('Create and Add New', array('type' => 'submit', 'class' => 'btn btn-info', 'name' => 'create_and_add', 'value' => '1')) }}
+            {{ Form::button('Create and Exit', array('type' => 'submit', 'class' => 'btn btn-success', 'name' => 'create_and_exit', 'value' => '1')) }}
         </div>
     
     {{ Form::close() }}

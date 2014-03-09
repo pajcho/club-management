@@ -24,7 +24,7 @@
         <div class="well">
             {{ link_to_route('settings.index', 'Cancel') }}
             {{ Form::button('Reset', array('type' => 'reset', 'class' => 'btn btn-default')) }}
-            {{ Form::submit('Save Settings', array('class' => 'btn btn-success')) }}
+            {{ Form::button('Save Settings', array('type' => 'submit', 'class' => 'btn btn-success')) }}
         </div>
 
     {{ Form::close() }}

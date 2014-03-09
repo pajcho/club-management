@@ -28,7 +28,7 @@
     <div class="col-md-1">
         <div class="form-group">
             {{ Form::label('search', '&nbsp;', array('class' => 'control-label')) }}
-            {{ Form::submit('Search', array('class' => 'btn btn-info form-control')) }}
+            {{ Form::button('Search', array('type' => 'submit', 'class' => 'btn btn-info form-control')) }}
         </div>
     </div>
     <div class="col-md-1">
