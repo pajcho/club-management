@@ -78,14 +78,15 @@ class DbMemberRepository implements MemberRepositoryInterface {
     {
         return Member::find((int)$id);
     }
-    
+
     /**
      * Create new member
-     * 
+     *
      * @param type $data = Input data
+     * @return \Illuminate\Database\Eloquent\Model|static
      */
     public function create($data)
     {
-        Member::create($data);
+        return Member::create($data);
     }
 }

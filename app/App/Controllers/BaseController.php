@@ -8,7 +8,7 @@ class BaseController extends Controller {
     /**
      * Initializer.
      *
-     * @return void
+     * @return \App\Controllers\BaseController
      */
     public function __construct()
     {

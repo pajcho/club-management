@@ -41,6 +41,12 @@ Route::group(array('prefix' => 'group'), function()
     Route::get('{group}/member', array('as' => 'group.member.index', 'uses' => 'App\Controllers\MemberController@index'));
 });
 
+Route::group(array('prefix' => 'settings'), function()
+{
+    Route::get('/', array('as' => 'settings.index', 'uses' => 'App\Controllers\SettingsController@index'));
+    Route::post('/', array('as' => 'settings.store', 'uses' => 'App\Controllers\SettingsController@store'));
+});
+
 Route::get('/', function()
 {
 	return Redirect::route('member.index');

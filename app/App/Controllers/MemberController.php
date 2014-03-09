@@ -36,8 +36,8 @@ class MemberController extends BaseController {
 
 		// Get all members
         $members = $this->members->filter($input);
-        $groups = $this->groups->getAll();
-        $locations = $this->groups->getAllLocations();
+        $groups = $this->groups->getForSelect();
+        $locations = $this->groups->getLocationsForSelect();
 
         return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations'));
 	}
@@ -49,7 +49,7 @@ class MemberController extends BaseController {
 	 */
 	public function create()
 	{
-        $groups = $this->groups->getAll();
+        $groups = $this->groups->getForSelect();
 		return View::make(Theme::view('member.create'))->with(compact('groups'));
 	}
 
@@ -93,7 +93,7 @@ class MemberController extends BaseController {
 
         if(!$member) App::abort(404);
 
-        $groups = $this->groups->getAll();
+        $groups = $this->groups->getForSelect();
 
         return View::make(Theme::view('member.update'))->with(compact('member', 'groups'));
 	}

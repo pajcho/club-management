@@ -10,13 +10,13 @@
     <div class="col-md-2">
         <div class="form-group">
             {{ Form::label('group_id', 'Group', array('class' => 'control-label')) }}
-            {{ Form::select('group_id', array('' => 'Group') + $groups->lists('name', 'id'), Input::get('group_id', ''), array('class' => 'form-control')) }}
+            {{ Form::select('group_id', array('' => 'Group') + $groups, Input::get('group_id', ''), array('class' => 'form-control')) }}
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             {{ Form::label('location', 'Location', array('class' => 'control-label')) }}
-            {{ Form::select('location', array('' => 'Location') + $locations->lists('location', 'location'), Input::get('location', ''), array('class' => 'form-control')) }}
+            {{ Form::select('location', array('' => 'Location') + $locations, Input::get('location', ''), array('class' => 'form-control')) }}
         </div>
     </div>
     <div class="col-md-2">

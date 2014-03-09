@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder {
 
         $this->checkAndCall('MembersSeeder');
         $this->checkAndCall('MemberGroupsSeeder');
+        $this->checkAndCall('SettingsSeeder');
     }
 
     /**

@@ -7,5 +7,8 @@
     <li>{{ link_to_route('group.create', 'Create Group') }}</li>
 </ul>
 <ul class="nav nav-sidebar">
+    <li>{{ link_to_route('settings.index', 'Settings') }}</li>
+</ul>
+<ul class="nav nav-sidebar">
     <li><a href="#">Reports</a></li>
 </ul>

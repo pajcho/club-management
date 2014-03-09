@@ -22,7 +22,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('group_id') ? 'has-error has-feedback' : '' }}">
             {{ Form::label('group_id', 'Group', array('class' => 'control-label')) }}
-            {{ Form::select('group_id', $groups->lists('name', 'id'), null, array('class' => 'form-control')) }}
+            {{ Form::select('group_id', $groups, null, array('class' => 'form-control')) }}
 
             @if($errors->has('group_id'))
                 <span class="help-block">{{ $errors->first('group_id') }}</span>

@@ -64,4 +64,22 @@ class DbMemberGroupRepository implements MemberGroupRepositoryInterface {
     {
         return MemberGroup::select('location')->distinct()->get();
     }
+
+    /**
+     * Get all member groups as array to use for select box
+     */
+    public function getForSelect()
+    {
+        return $this->getAll()->lists('name', 'id');
+    }
+
+    /**
+     * Get all group locations as array to use for select box
+     *
+     * @return mixed
+     */
+    public function getLocationsForSelect()
+    {
+        return $this->getAllLocations()->lists('location', 'location');
+    }
 }

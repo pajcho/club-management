@@ -8,6 +8,11 @@ interface MemberGroupRepositoryInterface {
     public function getAll();
 
     /**
+     * Get all member groups as array to use for select box
+     */
+    public function getForSelect();
+
+    /**
      * Filter member groups
      */
     public function filter($params = array());
@@ -32,4 +37,11 @@ interface MemberGroupRepositoryInterface {
      * @return mixed
      */
     public function getAllLocations();
+
+    /**
+     * Get all group locations as array to use for select box
+     *
+     * @return mixed
+     */
+    public function getLocationsForSelect();
 }

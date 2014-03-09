@@ -12,7 +12,7 @@ use App\Service\Theme;
  */
 function site_title()
 {
-	return Config::get('club-management.title');
+	return Config::get('settings.site_title');
 }
 
 /**

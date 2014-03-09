@@ -13,6 +13,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>{{ link_to_route('member.index', 'Members') }}</li>
                 <li>{{ link_to_route('group.index', 'Groups') }}</li>
+                <li>{{ link_to_route('settings.index', 'Settings') }}</li>
             </ul>
         </div>
     </div>
