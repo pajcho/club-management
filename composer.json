@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.1.*",
 		"way/generators": "dev-master",
-		"fzaninotto/faker": "1.3.*"
+		"fzaninotto/faker": "1.3.*",
+		"anahkiasen/former": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

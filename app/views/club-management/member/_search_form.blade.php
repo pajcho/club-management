@@ -1,42 +1,18 @@
-{{ Form::open(array('method' => 'GET', 'route' => 'member.index', 'class' => 'form')) }}
+{{ Former::open()->method('GET')->action(route('member.index')) }}
 
-<div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            {{ Form::label('name', 'Name', array('class' => 'control-label')) }}
-            {{ Form::text('name', Input::get('name', ''), array('class' => 'form-control')) }}
+    <div class="row">
+        <div class="col-md-3">{{ Former::text('name') }}</div>
+        <div class="col-md-2">{{ Former::select('group_id')->options(array('' => 'Group') + $groups)->label('Group') }}</div>
+        <div class="col-md-2">{{ Former::select('location')->options(array('' => 'Location') + $locations) }}</div>
+        <div class="col-md-2">{{ Former::select('active')->options(array('' => 'All members', '1' => 'Active Members', '00' => 'Inactive Members')) }}</div>
+        <div class="col-md-1">
+            {{ Former::label('&nbsp') }}
+            {{ Former::info_button('search')->type('submit')->addClass('form-control') }}
+        </div>
+        <div class="col-md-1">
+            {{ Former::label('&nbsp') }}
+            {{ Former::default_link('Reset', route('member.index'))->addClass('form-control') }}
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            {{ Form::label('group_id', 'Group', array('class' => 'control-label')) }}
-            {{ Form::select('group_id', array('' => 'Group') + $groups, Input::get('group_id', ''), array('class' => 'form-control')) }}
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            {{ Form::label('location', 'Location', array('class' => 'control-label')) }}
-            {{ Form::select('location', array('' => 'Location') + $locations, Input::get('location', ''), array('class' => 'form-control')) }}
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            {{ Form::label('active', 'Active', array('class' => 'control-label')) }}
-            {{ Form::select('active', array('' => 'All members', '1' => 'Active Members', '0' => 'Inactive Members'), Input::get('active', ''), array('class' => 'form-control')) }}
-        </div>
-    </div>
-    <div class="col-md-1">
-        <div class="form-group">
-            {{ Form::label('search', '&nbsp;', array('class' => 'control-label')) }}
-            {{ Form::button('Search', array('type' => 'submit', 'class' => 'btn btn-info form-control')) }}
-        </div>
-    </div>
-    <div class="col-md-1">
-        <div class="form-group">
-            {{ Form::label('search', '&nbsp;', array('class' => 'control-label')) }}
-            {{ link_to_route('member.index', 'Reset', null, array('class' => 'btn btn-default form-control')) }}
-        </div>
-    </div>
-</div>
 
-{{ Form::close() }}
+{{ Former::close() }}

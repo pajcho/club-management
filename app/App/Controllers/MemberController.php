@@ -1,8 +1,8 @@
 <?php namespace App\Controllers;
 
 use App\Internal\Validators\MemberValidator;
-use App\Repositories\Member\MemberRepositoryInterface;
-use App\Repositories\MemberGroup\MemberGroupRepositoryInterface;
+use App\Repositories\MemberRepositoryInterface;
+use App\Repositories\MemberGroupRepositoryInterface;
 use App\Service\Theme;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
@@ -89,7 +89,7 @@ class MemberController extends BaseController {
 	 */
 	public function show($id)
 	{
-        $member = $this->members->getById($id);
+        $member = $this->members->find($id);
 
         if(!$member) App::abort(404);
 
@@ -117,20 +117,18 @@ class MemberController extends BaseController {
 	 */
 	public function update($id)
 	{
-        $member = $this->members->getById($id);
-
         $validator = new MemberValidator();
 
-        if ($validator->validate(Input::all(), 'update', $member->id))
+        if ($validator->validate(Input::all(), 'update', $id))
         {
             // validation passed
-            $member->update($validator->data());
+            $this->members->update($id, $validator->data());
 
-            return Redirect::route('member.show', $member->id)->withSuccess('Details updated!');
+            return Redirect::route('member.show', $id)->withSuccess('Details updated!');
         }
 
         // validation failed
-        return Redirect::route('member.show', $member->id)->withInput()->withErrors($validator->errors());
+        return Redirect::route('member.show', $id)->withInput()->withErrors($validator->errors());
 	}
 
 	/**
@@ -141,9 +139,7 @@ class MemberController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-        $member = $this->members->getById($id);
-
-        $member->delete();
+        $this->members->delete($id);
 
         return Redirect::back()->withInput()->withSuccess('Member deleted!');
 	}

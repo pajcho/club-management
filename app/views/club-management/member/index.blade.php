@@ -9,10 +9,8 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">
-        Members
+    <h1 class="page-header">Members</h1>
 
-    </h1>
     @include(theme_view('member/_search_form'))
 
     <h1 class="page-header"></h1>

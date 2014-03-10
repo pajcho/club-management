@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider {
 
         // Load settings option in configuration file so
         // we don't make database queries every time
-        $settings = $this->app->make('App\Repositories\Settings\SettingsRepositoryInterface');
+        $settings = $this->app->make('App\Repositories\SettingsRepositoryInterface');
         $this->app['config']->set('settings', $settings->getForConfig());
     }
 
@@ -37,9 +37,9 @@ class AppServiceProvider extends ServiceProvider {
      */
     protected function bindRepositories()
     {
-        $this->app->singleton('App\Repositories\Member\MemberRepositoryInterface', 'App\Repositories\Member\DbMemberRepository');
-        $this->app->singleton('App\Repositories\MemberGroup\MemberGroupRepositoryInterface', 'App\Repositories\MemberGroup\DbMemberGroupRepository');
-        $this->app->singleton('App\Repositories\Settings\SettingsRepositoryInterface', 'App\Repositories\Settings\DbSettingsRepository');
+        $this->app->singleton('App\Repositories\MemberRepositoryInterface', 'App\Repositories\DbMemberRepository');
+        $this->app->singleton('App\Repositories\MemberGroupRepositoryInterface', 'App\Repositories\DbMemberGroupRepository');
+        $this->app->singleton('App\Repositories\SettingsRepositoryInterface', 'App\Repositories\DbSettingsRepository');
     }
 
     public function register()

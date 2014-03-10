@@ -1,7 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Internal\Validators\MemberGroupValidator;
-use App\Repositories\MemberGroup\MemberGroupRepositoryInterface;
+use App\Repositories\MemberGroupRepositoryInterface;
 use App\Service\Theme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -80,7 +80,7 @@ class MemberGroupController extends BaseController {
 	 */
 	public function show($id)
 	{
-        $memberGroup = $this->memberGroups->getById($id);
+        $memberGroup = $this->memberGroups->find($id);
 
         return View::make(Theme::view('group.update'))->with('memberGroup', $memberGroup);
 	}
@@ -104,21 +104,18 @@ class MemberGroupController extends BaseController {
 	 */
 	public function update($id)
 	{
-
-        $memberGroup = $this->memberGroups->getById($id);
-
         $validator = new MemberGroupValidator();
 
-        if ($validator->validate(Input::all(), 'update', $memberGroup->id))
+        if ($validator->validate(Input::all(), 'update', $id))
         {
             // validation passed
-            $memberGroup->update($this->prepareTimesForInsert($validator->data()));
+            $this->memberGroups->update($id, $this->prepareTimesForInsert($validator->data()));
 
-            return Redirect::route('group.show', $memberGroup->id)->withSuccess('Details updated!');
+            return Redirect::route('group.show', $id)->withSuccess('Details updated!');
         }
 
         // validation failed
-        return Redirect::route('group.show', $memberGroup->id)->withInput()->withErrors($validator->errors());
+        return Redirect::route('group.show', $id)->withInput()->withErrors($validator->errors());
 	}
 
 	/**
@@ -129,15 +126,13 @@ class MemberGroupController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-        $memberGroup = $this->memberGroups->getById($id);
-
         // We can not delete group that has members
-        if(count($memberGroup->members))
+        if(!$this->memberGroups->canBeDeleted($id))
         {
             return Redirect::back()->withInput()->withError('Member group already has members! In order to delete this group first remove all members from it.');
         }
 
-        $memberGroup->delete();
+        $this->memberGroups->delete($id);
 
         return Redirect::back()->withInput()->withSuccess('Member group deleted!');
 	}

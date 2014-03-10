@@ -1,34 +1,27 @@
-<?php namespace App\Repositories\Member;
+<?php namespace App\Repositories;
 
 use App\Models\Member;
 
-class DbMemberRepository implements MemberRepositoryInterface {
+class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInterface {
 
+    protected $model;
+    protected $orderBy = 'dos';
+    protected $orderDirection = 'desc';
     protected $perPage = 15;
 
-    /**
-     * Get all members
-     * 
-     * @return type
-     */
-    public function getAll()
+    public function __construct(Member $model)
     {
-        return Member::all();
+        parent::__construct($model);
     }
 
-    /**
-     * Filter members
-     */
-    public function filter($params = array())
+    public function filter(array $params = array())
     {
-        $members = new Member();
-
         // Default filter by every database column
-        foreach($members->getColumnNames() as $column)
+        foreach($this->model->getColumnNames() as $column)
         {
             if(isset($params[$column]) && ($params[$column] === '0' || !empty($params[$column])))
             {
-                $members = $members->where($column, '=', $params[$column]);
+                $this->model = $this->model->where($column, '=', $params[$column]);
             }
         }
 
@@ -40,13 +33,13 @@ class DbMemberRepository implements MemberRepositoryInterface {
             switch(count($names))
             {
                 case 1:
-                    $members = $members->where(function($query) use ($names){
+                    $this->model = $this->model->where(function($query) use ($names){
                         $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
                         $query->orWhere('last_name', 'LIKE', '%' . $names[0] . '%');
                     });
                     break;
                 case 2:
-                    $members = $members->where(function($query) use ($names){
+                    $this->model = $this->model->where(function($query) use ($names){
                         $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
                         $query->where('last_name', 'LIKE', '%' . $names[1] . '%');
                     })->orWhere(function($query) use ($names){
@@ -60,33 +53,11 @@ class DbMemberRepository implements MemberRepositoryInterface {
         // Filter by location
         if(isset($params['location']) && !empty($params['location']))
         {
-            $members = $members->whereHas('group', function($query) use ($params){
+            $this->model = $this->model->whereHas('group', function($query) use ($params){
                 $query->where('location', '=', $params['location']);
             });
         }
 
-        return $members->orderBy('dos', 'desc')->paginate($this->perPage);
-    }
-
-    /**
-     * Get member by ID
-     * 
-     * @param type $id = Member ID
-     * @return type
-     */
-    public function getById($id)
-    {
-        return Member::find((int)$id);
-    }
-
-    /**
-     * Create new member
-     *
-     * @param type $data = Input data
-     * @return \Illuminate\Database\Eloquent\Model|static
-     */
-    public function create($data)
-    {
-        return Member::create($data);
+        return $this->model->orderBy($this->orderBy, $this->orderDirection)->paginate($this->perPage);
     }
 }

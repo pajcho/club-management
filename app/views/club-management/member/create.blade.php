@@ -11,17 +11,21 @@
 
     <h1 class="page-header">Members <small>Create Member</small></h1>
 
-    {{ Form::open(array('method' => 'POST', 'route' => 'member.store', 'class' => 'form')) }}
+    {{ Former::open()->action(route('member.store')) }}
 
         @include(theme_view('member/_form'))
-    
+
         <div class="well">
-            {{ link_to_route('member.index', 'Cancel') }}
-            {{ Form::button('Reset', array('type' => 'reset', 'class' => 'btn btn-default')) }}
-            {{ Form::button('Create and Add New', array('type' => 'submit', 'class' => 'btn btn-info', 'name' => 'create_and_add', 'value' => '1')) }}
-            {{ Form::button('Create and Exit', array('type' => 'submit', 'class' => 'btn btn-success', 'name' => 'create_and_exit', 'value' => '1')) }}
+            {{
+                Former::actions(
+                    Former::link('Cancel', route('member.index')),
+                    Former::default_reset('Reset'),
+                    Form::button('Create and Add New', array('type' => 'submit', 'class' => 'btn btn-info', 'name' => 'create_and_add', 'value' => '1')),
+                    Form::button('Create and Exit', array('type' => 'submit', 'class' => 'btn btn-success', 'name' => 'create_and_exit', 'value' => '1'))
+                )
+            }}
         </div>
-    
-    {{ Form::close() }}
+
+    {{ Former::close() }}
     
 @stop

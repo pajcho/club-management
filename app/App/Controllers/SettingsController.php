@@ -1,6 +1,6 @@
 <?php namespace App\Controllers;
 
-use App\Repositories\Settings\SettingsRepositoryInterface;
+use App\Repositories\SettingsRepositoryInterface;
 use App\Service\Theme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -28,7 +28,7 @@ class SettingsController extends BaseController {
 	public function index()
 	{
 		// Get all settings
-        $settings = $this->settings->getAll();
+        $settings = $this->settings->all();
 
         return View::make(Theme::view('settings.index'))->with(compact('settings'));
 	}
@@ -40,7 +40,7 @@ class SettingsController extends BaseController {
 	 */
 	public function store()
 	{
-        $this->settings->update(Input::get('settings'));
+        $this->settings->saveSettings(Input::get('settings'));
 
         return Redirect::route('settings.index')->withSuccess('Settings updated!');
 	}

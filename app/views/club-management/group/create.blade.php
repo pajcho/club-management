@@ -6,30 +6,26 @@
     @parent
 @stop
 
-@section('scripts')
-    <link href="{{ asset(theme_path('css/bootstrap-slider.css')) }}" rel="stylesheet" type="text/css"/>
-@stop
-
 {{-- Page content --}}
 @section('content')
 
     <h1 class="page-header">Member Groups <small>Create Member Group</small></h1>
 
-    {{ Form::open(array('method' => 'POST', 'route' => 'group.store', 'class' => 'form')) }}
+    {{ Former::open()->action(route('group.store')) }}
 
         @include(theme_view('group/_form'))
     
         <div class="well">
-            {{ link_to_route('group.index', 'Cancel') }}
-            {{ Form::button('Reset', array('type' => 'reset', 'class' => 'btn btn-default')) }}
-            {{ Form::button('Create and Add New', array('type' => 'submit', 'class' => 'btn btn-info', 'name' => 'create_and_add', 'value' => '1')) }}
-            {{ Form::button('Create and Exit', array('type' => 'submit', 'class' => 'btn btn-success', 'name' => 'create_and_exit', 'value' => '1')) }}
+            {{
+                Former::actions(
+                    Former::link('Cancel', route('group.index')),
+                    Former::default_reset('Reset'),
+                    Form::button('Create and Add New', array('type' => 'submit', 'class' => 'btn btn-info', 'name' => 'create_and_add', 'value' => '1')),
+                    Form::button('Create and Exit', array('type' => 'submit', 'class' => 'btn btn-success', 'name' => 'create_and_exit', 'value' => '1'))
+                )
+            }}
         </div>
     
-    {{ Form::close() }}
+    {{ Former::close() }}
     
-@stop
-
-@section('scripts')
-    <script src="{{ asset(theme_path('js/bootstrap-slider.js')) }}" type="text/javascript"></script>
 @stop
