@@ -11,16 +11,22 @@
 
     <h1 class="page-header">Members <small>{{ $member->full_name }}</small></h1>
 
-    {{ Form::model($member, array('method' => 'PUT', 'route' => array('member.update', $member->id))) }}
+    {{ Former::open()->method('PUT')->action(route('member.update', $member->id)) }}
+
+        {{ Former::populate($member) }}
 
         @include(theme_view('member/_form'))
     
         <div class="well">
-            {{ link_to_route('member.index', 'Cancel') }}
-            {{ Form::button('Reset', array('type' => 'reset', 'class' => 'btn btn-default')) }}
-            {{ Form::button('Update', array('type' => 'submit', 'class' => 'btn btn-success')) }}
+            {{
+                Former::actions(
+                    Former::link('Cancel', route('member.index')),
+                    Former::default_reset('Reset'),
+                    Former::success_submit('Update')
+                )
+            }}
         </div>
     
-    {{ Form::close() }}
+    {{ Former::close() }}
     
 @stop
