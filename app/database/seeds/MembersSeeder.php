@@ -12,7 +12,7 @@ class MembersSeeder extends Seeder {
         $members = array();
 
         // Create 1000 members
-        for($i = 0; $i < 1000; $i++)
+        for($i = 0; $i < 218; $i++)
         {
             $phone = '06' . $faker->randomElement(array(1, 2, 3, 4, 5, 6)) . '/' . $faker->randomElement(array($faker->numerify('###-####'), $faker->numerify('###-###')));
 

@@ -3,10 +3,13 @@
 use App\Internal\Validators\MemberGroupValidator;
 use App\Repositories\MemberGroupRepositoryInterface;
 use App\Service\Theme;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
+use Webpatser\Sanitize\Sanitize;
 
 class MemberGroupController extends BaseController {
 
@@ -136,6 +139,30 @@ class MemberGroupController extends BaseController {
 
         return Redirect::back()->withInput()->withSuccess('Member group deleted!');
 	}
+
+    /**
+     * Generate attendance PDF document
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function attendance($id)
+    {
+        $pdf = App::make('App\Service\Pdf\PhantomPdf');
+        $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
+        $memberGroup = $this->memberGroups->find($id);
+
+        // Get all active group members
+        $members = $membersRepo->filter(array(
+            'group_id'  => $memberGroup->id,
+            'active'    => 1
+        ), false);
+
+        $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members'))->render();
+        $documentName = Sanitize::string($memberGroup->name . ' ' . Config::get('settings.att_doc_title'));
+
+        return $pdf->download($view, $documentName);
+    }
 
     /**
      * Prepare array columns for database by converting them to JSON

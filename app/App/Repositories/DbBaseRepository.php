@@ -49,7 +49,7 @@ abstract class DbBaseRepository extends BaseRepository {
 		return $this->model->find($id)->delete();
 	}
 
-    public function filter(array $params)
+    public function filter(array $params, $paginate = true)
     {
         // Default filter by every database column
         foreach($this->model->getColumnNames() as $column)
@@ -60,6 +60,8 @@ abstract class DbBaseRepository extends BaseRepository {
             }
         }
 
-        return $this->model->orderBy($this->orderBy, $this->orderDirection)->paginate($this->perPage);
+        $this->model = $this->model->orderBy($this->orderBy, $this->orderDirection);
+
+        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 }

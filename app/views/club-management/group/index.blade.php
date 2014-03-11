@@ -22,6 +22,7 @@
                     <th>Name</th>
                     <th>Location</th>
                     <th>Hours this month</th>
+                    <th>Attendance</th>
                     <th>Members</th>
                     <th>Actions</th>
                 </tr>
@@ -34,6 +35,11 @@
                             <td>{{ $memberGroup->name }}</td>
                             <td>{{ $memberGroup->location }}</td>
                             <td>{{ $memberGroup->total_monthly_time }} hours</td>
+                            <td>
+                                @if($memberGroup->total_monthly_time)
+                                    {{ link_to_route('group.attendance', 'Attendance PDF', array('id' => $memberGroup->id), array('class' => 'btn btn-xs btn-warning')) }}
+                                @endif
+                            </td>
                             <td>
                                 {{ link_to_route('member.index', 'View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>

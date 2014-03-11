@@ -13,10 +13,21 @@
 
     {{ Former::open()->action(route('settings.store')) }}
 
-        @foreach($settings as $setting)
+        @foreach($settings as $key => $setting)
 
-            {{ Former::text('settings[' . $setting->id . '][value]')->value($setting->value)->label($setting->title)->help($setting->description) }}
-
+            @if(Config::get('settings.per_row', 2) > 1)
+                @if(($key+1)%Config::get('settings.per_row', 2) === 1)
+                    <div class="row">
+                @endif
+                    <div class="col-md-{{ 12/Config::get('settings.per_row', 2) }}">
+            @endif
+                    {{ Former::text('settings[' . $setting->id . '][value]')->value($setting->value)->label($setting->title)->help($setting->description) }}
+            @if(Config::get('settings.per_row', 2) > 1)
+                    </div>
+                @if(($key+1)%Config::get('settings.per_row', 2) === 0 || ($key+1) === count($settings))
+                    </div>
+                @endif
+            @endif
         @endforeach
 
         <div class="well">

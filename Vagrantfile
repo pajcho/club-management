@@ -61,7 +61,9 @@ Vagrant.configure("2") do |config|
             id: "core",
             :nfs => true,
             :mount_options => ['nolock,vers=3,udp,noatime']
-
+  
+  # config.vm.synced_folder ".", "/vagrant", type: "rsync"
+  
   # If using VirtualBox
   config.vm.provider :virtualbox do |vb|
 

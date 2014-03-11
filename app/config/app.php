@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'Iqk6aixXIMaexuTKPOMuoiCeWNC2q3zW',
+	'key' => 'YpCVUVRan807KIXvP3Ijehczs2HY1MUI',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -178,6 +178,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
         'Former'          => 'Former\Facades\Former',
+        'Sanitize'        => 'Webpatser\Sanitize\Sanitize',
 
 	),
 
