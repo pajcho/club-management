@@ -80,4 +80,32 @@ class MemberGroup extends BaseModel {
         return $total;
     }
 
+    /**
+     * Get all training days for current month
+     *
+     * @return int
+     */
+    public function getTrainingDaysAttribute()
+    {
+        $days = array();
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
+
+        while($startOfMonth->lte($endOfMonth))
+        {
+            foreach($this->training as $key => $day)
+            {
+                $dayName = strtoupper($key);
+                if($day && constant("Carbon\Carbon::$dayName") == $startOfMonth->dayOfWeek)
+                {
+                    array_push($days, $startOfMonth->copy());
+                }
+            }
+
+            $startOfMonth->addDay();
+        }
+
+        return $days;
+    }
+
 }

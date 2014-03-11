@@ -37,6 +37,9 @@ Route::group(array('prefix' => 'group'), function()
     Route::put('{group}', array('as' => 'group.update', 'uses' => 'App\Controllers\MemberGroupController@update'));
     Route::delete('{group}', array('as' => 'group.destroy', 'uses' => 'App\Controllers\MemberGroupController@destroy'));
 
+    // Group attendance PDF
+    Route::get('{group}/attendance', array('as' => 'group.attendance', 'uses' => 'App\Controllers\MemberGroupController@attendance'));
+
     // Group members
     Route::get('{group}/member', array('as' => 'group.member.index', 'uses' => 'App\Controllers\MemberController@index'));
 });

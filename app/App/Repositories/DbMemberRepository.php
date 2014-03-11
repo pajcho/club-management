@@ -14,7 +14,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         parent::__construct($model);
     }
 
-    public function filter(array $params = array())
+    public function filter(array $params = array(), $paginate = true)
     {
         // Default filter by every database column
         foreach($this->model->getColumnNames() as $column)
@@ -58,6 +58,8 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             });
         }
 
-        return $this->model->orderBy($this->orderBy, $this->orderDirection)->paginate($this->perPage);
+        $this->model = $this->model->orderBy($this->orderBy, $this->orderDirection);
+
+        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 }
