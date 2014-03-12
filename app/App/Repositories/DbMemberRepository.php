@@ -25,6 +25,12 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             }
         }
 
+        // Set class properties
+        foreach($params as $key => $param)
+        {
+            if(isset($this->{$key})) $this->{$key} = $param;
+        }
+
         // Filter by name
         if(isset($params['name']) && !empty($params['name']))
         {

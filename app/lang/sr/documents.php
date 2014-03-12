@@ -9,4 +9,10 @@ return array(
         'phone' => 'Telefon',
     ),
 
+	'payments' => array(
+        'title' => 'Evidencija izmirenih obaveza',
+        'name'  => 'Ime i Prezime',
+        'phone' => 'Telefon',
+    ),
+
 );

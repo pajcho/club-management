@@ -60,6 +60,12 @@ abstract class DbBaseRepository extends BaseRepository {
             }
         }
 
+        // Set class properties
+        foreach($params as $key => $param)
+        {
+            if(isset($this->{$key})) $this->{$key} = $param;
+        }
+
         $this->model = $this->model->orderBy($this->orderBy, $this->orderDirection);
 
         return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
