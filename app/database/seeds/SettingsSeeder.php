@@ -38,34 +38,6 @@ class SettingsSeeder extends Seeder {
             'description' => '* This will change layout on this page',
         ));
 
-        array_push($settings, array(
-            'title' => '"Attendance Document" Title',
-            'key' => 'att_doc_title',
-            'value' => 'Evidencija pohadjanja treninga',
-            'description' => '* This will be used when generating documents',
-        ));
-
-        array_push($settings, array(
-            'title' => '"Attendance Document" Month Translation',
-            'key' => 'att_doc_month_translation',
-            'value' => 'Mesec',
-            'description' => '* This will be used when generating documents',
-        ));
-
-        array_push($settings, array(
-            'title' => '"Attendance Document" Name Translation',
-            'key' => 'att_doc_name_translation',
-            'value' => 'Ime i Prezime',
-            'description' => '* This will be used when generating documents',
-        ));
-
-        array_push($settings, array(
-            'title' => '"Attendance Document" Phone Translation',
-            'key' => 'att_doc_phone_translation',
-            'value' => 'Telefon',
-            'description' => '* This will be used when generating documents',
-        ));
-
 		// Delete all users
 		DB::table('settings')->truncate();
 
