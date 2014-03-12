@@ -3,9 +3,11 @@
 use App\Internal\Validators\MemberGroupValidator;
 use App\Repositories\MemberGroupRepositoryInterface;
 use App\Service\Theme;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -159,7 +161,47 @@ class MemberGroupController extends BaseController {
         ), false);
 
         $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members'))->render();
-        $documentName = Sanitize::string($memberGroup->name . ' ' . Config::get('settings.att_doc_title'));
+        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.attendance.title') ? Lang::get('documents.attendance.title') : 'Monthly group attendance list'));
+
+        return $pdf->download($view, $documentName);
+    }
+
+    /**
+     * Generate payments PDF document
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function payments($id)
+    {
+        $pdf = App::make('App\Service\Pdf\PhantomPdf');
+        $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
+        $memberGroup = $this->memberGroups->find($id);
+
+        // Get all active group members
+        $members = $membersRepo->filter(array(
+            'group_id'          => $memberGroup->id,
+            'active'            => 1,
+            'orderBy'           => 'dos',
+            'orderDirection'    => 'asc',
+        ), false);
+
+        // Define what months numbers to show in this list
+        $months = array(
+            9 => Carbon::now()->subYear()->year,
+            10 => Carbon::now()->subYear()->year,
+            11 => Carbon::now()->subYear()->year,
+            12 => Carbon::now()->subYear()->year,
+            1 => Carbon::now()->year,
+            2 => Carbon::now()->year,
+            3 => Carbon::now()->year,
+            4 => Carbon::now()->year,
+            5 => Carbon::now()->year,
+            6 => Carbon::now()->year,
+        );
+
+        $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months'))->render();
+        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.payments.title') ? Lang::get('documents.payments.title') : 'Group payments'));
 
         return $pdf->download($view, $documentName);
     }

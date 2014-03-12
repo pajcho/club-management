@@ -25,23 +25,35 @@
             </tr>
 
             <tr>
-                <th colspan="{{ 3 + count($memberGroup->training_days) }}">Evidencija pohadjanja treninga</th>
+                <th colspan="{{ 3 + count($memberGroup->training_days) }}">
+                    {{ Lang::has('documents.attendance.title') ? Lang::get('documents.attendance.title') : 'Monthly group attendance list' }}
+                </th>
             </tr>
 
             <tr>
-                <th colspan="2">{{ Config::get('settings.att_doc_month_translation', 'Month') }}</th>
-                <th colspan="{{ count($memberGroup->training_days) }}"><strong>{{ Carbon\Carbon::now()->format('F'); }}</strong></th>
+                <th colspan="2">
+                    {{ Lang::has('documents.attendance.month') ? Lang::get('documents.attendance.month') : 'Month' }}
+                </th>
+                <th colspan="{{ count($memberGroup->training_days) }}">
+                    <strong>
+                        {{ Lang::has('dates.month.' . Carbon\Carbon::now()->month) ? Lang::get('dates.month.' . Carbon\Carbon::now()->month) : Carbon\Carbon::now()->format('F') }}
+                    </strong>
+                </th>
                 <th><strong>{{ $memberGroup->name }}</strong></th>
             </tr>
 
             <tr>
-                <th colspan="2">{{ Config::get('settings.att_doc_name_translation', 'Full Name') }}</th>
+                <th colspan="2">
+                    {{ Lang::has('documents.attendance.name') ? Lang::get('documents.attendance.name') : 'Full Name' }}
+                </th>
 
                 @foreach($memberGroup->training_days as $day)
                     <th width="35">{{ $day->day }}</th>
                 @endforeach
 
-                <th>{{ Config::get('settings.att_doc_phone_translation', 'Phone') }}</th>
+                <th>
+                    {{ Lang::has('documents.attendance.phone') ? Lang::get('documents.attendance.phone') : 'Phone' }}
+                </th>
             </tr>
         
         </thead>
