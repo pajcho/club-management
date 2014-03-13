@@ -18,12 +18,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th width="50">#</th>
                     <th>Name</th>
                     <th>Location</th>
                     <th>Hours this month</th>
-                    <th>Attendance</th>
-                    <th>Payments</th>
+                    <th width="210">Documents</th>
                     <th>Members</th>
                     <th>Actions</th>
                 </tr>
@@ -32,20 +31,19 @@
                 @if($memberGroups->count())
                     @foreach($memberGroups as $memberGroup)
                         <tr>
-                            <td width="50">{{ $memberGroup->id }}</td>
+                            <td>{{ $memberGroup->id }}</td>
                             <td>{{ $memberGroup->name }}</td>
                             <td>{{ $memberGroup->location }}</td>
                             <td>{{ $memberGroup->total_monthly_time }} hours</td>
                             <td>
+                                {{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-print"></i> Payments', array('id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link', 'title' => 'Generate Payments PDF'))) }}
+
                                 @if($memberGroup->total_monthly_time)
-                                    {{ link_to_route('group.attendance', 'Attendance PDF', array('id' => $memberGroup->id), array('class' => 'btn btn-xs btn-warning')) }}
+                                    {{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-print"></i> Attendance', array('id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link', 'title' => 'Generate Attendance PDF'))) }}
                                 @endif
                             </td>
                             <td>
-                                {{ link_to_route('group.payments', 'Payments PDF', array('id' => $memberGroup->id), array('class' => 'btn btn-xs btn-warning')) }}
-                            </td>
-                            <td>
-                                {{ link_to_route('member.index', 'View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
+                                {{ HTML::decode(link_to_route('member.index', '<i class="glyphicon glyphicon-user"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link'))) }}
                             </td>
                             <td width="150">
                                 {{ link_to_route('group.show', 'Update', array($memberGroup->id), array('class' => 'btn btn-xs btn-success')) }}
