@@ -1,6 +1,7 @@
 <?php namespace App\Repositories;
 
 use App\Models\Settings;
+use Illuminate\Support\Facades\Schema;
 
 class DbSettingsRepository extends DbBaseRepository implements SettingsRepositoryInterface {
 
