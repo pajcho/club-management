@@ -33,6 +33,9 @@ class DbSettingsRepository extends DbBaseRepository implements SettingsRepositor
      */
     public function getForConfig()
     {
-        return $this->model->all()->lists('value', 'key');
+        if(Schema::hasTable($this->model->getTable()))
+            return $this->model->all()->lists('value', 'key');
+
+        return array();
     }
 }
