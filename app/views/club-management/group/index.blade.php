@@ -53,7 +53,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="4" align="center">
+                        <td colspan="7" align="center">
                             There are no member groups <br/>
                             {{ link_to_route('group.create', 'Create new member group', null, array('class' => 'btn btn-xs btn-info')) }}
                         </td>

@@ -48,7 +48,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="6" align="center">
+                        <td colspan="7" align="center">
                             There are no members <br/>
                             {{ link_to_route('member.create', 'Create new member', null, array('class' => 'btn btn-xs btn-info')) }}
                         </td>
