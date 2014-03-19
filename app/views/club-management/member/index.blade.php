@@ -23,6 +23,7 @@
                     <th>Full Name</th>
                     <th>Date of Birth</th>
                     <th>Subscribed</th>
+                    <th>&nbsp;</th>
                     <th>Phone</th>
                     <th width="150">Actions</th>
                 </tr>
@@ -35,6 +36,9 @@
                             <td>{{ $member->full_name }}</td>
                             <td>{{ $member->dob->format('F j, Y') }}</td>
                             <td>{{ $member->dos->format('F j, Y') }} ({{ $member->dos->diffForHumans() }})</td>
+                            <td>
+                                <span class="btn btn-xs {{ $member->getMedicalExaminationClass() }}" title="{{ $member->getMedicalExaminationTitle() }}">&nbsp;</span>
+                            </td>
                             <td>{{ $member->phone }}</td>
                             <td>
                                 {{ link_to_route('member.show', 'Update', array($member->id), array('class' => 'btn btn-xs btn-success')) }}

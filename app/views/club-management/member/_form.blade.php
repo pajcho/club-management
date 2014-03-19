@@ -46,9 +46,10 @@
     <div class="col-md-4">
         {{
             Former::text('doc')->forceValue(Former::getPost('doc', is_object(Former::getValue('doc')) ? Former::getValue('doc')->format('F j, Y') : Former::getValue('doc')))
+                ->addClass(is_object(Former::getValue('doc')) ? (Former::getValue('doc')->gte(\Carbon\Carbon::now()->startOfDay()) ? 'btn-success' : 'btn-danger') : 'btn-warning')
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
-                ->label('Doctors Check')
+                ->label('Medical Examination')
                 ->help('Example: October 12, 2014')
         }}
     </div>
