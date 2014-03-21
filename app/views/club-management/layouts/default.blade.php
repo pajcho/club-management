@@ -19,9 +19,7 @@
         </script>
         
         <!-- BEGIN THEME STYLES -->
-        <link href="{{ asset(theme_path('css/bootstrap.min.css')) }}" rel="stylesheet" type="text/css" id="style_color"/>
-        <link href="{{ asset(theme_path('css/bootstrap-datetimepicker.min.css')) }}" rel="stylesheet" type="text/css" id="style_color"/>
-        <link href="{{ asset(theme_path('css/main.css')) }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(theme_path('css/styles.min.css')) }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -61,14 +59,15 @@
 
         <!-- Footer -->
         @include(theme_view('includes/footer'))
-        
-        <script src="{{ asset(theme_path('js/jquery-1.11.0.min.js')) }}" type="text/javascript"></script>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{{ asset(theme_path("js/jquery-1.11.0.min.js")) }}"><\/script>')</script>
         <script src="{{ asset(theme_path('js/bootstrap.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/moment.min.js')) }}" type="text/javascript"></script>
-        <script src="{{ asset(theme_path('js/bootstrap-datetimepicker.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/bootstrap-datetimepicker.min.js')) }}" type="text/javascript"></script>
 
         <!-- Custom project scripts -->
-        <script src="{{ asset(theme_path('js/main.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/main.min.js')) }}" type="text/javascript"></script>
 
         @section('scripts')
 
