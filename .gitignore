@@ -9,3 +9,4 @@ Thumbs.db
 # PHP Storm and Vagrant related files and folders
 .idea
 .vagrant
+node_modules
