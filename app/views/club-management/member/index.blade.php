@@ -32,7 +32,7 @@
                 @if($members->count())
                     @foreach($members as $key => $member)
                         <tr class="{{ $member->active ? '' : 'danger' }}">
-                            <td>{{ $key+1 }}</td>
+                            <td>{{ $members->getFrom() + $key }}</td>
                             <td>{{ $member->full_name }}</td>
                             <td>{{ $member->dob->format('F j, Y') }}</td>
                             <td>{{ $member->dos->format('F j, Y') }} ({{ $member->dos->diffForHumans() }})</td>
