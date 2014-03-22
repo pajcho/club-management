@@ -5,8 +5,8 @@ use App\Models\Member;
 class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInterface {
 
     protected $model;
-    protected $orderBy = 'dos';
-    protected $orderDirection = 'desc';
+    protected $orderBy = 'dob';
+    protected $orderDirection = 'asc';
     protected $perPage = 15;
 
     public function __construct(Member $model)
