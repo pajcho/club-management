@@ -15,7 +15,7 @@
 <!--    <h2 class="sub-header">Members</h2>-->
 
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped table-condensed table-hover">
             <thead>
                 <tr>
                     <th width="50">#</th>
