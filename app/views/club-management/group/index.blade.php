@@ -29,9 +29,9 @@
             </thead>
             <tbody>
                 @if($memberGroups->count())
-                    @foreach($memberGroups as $memberGroup)
+                    @foreach($memberGroups as $key => $memberGroup)
                         <tr>
-                            <td>{{ $memberGroup->id }}</td>
+                            <td>{{ $key+1 }}</td>
                             <td>{{ $memberGroup->name }}</td>
                             <td>{{ $memberGroup->location }}</td>
                             <td>{{ $memberGroup->total_monthly_time }} hours</td>
