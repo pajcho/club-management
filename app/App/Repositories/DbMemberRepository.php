@@ -6,7 +6,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
     protected $model;
     protected $orderBy = 'dob';
-    protected $orderDirection = 'asc';
+    protected $orderDirection = 'desc';
     protected $perPage = 15;
 
     public function __construct(Member $model)
