@@ -16,7 +16,7 @@
     <h1 class="page-header"></h1>
 
     <div class="table-responsive">
-        <table class="table table-striped table-condensed">
+        <table class="table table-striped table-condensed table-hover">
             <thead>
                 <tr>
                     <th width="50">#</th>
