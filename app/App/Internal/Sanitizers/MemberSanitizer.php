@@ -5,7 +5,7 @@ use DateTime;
 
 class MemberSanitizer extends BaseSanitizer
 {
-    protected $inputDateFormat = 'F j, Y';
+    protected $inputDateFormat = 'd.m.Y';
     protected $outputDateFormat = 'Y-m-d';
 
     public function sanitize($data)
