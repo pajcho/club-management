@@ -1,10 +1,10 @@
 $(document).ready(function(){
     $('.datetimepicker input').each(function(){
-        $(this).attr('data-format', 'MMMM D, YYYY hh:mm A');
+        $(this).attr('data-format', 'MM.DD.YYYY hh:mm A');
         $(this).datetimepicker({});
     });
     $('.datepicker input').each(function(){
-        $(this).attr('data-format', 'MMMM D, YYYY');
+        $(this).attr('data-format', 'MM.DD.YYYY');
         $(this).datetimepicker({
             pickTime: false
         });

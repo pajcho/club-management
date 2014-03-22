@@ -25,7 +25,7 @@
 <div class="row">
     <div class="col-md-4">
         {{
-            Former::text('dob')->forceValue(Former::getPost('dob', is_object(Former::getValue('dob')) ? Former::getValue('dob')->format('F j, Y') : Former::getValue('dob')))
+            Former::text('dob')->forceValue(Former::getPost('dob', is_object(Former::getValue('dob')) ? Former::getValue('dob')->format('d.m.Y') : Former::getValue('dob')))
                 ->required()
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
@@ -35,7 +35,7 @@
     </div>
     <div class="col-md-4">
         {{
-            Former::text('dos')->forceValue(Former::getPost('dos', is_object(Former::getValue('dos')) ? Former::getValue('dos')->format('F j, Y') : Former::getValue('dos')))
+            Former::text('dos')->forceValue(Former::getPost('dos', is_object(Former::getValue('dos')) ? Former::getValue('dos')->format('d.m.Y') : Former::getValue('dos')))
                 ->required()
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
@@ -45,7 +45,7 @@
     </div>
     <div class="col-md-4">
         {{
-            Former::text('doc')->forceValue(Former::getPost('doc', is_object(Former::getValue('doc')) ? Former::getValue('doc')->format('F j, Y') : Former::getValue('doc')))
+            Former::text('doc')->forceValue(Former::getPost('doc', is_object(Former::getValue('doc')) ? Former::getValue('doc')->format('d.m.Y') : Former::getValue('doc')))
                 ->addClass(is_object(Former::getValue('doc')) ? (Former::getValue('doc')->gte(\Carbon\Carbon::now()->startOfDay()) ? 'btn-success' : 'btn-danger') : 'btn-warning')
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
