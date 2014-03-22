@@ -30,7 +30,7 @@
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
                 ->label('Date of Birth')
-                ->help('Example: October 12, 2014')
+                ->help('Example: 21.10.2014')
         }}
     </div>
     <div class="col-md-4">
@@ -40,7 +40,7 @@
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
                 ->label('Date of Subscription')
-                ->help('Example: October 12, 2014')
+                ->help('Example: 12.10.2014')
         }}
     </div>
     <div class="col-md-4">
@@ -50,7 +50,7 @@
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
                 ->label('Medical Examination')
-                ->help('Example: October 12, 2014')
+                ->help('Example: 21.10.2014')
         }}
     </div>
 </div>
