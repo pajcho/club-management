@@ -70,14 +70,14 @@ class MemberGroup extends BaseModel {
                 {
                     $start = Carbon::createFromFormat('H:i', $day->start);
                     $end = Carbon::createFromFormat('H:i', $day->end);
-                    $total += $start->diffInHours($end);
+                    $total += $start->diffInMinutes($end);
                 }
             }
 
             $startOfMonth->addDay();
         }
 
-        return $total;
+        return number_format($total/60, 2);
     }
 
     /**
