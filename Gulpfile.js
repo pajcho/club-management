@@ -4,7 +4,7 @@ var less 		= require('gulp-less');
 var uglify 		= require('gulp-uglify');
 var minify 		= require('gulp-minify-css');
 var rename 		= require("gulp-rename");
-var imagemin 	= require('gulp-imagemin');
+var imagemin    = require('gulp-imagemin');
 var prefix      = require('gulp-autoprefixer');
 
 
