@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "faf3289966794169255d8c5a3a89fef8",
+    "hash": "5971d582a884d5db93872e87d10ec4e1",
     "packages": [
         {
             "name": "anahkiasen/former",
@@ -2293,6 +2293,43 @@
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
             "time": "2014-02-03 17:15:33"
+        },
+        {
+            "name": "vtalbot/pjax",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vtalbot/pjax.git",
+                "reference": "09ec36824d2288cd21928eea3754dc9f90e06302"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vtalbot/pjax/zipball/09ec36824d2288cd21928eea3754dc9f90e06302",
+                "reference": "09ec36824d2288cd21928eea3754dc9f90e06302",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.x",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "VTalbot\\Pjax": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Talbot",
+                    "email": "vtalbot@re-bot.co"
+                }
+            ],
+            "description": "PJAX for Laravel 4",
+            "time": "2013-12-14 07:37:35"
         },
         {
             "name": "way/generators",
