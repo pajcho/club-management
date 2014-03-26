@@ -36,10 +36,24 @@ class MemberController extends BaseController {
 
 		// Get all members
         $members = $this->members->filter($input);
-        $groups = $this->groups->getForSelect();
-        $locations = $this->groups->getLocationsForSelect();
+        $groups = array('' => 'Group') + $this->groups->getForSelect();
+        $locations = array('' => 'Location') + $this->groups->getLocationsForSelect();
 
-        return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations'));
+        // Make user status search options
+        $member_status = array(
+            '' => 'All members',
+            '1' => 'Active Members',
+            '00' => 'Inactive Members'
+        );
+
+        // Generate filters title
+        $filters_title = '';
+        if(isset($member_status[Input::get('active', '')])) $filters_title = $member_status[Input::get('active', '')];
+        if(isset($locations[Input::get('location') ?: false])) $filters_title = $locations[Input::get('location')] . ' / ' . $filters_title;
+        if(isset($groups[Input::get('group_id') ?: false])) $filters_title = $groups[Input::get('group_id')] . ' / ' . $filters_title;
+        if(Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
+
+        return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations', 'member_status', 'filters_title'));
 	}
 
 	/**
