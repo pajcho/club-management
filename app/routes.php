@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(array('prefix' => '', 'before' => 'auth.basic'), function()
+Route::group(array('prefix' => '', 'before' => 'auth'), function()
 {
     /**
      * We are using this instead of resource routes just
@@ -55,6 +55,15 @@ Route::group(array('prefix' => '', 'before' => 'auth.basic'), function()
 
     Route::get('/', function()
     {
+        Session::reflash();
         return Redirect::route('member.index');
     });
+});
+
+Route::group(array('prefix' => 'auth'), function()
+{
+    Route::get('login', array('as' => 'login', 'uses' => 'App\Controllers\AuthController@login'));
+    Route::post('login', array('as' => 'login', 'uses' => 'App\Controllers\AuthController@loginPost'));
+
+    Route::get('logout', array('as' => 'logout', 'uses' => 'App\Controllers\AuthController@logout'));
 });
