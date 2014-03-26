@@ -33,3 +33,22 @@ $(document).ready(function(){
     }
 
 });
+
+/**
+ * PJAX pagination bindings
+ */
+$(document).ready(function(){
+    $(document).pjax('.pjax-pagination a', '#pjax-container');
+
+    $(document).on('pjax:send', function() {
+        $('#loading').show();
+    });
+    $(document).on('pjax:complete', function() {
+        $('#loading').hide();
+    });
+    // disable the fallback timeout behavior if a spinner is being shown
+    $(document).on('pjax:timeout', function(event) {
+        // Prevent default timeout redirection behavior
+        event.preventDefault();
+    });
+});
