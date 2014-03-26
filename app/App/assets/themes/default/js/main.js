@@ -26,10 +26,17 @@ $(document).ready(function(){
         return confirm('Are you sure you want to delete this item?');
     });
 
-    // CLose alert messages after some time
+    // Close alert messages after some time
+    // except when message is error
     if($('.alert-message').length > 0)
     {
-        window.setTimeout(function(){ return $('.alert-message .close').click(); }, 3000);
+        $('.alert-message').each(function(){
+            if(!$(this).hasClass('alert-danger'))
+            {
+                var element = $(this);
+                window.setTimeout(function(){ return $('.close', element).click(); }, 3000);
+            }
+        });
     }
 
 });
