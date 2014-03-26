@@ -4,6 +4,13 @@
     <div class="container">
         <div class="row vertical-offset-100">
             <div class="col-md-4 col-md-offset-4">
+
+                <h1 class="panel-heading text-center" style="color: white;">
+
+                    {{ site_title() }}
+
+                </h1>
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Please sign in</h3>
