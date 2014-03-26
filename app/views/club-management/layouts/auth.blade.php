@@ -30,8 +30,14 @@
                 background: url(http://mymaplist.com/img/parallax/pinlayer2.png),url(http://mymaplist.com/img/parallax/pinlayer1.png),url(http://mymaplist.com/img/parallax/back.png);
             }
 
-            .vertical-offset-100{
+            .vertical-offset-100 {
                 padding-top:100px;
+            }
+
+            @media screen and (max-device-width: 640px){
+                .vertical-offset-100 {
+                    padding-top:0px;
+                }
             }
 
         </style>
