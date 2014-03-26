@@ -8,7 +8,8 @@
 		"way/generators": "dev-master",
 		"fzaninotto/faker": "1.3.*",
 		"anahkiasen/former": "dev-master",
-		"webpatser/laravel-sanitize": "dev-master"
+		"webpatser/laravel-sanitize": "dev-master",
+		"vtalbot/pjax": "0.2.*"
 	},
 	"autoload": {
 		"classmap": [
