@@ -35,7 +35,10 @@
     </head>
 
 	<body>
-        
+
+        <!-- Loader for PJAX pagination -->
+        <div id="loading" class="btn btn-warning" style="position: absolute; top: 10px; left: 50%; z-index: 9999; display: none;">Loading...</div>
+
         <!-- Header -->
         @include(theme_view('includes/header'))
 
@@ -62,6 +65,7 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ asset(theme_path("js/jquery-1.11.0.min.js")) }}"><\/script>')</script>
+        <script src="{{ asset(theme_path('js/jquery.pjax.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/bootstrap.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/moment.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/bootstrap-datetimepicker.min.js')) }}" type="text/javascript"></script>

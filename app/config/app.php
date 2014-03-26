@@ -110,6 +110,7 @@ return array(
         'App\AppServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Former\FormerServiceProvider',
+        'VTalbot\Pjax\PjaxServiceProvider',
 
 	),
 
