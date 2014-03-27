@@ -42,7 +42,7 @@
   'required_class'    => 'required',
 
   // A facultative text to append to the labels of required fields
-  'required_text'     => '&nbsp<span style="color: red;">*</span>',
+  'required_text'     => '&nbsp;<span style="color: red;">*</span>',
 
   // Translations
   ////////////////////////////////////////////////////////////////////

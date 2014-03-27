@@ -16,8 +16,8 @@ class MemberController extends BaseController {
     private $groups;
 
     public function __construct(MemberRepositoryInterface $members, MemberGroupRepositoryInterface $groups)
-	{
-		parent::__construct();
+    {
+        parent::__construct();
 
         View::share('activeMenu', 'members');
 
@@ -30,11 +30,11 @@ class MemberController extends BaseController {
      *
      * @return Response
      */
-	public function index()
-	{
+    public function index()
+    {
         $input = Input::get();
 
-		// Get all members
+        // Get all members
         $members = $this->members->filter($input);
         $groups = array('' => 'Group') + $this->groups->getForSelect();
         $locations = array('' => 'Location') + $this->groups->getLocationsForSelect();
@@ -54,26 +54,26 @@ class MemberController extends BaseController {
         if(Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
 
         return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations', 'member_status', 'filters_title'));
-	}
+    }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
         $groups = $this->groups->getForSelect();
-		return View::make(Theme::view('member.create'))->with(compact('groups'));
-	}
+        return View::make(Theme::view('member.create'))->with(compact('groups'));
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
         $validator = new MemberValidator();
 
         if ($validator->validate(Input::all(), 'create'))
@@ -92,17 +92,17 @@ class MemberController extends BaseController {
         }
 
         // validation failed
-		return Redirect::route('member.create')->withInput()->withErrors($validator->errors());
-	}
+        return Redirect::route('member.create')->withInput()->withErrors($validator->errors());
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
         $member = $this->members->find($id);
 
         if(!$member) App::abort(404);
@@ -110,27 +110,27 @@ class MemberController extends BaseController {
         $groups = $this->groups->getForSelect();
 
         return View::make(Theme::view('member.update'))->with(compact('member', 'groups'));
-	}
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
         //
-	}
+    }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id)
+    {
         $validator = new MemberValidator();
 
         if ($validator->validate(Input::all(), 'update', $id))
@@ -143,19 +143,19 @@ class MemberController extends BaseController {
 
         // validation failed
         return Redirect::route('member.show', $id)->withInput()->withErrors($validator->errors());
-	}
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
         $this->members->delete($id);
 
         return Redirect::back()->withInput()->withSuccess('Member deleted!');
-	}
-    
+    }
+
 }
