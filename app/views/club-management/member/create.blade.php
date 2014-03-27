@@ -27,5 +27,5 @@
         </div>
 
     {{ Former::close() }}
-    
+
 @stop

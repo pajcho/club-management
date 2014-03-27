@@ -54,8 +54,10 @@
                     <!-- Notifications -->
                     @include(theme_view('includes/notifications'))
 
-                    <!-- Content -->
-                    @yield('content')
+                    <div id="pjax-container">
+                        <!-- Content -->
+                        @yield('content')
+                    </div>
                 </div>
             </div>
         </div>

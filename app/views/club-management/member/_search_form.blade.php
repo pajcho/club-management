@@ -10,7 +10,7 @@
 
     <div class="collapse navbar-collapse filter" style="padding-top: 10px;">
 
-        {{ Former::open()->method('GET')->action(route('member.index')) }}
+        {{ Former::open()->method('GET')->action(route('member.index'))->dataPjax() }}
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">{{ Former::text('name')->label('Name') }}</div>
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('group_id')->label('Group')->options($groups) }}</div>
@@ -19,13 +19,13 @@
                 <div class="col-lg-3 col-md-8">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
-                            {{ Former::label('&nbsp') }}
+                            {{ Former::label('&nbsp;') }}
                             {{ Former::info_button('search')->type('submit')->addClass('form-control') }}
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
-                            {{ Former::label('&nbsp') }}
+                            {{ Former::label('&nbsp;') }}
                             {{ Former::default_link('Reset', route('member.index'))->addClass('form-control') }}
                         </div>
                     </div>
