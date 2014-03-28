@@ -5,8 +5,7 @@ use App\Models\Member;
 class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInterface {
 
     protected $model;
-    protected $orderBy = 'dob';
-    protected $orderDirection = 'desc';
+    protected $orderBy = array('dob' => 'desc');
     protected $perPage = 15;
 
     public function __construct(Member $model)
@@ -64,7 +63,15 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             });
         }
 
-        $this->model = $this->model->orderBy($this->orderBy, $this->orderDirection);
+        // Filter by date of subscription
+        if(isset($params['subscribed']) && is_array($params['subscribed']))
+        {
+            $this->model = $this->model->where('dos', $params['subscribed'][0], $params['subscribed'][1]);
+        }
+
+        // Order by
+        foreach($this->orderBy as $orderBy => $orderDirection)
+            $this->model = $this->model->orderBy($orderBy, $orderDirection);
 
         return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }

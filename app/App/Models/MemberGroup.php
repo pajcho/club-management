@@ -9,13 +9,26 @@ class MemberGroup extends BaseModel {
     protected $table = 'member_groups';
     protected $softDelete = false;
     
-    protected $fillable = array('name', 'location', 'description', 'training');
+    protected $fillable = array('name', 'location', 'description', 'training', 'details');
 
     protected $appends = array('total_time');
 
     public function members()
     {
         return $this->hasMany('App\Models\Member', 'group_id');
+    }
+
+    public function details($year = null, $month = null)
+    {
+        $relation = $this->hasMany('App\Models\MemberGroupDetails', 'group_id');
+
+        if(is_numeric($year)) $relation = $relation->where('member_group_details.year', $year);
+        if(is_numeric($month)) $relation = $relation->where('member_group_details.month', $month);
+
+        if(is_numeric($year) || is_numeric($month)) $relation = $relation->get();
+        if(is_numeric($year) && is_numeric($month)) $relation = $relation->first();
+
+        return $relation;
     }
 
     /**
@@ -83,13 +96,15 @@ class MemberGroup extends BaseModel {
     /**
      * Get all training days for current month
      *
+     * @param $year
+     * @param $month
      * @return int
      */
-    public function getTrainingDaysAttribute()
+    public function trainingDays($year, $month)
     {
         $days = array();
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
+        $startOfMonth = Carbon::createFromDate($year, $month)->startOfMonth();
+        $endOfMonth = Carbon::createFromDate($year, $month)->endOfMonth();
 
         while($startOfMonth->lte($endOfMonth))
         {
@@ -107,5 +122,4 @@ class MemberGroup extends BaseModel {
 
         return $days;
     }
-
 }

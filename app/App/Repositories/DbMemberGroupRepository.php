@@ -1,17 +1,21 @@
 <?php namespace App\Repositories;
 
 use App\Models\MemberGroup;
+use App\Models\MemberGroupDetails;
 
 class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRepositoryInterface {
 
     protected $model;
-    protected $orderBy = 'id';
-    protected $orderDirection = 'asc';
+    protected $orderBy = array('id' => 'asc');
     protected $perPage = 15;
 
-    public function __construct(MemberGroup $model)
+    protected $modelDetails;
+
+    public function __construct(MemberGroup $model, MemberGroupDetails $modelDetails)
     {
         parent::__construct($model);
+
+        $this->modelDetails = $modelDetails;
     }
 
     /**
@@ -42,5 +46,23 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
     public function canBeDeleted($id)
     {
         return $this->model->find($id)->members->count() ? false : true;
+    }
+
+    /**
+     * Create or update member group details
+     *
+     * @param $id
+     * @param $data
+     */
+    public function updateDetails($id, $data)
+    {
+        $data['group_id'] = $id;
+
+        $dataToCheck = array_except($data, array('details'));
+
+        $details = $this->modelDetails->firstOrNew($dataToCheck);
+        $details->details = $data['details'];
+
+        $this->model->find($id)->details()->save($details);
     }
 }

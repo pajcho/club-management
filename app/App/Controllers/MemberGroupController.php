@@ -145,10 +145,12 @@ class MemberGroupController extends BaseController {
     /**
      * Generate attendance PDF document
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param $year
+     * @param $month
      * @return Response
      */
-    public function attendance($id)
+    public function attendance($id, $year, $month)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
         $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
@@ -156,12 +158,13 @@ class MemberGroupController extends BaseController {
 
         // Get all active group members
         $members = $membersRepo->filter(array(
-            'group_id'  => $memberGroup->id,
-            'active'    => 1
+            'group_id'      => $memberGroup->id,
+            'active'        => 1,
+            'subscribed'    => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
         ), false);
 
-        $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members'))->render();
-        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.attendance.title') ? Lang::get('documents.attendance.title') : 'Monthly group attendance list'));
+        $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members', 'year', 'month'))->render();
+        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.attendance.title') ? Lang::get('documents.attendance.title') : 'Monthly group attendance list') . ' ' . $year . ' ' . $month);
 
         return $pdf->download($view, $documentName);
     }
@@ -169,39 +172,48 @@ class MemberGroupController extends BaseController {
     /**
      * Generate payments PDF document
      *
-     * @param  int  $id
+     * @param  int $id
+     * @param $year
+     * @param $month
      * @return Response
      */
-    public function payments($id)
+    public function payments($id, $year, $month)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
         $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
         $memberGroup = $this->memberGroups->find($id);
 
+        $first_month = 9;
+        $last_month = 6;
+
+        // Generate date limit
+        $subscribed_before = Carbon::createFromDate($year, $last_month);
+        if($month > $last_month) $subscribed_before = $subscribed_before->addYear();
+
         // Get all active group members
         $members = $membersRepo->filter(array(
             'group_id'          => $memberGroup->id,
             'active'            => 1,
-            'orderBy'           => 'dos',
-            'orderDirection'    => 'asc',
+            'subscribed'        => array('<=', $subscribed_before->endOfMonth()->toDateTimeString()),
+            'orderBy'           => array('dos' => 'asc'),
         ), false);
 
         // Define what months numbers to show in this list
         $months = array(
-            9 => Carbon::now()->subYear()->year,
-            10 => Carbon::now()->subYear()->year,
-            11 => Carbon::now()->subYear()->year,
-            12 => Carbon::now()->subYear()->year,
-            1 => Carbon::now()->year,
-            2 => Carbon::now()->year,
-            3 => Carbon::now()->year,
-            4 => Carbon::now()->year,
-            5 => Carbon::now()->year,
-            6 => Carbon::now()->year,
+            9 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
+            10 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
+            11 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
+            12 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
+            1 => Carbon::createFromDate($subscribed_before->year)->year,
+            2 => Carbon::createFromDate($subscribed_before->year)->year,
+            3 => Carbon::createFromDate($subscribed_before->year)->year,
+            4 => Carbon::createFromDate($subscribed_before->year)->year,
+            5 => Carbon::createFromDate($subscribed_before->year)->year,
+            6 => Carbon::createFromDate($subscribed_before->year)->year,
         );
 
-        $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months'))->render();
-        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.payments.title') ? Lang::get('documents.payments.title') : 'Group payments'));
+        $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'first_month', 'last_month'))->render();
+        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.payments.title') ? Lang::get('documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
 
         return $pdf->download($view, $documentName);
     }
