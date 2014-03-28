@@ -7,4 +7,6 @@ interface MemberGroupRepositoryInterface extends BaseRepositoryInterface {
     public function getLocationsForSelect();
 
     public function canBeDeleted($id);
+
+    public function updateDetails($id, $data);
 }

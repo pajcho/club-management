@@ -40,11 +40,20 @@ Route::group(array('prefix' => '', 'before' => 'auth'), function()
         Route::delete('{group}', array('as' => 'group.destroy', 'uses' => 'App\Controllers\MemberGroupController@destroy'));
 
         // Group PDF documents
-        Route::get('{group}/attendance', array('as' => 'group.attendance', 'uses' => 'App\Controllers\MemberGroupController@attendance'));
-        Route::get('{group}/payments', array('as' => 'group.payments', 'uses' => 'App\Controllers\MemberGroupController@payments'));
+        Route::get('{group}/attendance/{year}/{month}', array('as' => 'group.attendance', 'uses' => 'App\Controllers\MemberGroupController@attendance'))
+            ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
+        Route::get('{group}/payments/{year}/{month}', array('as' => 'group.payments', 'uses' => 'App\Controllers\MemberGroupController@payments'))
+            ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
 
-        // Group members
-        Route::get('{group}/member', array('as' => 'group.member.index', 'uses' => 'App\Controllers\MemberController@index'));
+        // Group details (Payments & Attendance)
+        Route::group(array('prefix' => '{group}/details'), function()
+        {
+            Route::get('/', array('as' => 'group.details.index', 'uses' => 'App\Controllers\MemberGroupDetailsController@index'));
+            Route::get('{year}/{month}', array('as' => 'group.details.show', 'uses' => 'App\Controllers\MemberGroupDetailsController@show'))
+                ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
+            Route::put('{year}/{month}', array('as' => 'group.details.update', 'uses' => 'App\Controllers\MemberGroupDetailsController@update'))
+                ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
+        });
     });
 
     Route::group(array('prefix' => 'settings'), function()
