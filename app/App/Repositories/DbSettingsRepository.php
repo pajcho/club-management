@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Schema;
 class DbSettingsRepository extends DbBaseRepository implements SettingsRepositoryInterface {
 
     protected $model;
-    protected $orderBy = 'id';
-    protected $orderDirection = 'asc';
+    protected $orderBy = array('id' => 'asc');
     protected $perPage = 100;
 
     public function __construct(Settings $model)

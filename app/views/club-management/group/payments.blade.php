@@ -8,6 +8,9 @@
         table thead tr th.no-border {
             border: none !important;
         }
+        .current {
+            background-color: #f1f1f1;
+        }
     </style>
 @stop
 
@@ -27,17 +30,25 @@
             <tr>
                 <th colspan="{{ 3 + count($months) }}">
                     {{ Lang::has('documents.payments.title') ? Lang::get('documents.payments.title') : 'Group payments' }}
+                    (
+                    {{ Lang::has('dates.month.' . $first_month) ? substr(Lang::get('dates.month.' . $first_month), 0, 3) : Carbon\Carbon::createFromDate($year, $first_month, 1)->format('M') }}
+                    {{ head($months) }}
+                    -
+                    {{ Lang::has('dates.month.' . $last_month) ? substr(Lang::get('dates.month.' . $last_month), 0, 3) : Carbon\Carbon::createFromDate($year, $last_month, 1)->format('M') }}
+                    {{ last($months) }}
+                    )
                 </th>
             </tr>
 
             <tr>
-                <th colspan="2">
+                <th width="35">#</th>
+                <th style="text-align: left;">
                     {{ Lang::has('documents.payments.name') ? Lang::get('documents.payments.name') : 'Full Name' }}
                 </th>
 
-                @foreach($months as $month => $year)
-                    <th width="40">
-                        {{ Lang::has('dates.month.' . $month) ? substr(Lang::get('dates.month.' . $month), 0, 3) : Carbon\Carbon::createFromDate($year, $month, 1)->format('M') }}
+                @foreach($months as $tmp_month => $tmp_year)
+                    <th width="40" {{ $tmp_month == $month ? 'class="current"' : '' }}>
+                        {{ Lang::has('dates.month.' . $tmp_month) ? substr(Lang::get('dates.month.' . $tmp_month), 0, 3) : Carbon\Carbon::createFromDate($tmp_year, $tmp_month, 1)->format('M') }}
                     </th>
                 @endforeach
 
@@ -54,18 +65,20 @@
                         <td>{{ $key+1 }}</td>
                         <td style="text-align: left;">{{ $member->full_name }}</td>
 
-                        @foreach($months as $month => $year)
+                        @foreach($months as $tmp_month => $tmp_year)
 
                             {{-- Mark month of subscription with border so we know when did member subscribed --}}
-                            <td {{ ($year == $member->dos->year && $month == $member->dos->month) ? 'style="border-left: solid 2px black !important;"' : '' }}>
+                            <td {{ $tmp_month == $month ? 'class="current"' : '' }} {{ ($tmp_year == $member->dos->year && $tmp_month == $member->dos->month) ? 'style="border-left: solid 2px black !important;"' : '' }}>
 
                                 {{-- Write day of subscription in top left corner of field --}}
-                                @if($year == $member->dos->year && $month == $member->dos->month)
+                                @if($tmp_year == $member->dos->year && $tmp_month == $member->dos->month)
                                     <div style="position: relative;">
                                         <span style="font-size: 7px; position: absolute; top: -4px; left: -3px;">{{ $member->dos->day }}</span>
                                     </div>
                                 @endif
-                                &nbsp;
+
+                                {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
+
                             </td>
 
                         @endforeach
@@ -80,8 +93,8 @@
                         <td>{{ $key+$i+2 }}</td>
                         <td>&nbsp;</td>
 
-                        @foreach($months as $month)
-                            <td>&nbsp;</td>
+                        @foreach($months as $tmp_month => $tmp_year)
+                            <td {{ $tmp_month == $month ? 'class="current"' : '' }}>&nbsp;</td>
                         @endforeach
 
                         <td>&nbsp;</td>

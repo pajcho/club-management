@@ -3,8 +3,7 @@
 abstract class DbBaseRepository extends BaseRepository {
 
 	protected $model;
-	protected $orderBy = 'id';
-	protected $orderDirection = 'asc';
+	protected $orderBy = array('id' => 'asc');
 	protected $perPage = 15;
 
 	public function __construct($model)
@@ -66,7 +65,9 @@ abstract class DbBaseRepository extends BaseRepository {
             if(isset($this->{$key})) $this->{$key} = $param;
         }
 
-        $this->model = $this->model->orderBy($this->orderBy, $this->orderDirection);
+        // Order by
+        foreach($this->orderBy as $orderBy => $orderDirection)
+            $this->model = $this->model->orderBy($orderBy, $orderDirection);
 
         return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
