@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        {{ Former::text('uid')->label('Unique Identifier')->required()->help('* Unique identifier for every member') }}
+        {{ Former::text('uid')->label('Unique Identifier')->help('* Unique identifier for every member') }}
     </div>
     <div class="col-md-4">
         {{ Former::text('phone')->label('Phone')->help('* If you have more than one phone number, you can put it in notes section below') }}
