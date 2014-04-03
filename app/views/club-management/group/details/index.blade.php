@@ -23,8 +23,8 @@
                     <th width="50">#</th>
                     <th>Month</th>
                     <th width="210" class="text-center">Payed?</th>
-                    <th width="210">Documents</th>
                     <th width="70">Actions</th>
+                    <th width="210">Documents</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,14 +35,14 @@
                             <td>{{ $month->format('Y, F') }}</td>
                             <td class="text-center">{{ $memberGroup->details($month->year, $month->month) ? $memberGroup->details($month->year, $month->month)->payed() : '' }}</td>
                             <td>
+                                {{ link_to_route('group.details.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) }}
+                            </td>
+                            <td>
                                 {{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-print"></i> Payments', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-link', 'title' => 'Generate Payments PDF'))) }}
 
                                 @if($memberGroup->total_monthly_time)
                                     {{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-print"></i> Attendance', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-link', 'title' => 'Generate Attendance PDF'))) }}
                                 @endif
-                            </td>
-                            <td>
-                                {{ link_to_route('group.details.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) }}
                             </td>
                         </tr>
                     @endforeach
