@@ -31,7 +31,7 @@ class AuthController extends BaseController {
 	 */
 	public function loginPost()
 	{
-        if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password'))))
+        if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), Input::get('remember', 0) == 1))
         {
             return Redirect::intended('/')->withSuccess('Logged in successfully!');
         }

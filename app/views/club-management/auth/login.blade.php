@@ -44,3 +44,12 @@
         </div>
     </div>
 @stop
+
+@section('scripts')
+    <script>
+        // Focus first form field
+        $(document).ready(function(){
+            $("input:first").focus();
+        });
+    </script>
+@stop
