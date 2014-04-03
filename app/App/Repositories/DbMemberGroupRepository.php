@@ -6,7 +6,7 @@ use App\Models\MemberGroupDetails;
 class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRepositoryInterface {
 
     protected $model;
-    protected $orderBy = array('location' => 'asc');
+    protected $orderBy = array('location' => 'asc', 'name' => 'asc');
     protected $perPage = 15;
 
     protected $modelDetails;
