@@ -58,10 +58,12 @@ $(document).ready(function(){
     });
 
     $(document).on('pjax:send', function() {
-        $('#loading').show();
+        NProgress.start();
+//        $('#loading').show();
     });
     $(document).on('pjax:complete', function() {
-        $('#loading').hide();
+        NProgress.done();
+//        $('#loading').hide();
     });
     // disable the fallback timeout behavior if a spinner is being shown
     $(document).on('pjax:timeout', function(event) {
