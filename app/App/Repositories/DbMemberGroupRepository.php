@@ -23,7 +23,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
      */
     public function getForSelect()
     {
-        return $this->model->all()->lists('name', 'id');
+        return $this->all()->lists('name', 'id');
     }
 
     /**
