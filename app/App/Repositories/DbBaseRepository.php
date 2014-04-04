@@ -13,12 +13,22 @@ abstract class DbBaseRepository extends BaseRepository {
 
 	public function all()
 	{
-		return $this->model->all();
+        // Order by
+        foreach($this->orderBy as $orderBy => $orderDirection)
+            $this->model = $this->model->orderBy($orderBy, $orderDirection);
+
+        return $this->model->get();
 	}
 
 	public function allWith(array $with)
 	{
-		return $this->model->with($with)->get();
+        $this->model = $this->model->with($with);
+
+        // Order by
+        foreach($this->orderBy as $orderBy => $orderDirection)
+            $this->model = $this->model->orderBy($orderBy, $orderDirection);
+
+		return $this->model->get();
 	}
 
 	public function create($input)
