@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Internal\Validators\MemberValidator;
+use App\Models\DateHistory;
 use App\Repositories\MemberRepositoryInterface;
 use App\Repositories\MemberGroupRepositoryInterface;
 use App\Service\Theme;

@@ -1,6 +1,8 @@
 <?php namespace App\Repositories;
 
+use App\Models\DateHistory;
 use App\Models\Member;
+use DateTime;
 
 class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInterface {
 
@@ -74,5 +76,44 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             $this->model = $this->model->orderBy($orderBy, $orderDirection);
 
         return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+    }
+
+    /**
+     * We need to set active history before updating user
+     *
+     * @param $id
+     * @param $input
+     * @return mixed
+     */
+    public function update($id, $input)
+    {
+        $member = $this->model->find($id);
+
+        $this->updateHistory($member, $input, 'active');
+        //$this->updateHistory($member, $input, 'freeOfCharge');
+
+        return $member->update($input);
+    }
+
+    /**
+     * Helper function to update user date history status
+     *
+     * @param $member
+     * @param $input
+     * @param $type
+     */
+    private function updateHistory($member, $input, $type)
+    {
+        // Only update if it is different value than before
+        if($member->$type != array_get($input, $type, 1))
+        {
+            $history = new DateHistory(array(
+                'date' => new DateTime,
+                'value' => array_get($input, $type, 1),
+                'type' => $type,
+            ));
+
+            $member->{$type . 'History'}()->save($history);
+        }
     }
 }
