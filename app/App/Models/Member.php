@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Member extends BaseModel {
     
@@ -16,6 +17,60 @@ class Member extends BaseModel {
     public function group()
     {
         return $this->belongsTo('App\Models\MemberGroup');
+    }
+
+    public function activeHistory()
+    {
+        return $this->hasMany('App\Models\DateHistory')->where('type', 'active');
+    }
+
+    public function freeOfChargeHistory()
+    {
+        return $this->hasMany('App\Models\DateHistory')->where('type', 'freeOfCharge');
+    }
+
+    /**
+     * Check if user was active on given month in year
+     *
+     * @param $year
+     * @param $month
+     * @param $default = This value will be returned if no results are found for desired date
+     * @return bool
+     */
+    public function activeOnDate($year, $month, $default = true)
+    {
+        $item = $this->activeHistory()->orderBy('date', 'desc')
+            ->where(DB::raw('YEAR(date)'), $year)
+            ->where(DB::raw('MONTH(date)'), '<=', $month)->get()->first();
+
+        if($item)
+        {
+            return $item->value ? true : false;
+        }
+
+        return $default;
+    }
+
+    /**
+     * Check if user was free of charge on given month in year
+     *
+     * @param $year
+     * @param $month
+     * @param $default = This value will be returned if no results are found for desired date
+     * @return bool
+     */
+    public function freeOfChargeOnDate($year, $month, $default = false)
+    {
+        $item = $this->freeOfChargeHistory()->orderBy('date', 'desc')
+            ->where(DB::raw('YEAR(date)'), $year)
+            ->where(DB::raw('MONTH(date)'), '<=', $month)->get()->first();
+
+        if($item)
+        {
+            return $item->value ? true : false;
+        }
+
+        return $default;
     }
 
     /**
