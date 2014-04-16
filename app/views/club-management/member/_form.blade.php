@@ -18,7 +18,14 @@
         {{ Former::text('phone')->label('Phone')->help('* If you have more than one phone number, you can put it in notes section below') }}
     </div>
     <div class="col-md-4">
-        {{ Former::select('active')->label('Active')->options(array('1' => 'Yes', '0' => 'No'))->help('* Inactive members won\'t show up in generated PDF lists') }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ Former::select('active')->label('Active')->options(array('1' => 'Yes', '0' => 'No'))->help('* Inactive members won\'t show up in generated PDF lists') }}
+            </div>
+            <div class="col-md-6">
+                {{ Former::select('freeOfCharge')->label('Free Of Charge')->options(array('1' => 'Yes', '0' => 'No'))->help('* Members that don\'t pay (like family and friends)') }}
+            </div>
+        </div>
     </div>
 </div>
 

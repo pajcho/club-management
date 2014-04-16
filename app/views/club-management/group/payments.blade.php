@@ -47,7 +47,7 @@
                 </th>
 
                 @foreach($months as $tmp_month => $tmp_year)
-                    <th width="40" {{ $tmp_month == $month ? 'class="current"' : '' }}>
+                    <th width="40">
                         {{ Lang::has('dates.month.' . $tmp_month) ? substr(Lang::get('dates.month.' . $tmp_month), 0, 3) : Carbon\Carbon::createFromDate($tmp_year, $tmp_month, 1)->format('M') }}
                     </th>
                 @endforeach
@@ -68,7 +68,7 @@
                         @foreach($months as $tmp_month => $tmp_year)
 
                             {{-- Mark month of subscription with border so we know when did member subscribed --}}
-                            <td {{ $tmp_month == $month ? 'class="current"' : '' }} {{ ($tmp_year == $member->dos->year && $tmp_month == $member->dos->month) ? 'style="border-left: solid 2px black !important;"' : '' }}>
+                            <td {{ ($tmp_year == $member->dos->year && $tmp_month == $member->dos->month) ? 'style="border-left: solid 2px black !important;"' : '' }}>
 
                                 {{-- Write day of subscription in top left corner of field --}}
                                 @if($tmp_year == $member->dos->year && $tmp_month == $member->dos->month)
@@ -77,8 +77,17 @@
                                     </div>
                                 @endif
 
-                                {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
-
+                                @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month))
+                                    @if($member->activeOnDate($tmp_year, $tmp_month))
+                                        {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
+                                    @else
+                                        <!-- member is inactive this month -->
+                                        /
+                                    @endif
+                                @else
+                                    <!-- member is free of charge this month -->
+                                    <i class="glyphicon glyphicon-heart"></i>
+                                @endif
                             </td>
 
                         @endforeach
@@ -94,7 +103,7 @@
                         <td>&nbsp;</td>
 
                         @foreach($months as $tmp_month => $tmp_year)
-                            <td {{ $tmp_month == $month ? 'class="current"' : '' }}>&nbsp;</td>
+                            <td>&nbsp;</td>
                         @endforeach
 
                         <td>&nbsp;</td>

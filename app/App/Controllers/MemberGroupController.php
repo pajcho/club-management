@@ -67,7 +67,7 @@ class MemberGroupController extends BaseController {
             $redirect = Redirect::route('group.index');
 
             if(Input::get('create_and_add', false))
-                $redirect = Redirect::route('group.create')->withInput();
+                $redirect = Redirect::route('group.create');
 
 
             return $redirect->withSuccess('Member group created!');
@@ -159,9 +159,13 @@ class MemberGroupController extends BaseController {
         // Get all active group members
         $members = $membersRepo->filter(array(
             'group_id'      => $memberGroup->id,
-            'active'        => 1,
             'subscribed'    => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
         ), false);
+
+        // Get only members active in this month
+        $members = $members->filter(function($member) use ($year, $month){
+            return $member->activeOnDate($year, $month);
+        })->values();
 
         $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members', 'year', 'month'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.attendance.title') ? Lang::get('documents.attendance.title') : 'Monthly group attendance list') . ' ' . $year . ' ' . $month);
@@ -193,10 +197,14 @@ class MemberGroupController extends BaseController {
         // Get all active group members
         $members = $membersRepo->filter(array(
             'group_id'          => $memberGroup->id,
-            'active'            => 1,
             'subscribed'        => array('<=', $subscribed_before->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
+
+        // Get only members active in this month
+//        $members = $members->filter(function($member) use ($year, $month){
+//            return $member->activeOnDate($year, $month);
+//        })->values();
 
         // Define what months numbers to show in this list
         $months = array(
@@ -214,6 +222,8 @@ class MemberGroupController extends BaseController {
 
         $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'first_month', 'last_month'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.payments.title') ? Lang::get('documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
+
+        echo $view; exit;
 
         return $pdf->download($view, $documentName);
     }
