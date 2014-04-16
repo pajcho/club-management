@@ -223,8 +223,6 @@ class MemberGroupController extends BaseController {
         $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'first_month', 'last_month'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('documents.payments.title') ? Lang::get('documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
 
-        echo $view; exit;
-
         return $pdf->download($view, $documentName);
     }
 

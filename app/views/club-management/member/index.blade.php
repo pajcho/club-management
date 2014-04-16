@@ -31,7 +31,7 @@
             <tbody>
                 @if($members->count())
                     @foreach($members as $key => $member)
-                        <tr class="{{ $member->active ? '' : 'danger' }}">
+                        <tr class="{{ $member->active ? '' : 'danger' }} {{ $member->freeOfCharge ? 'success' : '' }}">
                             <td>{{ $members->getFrom() + $key }}</td>
                             <td>{{ $member->full_name }}</td>
                             <td>{{ $member->dob->format('F j, Y') }}</td>
