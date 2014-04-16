@@ -38,19 +38,23 @@ class MemberGroupDetails extends BaseModel {
         if(is_array($details))
         {
             $details = head($details);
-            $total = count($details['payment']);
-            $payed = count(array_where($details['payment'], function($key, $value){
-                return $value == 1;
-            }));
 
-            $prefix = $suffix = '';
-            if($total == $payed)
+            if(is_array($details['payment']))
             {
-                $prefix = '<span class="btn btn-xs btn-success">';
-                $suffix = '</span>';
-            }
+                $total = count($details['payment']);
+                $payed = count(array_where($details['payment'], function($key, $value){
+                    return $value == 1;
+                }));
 
-            return $prefix . $payed . '/' . $total . $suffix;
+                $prefix = $suffix = '';
+                if($total == $payed)
+                {
+                    $prefix = '<span class="btn btn-xs btn-success">';
+                    $suffix = '</span>';
+                }
+
+                return $prefix . $payed . '/' . $total . $suffix;
+            }
         }
 
         return '';
