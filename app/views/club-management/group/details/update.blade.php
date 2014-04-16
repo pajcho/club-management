@@ -57,14 +57,18 @@
                 <tbody>
                     @if($members->count())
                         @foreach($members as $key => $member)
-                            <tr {{ $member->active ? '' : 'class="danger"' }}>
+                            <tr>
                                 <td width="50">{{ $key+1 }}</td>
                                 <td style="text-align: left;">{{ $member->full_name }}</td>
                                 <td class="text-center">
-                                    <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;">
-                                        {{ Form::hidden('payment[' . $member->id . ']', 0) }}
-                                        {{ Form::checkbox('payment[' . $member->id . ']', 1, $memberGroup->details($year, $month) ? $memberGroup->details($year, $month)->details('payment.' . $member->id) : false, array('id' => 'payment_' . $member->id)) }}
-                                    </label>
+                                    @if(!$member->freeOfChargeOnDate($year, $month))
+                                        <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;">
+                                            {{ Form::hidden('payment[' . $member->id . ']', 0) }}
+                                            {{ Form::checkbox('payment[' . $member->id . ']', 1, $memberGroup->details($year, $month) ? $memberGroup->details($year, $month)->details('payment.' . $member->id) : false, array('id' => 'payment_' . $member->id)) }}
+                                        </label>
+                                    @else
+                                        <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;" title="Free of charge"><i class="glyphicon glyphicon-heart"></i></label>
+                                    @endif
                                 </td>
                                 @foreach($memberGroup->trainingDays($year, $month) as $day)
                                     <td class="text-center">

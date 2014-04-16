@@ -90,7 +90,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         $member = $this->model->find($id);
 
         $this->updateHistory($member, $input, 'active');
-        //$this->updateHistory($member, $input, 'freeOfCharge');
+        $this->updateHistory($member, $input, 'freeOfCharge');
 
         return $member->update($input);
     }

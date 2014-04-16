@@ -78,13 +78,16 @@ class MemberGroupDetailsController extends BaseController {
 
         $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
 
-        // Get all active group members
+        // Get all group members
         $members = $membersRepo->filter(array(
             'group_id'          => $memberGroup->id,
             'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
-            'orderBy'           => array('active' => 'desc', 'dob' => 'desc'),
-//            'active'    => 1
         ), false);
+
+        // Get only members active in this month
+        $members = $members->filter(function($member) use ($year, $month){
+            return $member->activeOnDate($year, $month);
+        })->values();
 
         return View::make(Theme::view('group.details.update'))->with(compact('memberGroup', 'year', 'month', 'members'));
 	}

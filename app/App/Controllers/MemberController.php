@@ -86,7 +86,7 @@ class MemberController extends BaseController {
             $redirect = Redirect::route('member.index');
 
             if(Input::get('create_and_add', false))
-                $redirect = Redirect::route('member.create')->withInput();
+                $redirect = Redirect::route('member.create');
 
 
             return $redirect->withSuccess('Member created!');
