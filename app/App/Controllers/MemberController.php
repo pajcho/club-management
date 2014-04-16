@@ -46,15 +46,21 @@ class MemberController extends BaseController {
             '1' => 'Active Members',
             '00' => 'Inactive Members'
         );
+        $member_free = array(
+            '' => 'All members',
+            '00' => 'Paying Members',
+            '1' => 'Free Members'
+        );
 
         // Generate filters title
         $filters_title = '';
         if(isset($member_status[Input::get('active', '')])) $filters_title = $member_status[Input::get('active', '')];
+        if(isset($member_free[Input::get('freeOfCharge', '')])) $filters_title = $member_free[Input::get('freeOfCharge', '')] . ' / ' . $filters_title;
         if(isset($locations[Input::get('location') ?: false])) $filters_title = $locations[Input::get('location')] . ' / ' . $filters_title;
         if(isset($groups[Input::get('group_id') ?: false])) $filters_title = $groups[Input::get('group_id')] . ' / ' . $filters_title;
         if(Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
 
-        return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations', 'member_status', 'filters_title'));
+        return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations', 'member_status', 'member_free', 'filters_title'));
     }
 
     /**
