@@ -86,7 +86,7 @@
                                     @endif
                                 @else
                                     <!-- member is free of charge this month -->
-                                    <i class="glyphicon glyphicon-heart"></i>
+                                    <i class="glyphicon glyphicon-star"></i>
                                 @endif
                             </td>
 
