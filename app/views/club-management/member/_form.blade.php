@@ -23,7 +23,7 @@
                 {{ Former::select('active')->label('Active')->options(array('1' => 'Yes', '0' => 'No'))->help('* Inactive members won\'t show up in generated PDF lists') }}
             </div>
             <div class="col-md-6">
-                {{ Former::select('freeOfCharge')->label('Free Of Charge')->options(array('1' => 'Yes', '0' => 'No'))->help('* Members that don\'t pay (like family and friends)') }}
+                {{ Former::select('freeOfCharge')->label('Free Of Charge')->options(array('0' => 'No', '1' => 'Yes'))->help('* Members that don\'t pay (like family and friends)') }}
             </div>
         </div>
     </div>
