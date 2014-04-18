@@ -23,7 +23,7 @@
                     <th>Hours this month</th>
                     <th>Members</th>
                     <th></th>
-                    <th width="150">Actions</th>
+                    <th width="80">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,8 +41,8 @@
                                 {{ link_to_route('group.details.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>
                             <td>
-                                {{ link_to_route('group.show', 'Update', array($memberGroup->id), array('class' => 'btn btn-xs btn-success')) }}
-                                {{ Form::delete(route('group.destroy', array($memberGroup->id)), 'Delete', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger')) }}
+                                {{ HTML::decode(link_to_route('group.show', '<i class="glyphicon glyphicon-edit"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item'))) }}
                             </td>
                         </tr>
                     @endforeach

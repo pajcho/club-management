@@ -25,7 +25,7 @@
                     <th>Subscribed</th>
                     <th>&nbsp;</th>
                     <th>Phone</th>
-                    <th width="150">Actions</th>
+                    <th width="80">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,8 +41,8 @@
                             </td>
                             <td>{{ $member->phone }}</td>
                             <td>
-                                {{ link_to_route('member.show', 'Update', array($member->id), array('class' => 'btn btn-xs btn-success')) }}
-                                {{ Form::delete(route('member.destroy', array($member->id)), 'Delete', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger')) }}
+                                {{ HTML::decode(link_to_route('member.show', '<i class="glyphicon glyphicon-edit"></i>', array($member->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                {{ HTML::decode(Form::delete(route('member.destroy', array($member->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item'))) }}
                             </td>
                         </tr>
                     @endforeach
