@@ -34,8 +34,8 @@
                         <tr class="{{ $member->active ? '' : 'danger' }} {{ $member->freeOfCharge ? 'success' : '' }}">
                             <td>{{ $members->getFrom() + $key }}</td>
                             <td>{{ $member->full_name }}</td>
-                            <td>{{ $member->dob->format('F j, Y') }}</td>
-                            <td>{{ $member->dos->format('F j, Y') }} ({{ $member->dos->diffForHumans() }})</td>
+                            <td>{{ $member->dob->format('d.m.Y') }}</td>
+                            <td>{{ $member->dos->format('d.m.Y') }} ({{ $member->dos->diffForHumans() }})</td>
                             <td>
                                 <span class="btn btn-xs {{ $member->getMedicalExaminationClass() }}" title="{{ $member->getMedicalExaminationTitle() }}">&nbsp;</span>
                             </td>
