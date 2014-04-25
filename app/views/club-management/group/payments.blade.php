@@ -77,8 +77,8 @@
                                     </div>
                                 @endif
 
-                                @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month))
-                                    @if($member->activeOnDate($tmp_year, $tmp_month))
+                                @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month, $member->freeOfCharge))
+                                    @if($member->activeOnDate($tmp_year, $tmp_month, $member->active))
                                         {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
                                     @else
                                         <!-- member is inactive this month -->
