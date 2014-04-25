@@ -82,6 +82,7 @@ class MemberGroupDetailsController extends BaseController {
         $members = $membersRepo->filter(array(
             'group_id'          => $memberGroup->id,
             'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
+            'orderBy'           => array('dos' => 'asc'),
         ), false);
 
         // Get only members active in this month
