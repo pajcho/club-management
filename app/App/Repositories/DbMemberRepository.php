@@ -79,6 +79,22 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
     }
 
     /**
+     * We need to set active history before creating user
+     *
+     * @param $input
+     * @return mixed
+     */
+    public function create($input)
+    {
+        $member = $this->model->create($input);
+
+        $this->updateHistory($member, $input, 'active', true);
+        $this->updateHistory($member, $input, 'freeOfCharge', true);
+
+        return $member;
+    }
+
+    /**
      * We need to set active history before updating user
      *
      * @param $id
@@ -101,11 +117,12 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
      * @param $member
      * @param $input
      * @param $type
+     * @param bool $force
      */
-    private function updateHistory($member, $input, $type)
+    private function updateHistory($member, $input, $type, $force = false)
     {
         // Only update if it is different value than before
-        if($member->$type != array_get($input, $type, 1))
+        if($force || $member->$type != array_get($input, $type, 1))
         {
             $history = new DateHistory(array(
                 'date' => new DateTime,
