@@ -54,5 +54,4 @@ class BaseModel extends Model {
         }
         return $columns;
     }
-
 }

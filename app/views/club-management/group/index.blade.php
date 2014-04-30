@@ -23,7 +23,9 @@
                     <th>Hours this month</th>
                     <th>Members</th>
                     <th></th>
-                    <th width="80">Actions</th>
+                    @if($currentUser->isAdmin())
+                        <th width="80">Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -40,17 +42,21 @@
                             <td>
                                 {{ link_to_route('group.details.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>
-                            <td>
-                                {{ HTML::decode(link_to_route('group.show', '<i class="glyphicon glyphicon-edit"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item'))) }}
-                            </td>
+                            @if($currentUser->isAdmin())
+                                <td>
+                                    {{ HTML::decode(link_to_route('group.show', '<i class="glyphicon glyphicon-edit"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                    {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item'))) }}
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="7" align="center">
-                            There are no member groups <br/>
-                            {{ link_to_route('group.create', 'Create new member group', null, array('class' => 'btn btn-xs btn-info')) }}
+                        <td colspan="{{ $currentUser->isAdmin() ? 7 : 6 }}" align="center">
+                            There are no member groups
+                            @if($currentUser->isAdmin())
+                                <br/>{{ link_to_route('group.create', 'Create new member group', null, array('class' => 'btn btn-xs btn-info')) }}
+                            @endif
                         </td>
                     </tr>
                 @endif

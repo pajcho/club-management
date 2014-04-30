@@ -14,6 +14,7 @@
     {{ Former::open()->method('PUT')->action(route('group.update', $memberGroup->id)) }}
 
         {{ Former::populate($memberGroup) }}
+        {{ Former::populateField('trainers[]', $memberGroup->trainer_ids) }}
 
         @include(theme_view('group/_form'))
     

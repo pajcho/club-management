@@ -2,6 +2,7 @@
 
 use App\Internal\Validators\MemberGroupValidator;
 use App\Repositories\MemberGroupRepositoryInterface;
+use App\Repositories\UserRepositoryInterface;
 use App\Service\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
@@ -13,17 +14,19 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 use Webpatser\Sanitize\Sanitize;
 
-class MemberGroupController extends BaseController {
+class MemberGroupController extends AdminController {
 
     private $memberGroups;
-    
-	public function __construct(MemberGroupRepositoryInterface $memberGroups)
+    private $users;
+
+	public function __construct(MemberGroupRepositoryInterface $memberGroups, UserRepositoryInterface $users)
 	{
 		parent::__construct();
 
         View::share('activeMenu', 'groups');
 
         $this->memberGroups = $memberGroups;
+        $this->users = $users;
 	}
 
     /**
@@ -86,8 +89,9 @@ class MemberGroupController extends BaseController {
 	public function show($id)
 	{
         $memberGroup = $this->memberGroups->find($id);
+        $users = $this->users->getForSelect();
 
-        return View::make(Theme::view('group.update'))->with('memberGroup', $memberGroup);
+        return View::make(Theme::view('group.update'))->with(compact('memberGroup', 'users'));
 	}
 
 	/**
@@ -234,9 +238,11 @@ class MemberGroupController extends BaseController {
      */
     private function prepareTimesForInsert($data)
     {
+        $convert = array('training');
+
         foreach($data as $key => $value)
         {
-            if(is_array($value)) $data[$key] = json_encode($value);
+            if(is_array($value) && in_array($key, $convert)) $data[$key] = json_encode($value);
         }
 
         return $data;

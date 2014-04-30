@@ -40,6 +40,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->singleton('App\Repositories\MemberRepositoryInterface', 'App\Repositories\DbMemberRepository');
         $this->app->singleton('App\Repositories\MemberGroupRepositoryInterface', 'App\Repositories\DbMemberGroupRepository');
         $this->app->singleton('App\Repositories\SettingsRepositoryInterface', 'App\Repositories\DbSettingsRepository');
+        $this->app->singleton('App\Repositories\UserRepositoryInterface', 'App\Repositories\DbUserRepository');
     }
 
     public function register()

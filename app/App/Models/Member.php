@@ -29,6 +29,30 @@ class Member extends BaseModel {
         return $this->hasMany('App\Models\DateHistory')->where('type', 'freeOfCharge');
     }
 
+    public function trainers()
+    {
+        return $this->group->trainers();
+    }
+
+    /**
+     * Get members trained by certain trainer
+     *
+     * @param $query
+     * @param $trainer = Can be either trainer object or trainer id
+     * @return mixed
+     */
+    public function scopeTrainedBy($query, $trainer)
+    {
+        $trainerId = is_numeric($trainer) ? $trainer : $trainer->id;
+
+        return $query->whereExists(function($query) use ($trainerId){
+            $query->select(DB::raw(1))
+                ->from('users_groups')
+                ->where('users_groups.user_id', '=', $trainerId)
+                ->whereRaw('users_groups.group_id = members.group_id');
+        });
+    }
+
     /**
      * Check if user was active on given month in year
      *

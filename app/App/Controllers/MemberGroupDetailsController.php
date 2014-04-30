@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
-class MemberGroupDetailsController extends BaseController {
+class MemberGroupDetailsController extends AdminController {
 
     private $monthsPerPage;
     private $currentPage;

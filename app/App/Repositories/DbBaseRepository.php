@@ -3,12 +3,14 @@
 abstract class DbBaseRepository extends BaseRepository {
 
 	protected $model;
+	protected $columnNames;
 	protected $orderBy = array('id' => 'asc');
 	protected $perPage = 15;
 
 	public function __construct($model)
 	{
 		$this->model = $model;
+        $this->columnNames = $this->model->getColumnNames();
 	}
 
 	public function all()
@@ -17,6 +19,8 @@ abstract class DbBaseRepository extends BaseRepository {
         foreach($this->orderBy as $orderBy => $orderDirection)
             $this->model = $this->model->orderBy($orderBy, $orderDirection);
 
+        $this->preReturnFilters();
+
         return $this->model->get();
 	}
 
@@ -24,11 +28,7 @@ abstract class DbBaseRepository extends BaseRepository {
 	{
         $this->model = $this->model->with($with);
 
-        // Order by
-        foreach($this->orderBy as $orderBy => $orderDirection)
-            $this->model = $this->model->orderBy($orderBy, $orderDirection);
-
-		return $this->model->get();
+		return $this->all();
 	}
 
 	public function create($input)
@@ -38,11 +38,15 @@ abstract class DbBaseRepository extends BaseRepository {
 
 	public function update($id, $input)
 	{
+        $this->preReturnFilters();
+
 		return $this->model->find($id)->update($input);
 	}
 
 	public function find($id)
 	{
+        $this->preReturnFilters();
+
 		$model = $this->model->find($id);
 
 		return $model ?: null;
@@ -50,18 +54,22 @@ abstract class DbBaseRepository extends BaseRepository {
 
 	public function findWith($id, array $with)
 	{
-		return $this->model->with($with)->find($id);
+        $this->model = $this->model->with($with);
+
+		return $this->find($id);
 	}
 
 	public function delete($id)
 	{
+        $this->preReturnFilters();
+
 		return $this->model->find($id)->delete();
 	}
 
     public function filter(array $params, $paginate = true)
     {
         // Default filter by every database column
-        foreach($this->model->getColumnNames() as $column)
+        foreach($this->columnNames as $column)
         {
             if(isset($params[$column]) && ($params[$column] === '0' || !empty($params[$column])))
             {
@@ -79,6 +87,20 @@ abstract class DbBaseRepository extends BaseRepository {
         foreach($this->orderBy as $orderBy => $orderDirection)
             $this->model = $this->model->orderBy($orderBy, $orderDirection);
 
+        $this->preReturnFilters();
+
         return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+    }
+
+    public function filterWith(array $with, array $params, $paginate = true)
+    {
+        $this->model = $this->model->with($with);
+
+        return $this->filter($params, $paginate);
+    }
+
+    public function preReturnFilters()
+    {
+        // Define model filters here to call before queriing
     }
 }

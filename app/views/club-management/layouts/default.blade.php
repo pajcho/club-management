@@ -72,6 +72,7 @@
         <script src="{{ asset(theme_path('js/moment.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/bootstrap-datetimepicker.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/nprogress.min.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/select2.min.js')) }}" type="text/javascript"></script>
 
         <!-- Custom project scripts -->
         <script src="{{ asset(theme_path('js/main.min.js')) }}" type="text/javascript"></script>

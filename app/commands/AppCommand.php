@@ -87,6 +87,7 @@ class AppCommand extends Command {
         Schema::dropIfExists('settings');
         Schema::dropIfExists('users');
         Schema::dropIfExists('date_history');
+        Schema::dropIfExists('users_groups');
     }
     
     /**
