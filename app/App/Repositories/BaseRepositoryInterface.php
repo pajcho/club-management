@@ -2,19 +2,21 @@
 
 interface BaseRepositoryInterface
 {
-	public function all();
+	function all();
 
-	public function allWith(array $with);
+	function allWith(array $with);
 
-	public function create($input);
+	function create($input);
 
-	public function update($id, $input);
+	function update($id, $input);
 
-	public function find($id);
+	function find($id);
 
-	public function findWith($id, array $with);
+	function findWith($id, array $with);
 
-	public function delete($id);
+	function delete($id);
 
-    public function filter(array $params);
+    function filter(array $params, $paginate);
+
+    function filterWith(array $with, array $params, $paginate);
 }

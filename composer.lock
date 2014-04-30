@@ -3,34 +3,34 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5971d582a884d5db93872e87d10ec4e1",
+    "hash": "0c54d8a7a23ed6f006f885f9362aae3b",
     "packages": [
         {
             "name": "anahkiasen/former",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Anahkiasen/former.git",
-                "reference": "fce6790e10bbd0acf3f5a5224d56477ecd44ba7b"
+                "reference": "4c61a0406880f032fd74022cdbad9e2b70c2157f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Anahkiasen/former/zipball/fce6790e10bbd0acf3f5a5224d56477ecd44ba7b",
-                "reference": "fce6790e10bbd0acf3f5a5224d56477ecd44ba7b",
+                "url": "https://api.github.com/repos/Anahkiasen/former/zipball/4c61a0406880f032fd74022cdbad9e2b70c2157f",
+                "reference": "4c61a0406880f032fd74022cdbad9e2b70c2157f",
                 "shasum": ""
             },
             "require": {
-                "anahkiasen/html-object": "1.*",
-                "illuminate/config": "~4",
-                "illuminate/container": "~4",
-                "illuminate/http": "~4",
-                "illuminate/routing": "~4",
-                "illuminate/session": "~4",
-                "illuminate/translation": "~4"
+                "anahkiasen/html-object": "~1.4",
+                "illuminate/config": "~4.0",
+                "illuminate/container": "~4.0",
+                "illuminate/http": "~4.0",
+                "illuminate/routing": "~4.0",
+                "illuminate/session": "~4.0",
+                "illuminate/translation": "~4.0"
             },
             "require-dev": {
-                "illuminate/database": "~4",
-                "mockery/mockery": "dev-master"
+                "illuminate/database": "~4.0",
+                "mockery/mockery": "~0.9"
             },
             "type": "library",
             "autoload": {
@@ -60,7 +60,7 @@
                 "foundation",
                 "laravel"
             ],
-            "time": "2014-02-09 00:37:24"
+            "time": "2014-04-23 11:56:44"
         },
         {
             "name": "anahkiasen/html-object",

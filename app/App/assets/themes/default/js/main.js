@@ -40,6 +40,16 @@ $(document).ready(function(){
                 }
             });
         }
+
+        // Select2 bindings
+        if($('select').length > 0)
+        {
+            $('select').each(function(){
+                $(this).select2({
+                    minimumResultsForSearch: 5
+                });
+            });
+        }
     }
 
     applicationInit();
@@ -59,11 +69,9 @@ $(document).ready(function(){
 
     $(document).on('pjax:send', function() {
         NProgress.start();
-//        $('#loading').show();
     });
     $(document).on('pjax:complete', function() {
         NProgress.done();
-//        $('#loading').hide();
     });
     // disable the fallback timeout behavior if a spinner is being shown
     $(document).on('pjax:timeout', function(event) {

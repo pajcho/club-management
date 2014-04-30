@@ -2,10 +2,12 @@
 
 use App\Models\MemberGroup;
 use App\Models\MemberGroupDetails;
+use Illuminate\Support\Facades\Auth;
 
 class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRepositoryInterface {
 
     protected $model;
+    protected $columnNames;
     protected $orderBy = array('location' => 'asc', 'name' => 'asc');
     protected $perPage = 15;
 
@@ -16,6 +18,66 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
         parent::__construct($model);
 
         $this->modelDetails = $modelDetails;
+    }
+
+    public function preReturnFilters()
+    {
+        parent::preReturnFilters();
+
+        if($currentUser = Auth::user())
+        {
+            if($currentUser->isTrainer())
+            {
+                $this->model = $this->model->trainedBy($currentUser);
+            }
+        }
+    }
+
+    /**
+     * We need to attach groups when creating user
+     *
+     * @param $input
+     * @return mixed
+     */
+    public function create($input)
+    {
+        $group = $this->model->create($input);
+
+        // Sync group trainers
+        $this->syncTrainers($group, $input);
+
+        return $group;
+    }
+
+    /**
+     * We need to attach trainers when updating group
+     *
+     * @param $id
+     * @param $input
+     * @return mixed
+     */
+    public function update($id, $input)
+    {
+        $this->preReturnFilters();
+
+        $group = $this->model->find($id);
+
+        // Sync group trainers
+        $this->syncTrainers($group, $input);
+
+        return $group->update($input);
+    }
+
+    /**
+     * Sync group trainers
+     *
+     * @param $group
+     * @param $input
+     */
+    protected function syncTrainers($group, $input)
+    {
+        // Sync user groups
+        $group->trainers()->sync(array_get($input, 'trainers', array()));
     }
 
     /**

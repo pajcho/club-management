@@ -11,7 +11,28 @@ class MemberGroup extends BaseModel {
     
     protected $fillable = array('name', 'location', 'description', 'training', 'details');
 
-    protected $appends = array('total_time');
+    protected $appends = array('total_monthly_time', 'trainer_ids');
+
+    public function trainers()
+    {
+        return $this->belongsToMany('User', 'users_groups', 'group_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * Get groups trained by certain trainer
+     *
+     * @param $query
+     * @param $trainer = Can be either trainer object or trainer id
+     * @return mixed
+     */
+    public function scopeTrainedBy($query, $trainer)
+    {
+        $trainerId = is_numeric($trainer) ? $trainer : $trainer->id;
+
+        return $query->whereHas('trainers', function($q) use ($trainerId){
+            $q->where('user_id', $trainerId);
+        });
+    }
 
     public function members()
     {
@@ -29,6 +50,17 @@ class MemberGroup extends BaseModel {
         if(is_numeric($year) && is_numeric($month)) $relation = $relation->first();
 
         return $relation;
+    }
+
+    /**
+     * Get ids of all trainers of this group
+     * Used mainly for select boxes
+     *
+     * @return string
+     */
+    public function getTrainerIdsAttribute()
+    {
+        return $this->trainers()->get()->lists('id');
     }
 
     /**

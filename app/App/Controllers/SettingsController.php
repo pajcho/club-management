@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
-class SettingsController extends BaseController {
+class SettingsController extends AdminController {
 
     private $settings;
 

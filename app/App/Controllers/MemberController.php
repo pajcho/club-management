@@ -6,12 +6,13 @@ use App\Repositories\MemberRepositoryInterface;
 use App\Repositories\MemberGroupRepositoryInterface;
 use App\Service\Theme;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
-class MemberController extends BaseController {
+class MemberController extends AdminController {
 
     private $members;
     private $groups;
@@ -37,6 +38,7 @@ class MemberController extends BaseController {
 
         // Get all members
         $members = $this->members->filter($input);
+
         $groups = array('' => 'Group') + $this->groups->getForSelect();
         $locations = array('' => 'Location') + $this->groups->getLocationsForSelect();
 

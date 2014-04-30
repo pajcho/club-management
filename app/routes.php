@@ -29,6 +29,17 @@ Route::group(array('prefix' => '', 'before' => 'auth'), function()
         Route::delete('{member}', array('as' => 'member.destroy', 'uses' => 'App\Controllers\MemberController@destroy'));
     });
 
+    Route::group(array('prefix' => 'user'), function()
+    {
+        Route::get('/', array('as' => 'user.index', 'uses' => 'App\Controllers\UserController@index'));
+        Route::get('create', array('as' => 'user.create', 'uses' => 'App\Controllers\UserController@create'));
+        Route::post('/', array('as' => 'user.store', 'uses' => 'App\Controllers\UserController@store'));
+        Route::get('{user}', array('as' => 'user.show', 'uses' => 'App\Controllers\UserController@show'));
+        Route::get('{user}/edit', array('as' => 'user.edit', 'uses' => 'App\Controllers\UserController@edit'));
+        Route::put('{user}', array('as' => 'user.update', 'uses' => 'App\Controllers\UserController@update'));
+        Route::delete('{user}', array('as' => 'user.destroy', 'uses' => 'App\Controllers\UserController@destroy'));
+    });
+
     Route::group(array('prefix' => 'group'), function()
     {
         Route::get('/', array('as' => 'group.index', 'uses' => 'App\Controllers\MemberGroupController@index'));

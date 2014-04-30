@@ -2,11 +2,11 @@
 
 interface MemberGroupRepositoryInterface extends BaseRepositoryInterface {
 
-    public function getForSelect();
+    function getForSelect();
 
-    public function getLocationsForSelect();
+    function getLocationsForSelect();
 
-    public function canBeDeleted($id);
+    function canBeDeleted($id);
 
-    public function updateDetails($id, $data);
+    function updateDetails($id, $data);
 }

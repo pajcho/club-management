@@ -3,10 +3,12 @@
 use App\Models\DateHistory;
 use App\Models\Member;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 
 class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInterface {
 
     protected $model;
+    protected $columnNames;
     protected $orderBy = array('dob' => 'desc');
     protected $perPage = 15;
 
@@ -15,10 +17,23 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         parent::__construct($model);
     }
 
+    public function preReturnFilters()
+    {
+        parent::preReturnFilters();
+
+        if($currentUser = Auth::user())
+        {
+            if($currentUser->isTrainer())
+            {
+                $this->model = $this->model->trainedBy($currentUser);
+            }
+        }
+    }
+
     public function filter(array $params = array(), $paginate = true)
     {
         // Default filter by every database column
-        foreach($this->model->getColumnNames() as $column)
+        foreach($this->columnNames as $column)
         {
             if(isset($params[$column]) && ($params[$column] === '0' || !empty($params[$column])))
             {
@@ -75,6 +90,8 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         foreach($this->orderBy as $orderBy => $orderDirection)
             $this->model = $this->model->orderBy($orderBy, $orderDirection);
 
+        $this->preReturnFilters();
+
         return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 
@@ -103,6 +120,8 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
      */
     public function update($id, $input)
     {
+        $this->preReturnFilters();
+
         $member = $this->model->find($id);
 
         $this->updateHistory($member, $input, 'active');

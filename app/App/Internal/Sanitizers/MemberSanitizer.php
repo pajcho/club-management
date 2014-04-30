@@ -11,10 +11,10 @@ class MemberSanitizer extends BaseSanitizer
     public function sanitize($data)
     {
         if(isset($data['first_name']))
-            $data['first_name'] = ucwords($data['first_name']);
+            $data['first_name'] = ucwords(trim($data['first_name']));
         
         if(isset($data['last_name']))
-            $data['last_name'] = ucwords($data['last_name']);
+            $data['last_name'] = ucwords(trim($data['last_name']));
 
         if(isset($data['active']))
             $data['active'] = (int)$data['active'];
