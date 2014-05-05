@@ -16,7 +16,7 @@ interface BaseRepositoryInterface
 
 	function delete($id);
 
-    function filter(array $params, $paginate);
+    function filter(array $params, $paginate = true);
 
-    function filterWith(array $with, array $params, $paginate);
+    function filterWith(array $with, array $params, $paginate = true);
 }
