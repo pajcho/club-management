@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Member extends BaseModel {
-    
+
     public $timestamps = true;
     
     protected $table = 'members';

@@ -52,8 +52,8 @@ class AppCommand extends Command {
         // Drop previos database tables to make sure we have all the new data
         $this->dropTables();
         
-        // Run the Sentry Migrations
-//        $this->call('migrate', array('--package' => 'cartalyst/sentry'));
+        // Run the Revisionable Migrations
+//        $this->call('migrate', array('--package' => 'venturecraft/revisionable'));
 
         // Run the Migrations
         $this->call('migrate');
