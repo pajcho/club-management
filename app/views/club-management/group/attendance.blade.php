@@ -1,16 +1,5 @@
 @extends(theme_view('layouts/pdf'))
 
-@section('styles')
-    <style>
-        table thead th, table tbody tr {
-            text-align: center;
-        }
-        table thead tr th.no-border {
-            border: none !important;
-        }
-    </style>
-@stop
-
 {{-- Page content --}}
 @section('content')
 
