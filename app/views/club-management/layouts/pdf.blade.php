@@ -29,7 +29,7 @@
                 .table-bordered > thead > tr > td,
                 .table-bordered > tbody > tr > td,
                 .table-bordered > tfoot > tr > td {
-                    border-color: #000;
+                    border-color: #000000 !important;
                 }
             </style>
         @show
