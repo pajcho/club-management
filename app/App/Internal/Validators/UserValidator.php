@@ -1,6 +1,6 @@
 <?php namespace App\Internal\Validators;
 
-use App\Internal\Sanitizers\MemberSanitizer;
+use App\Internal\Sanitizers\UserSanitizer;
 
 class UserValidator extends BaseValidator
 {
@@ -42,6 +42,6 @@ class UserValidator extends BaseValidator
     {
         parent::__construct();
 
-        $this->attachSanitizer(new MemberSanitizer());
+        $this->attachSanitizer(new UserSanitizer());
     }
 }

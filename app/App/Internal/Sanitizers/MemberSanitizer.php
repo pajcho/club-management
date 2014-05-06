@@ -16,9 +16,6 @@ class MemberSanitizer extends BaseSanitizer
         if(isset($data['last_name']))
             $data['last_name'] = ucwords(trim($data['last_name']));
 
-        if(isset($data['active']))
-            $data['active'] = (int)$data['active'];
-
         // Handle date formats
         $dates = array('dob', 'dos', 'doc');
         foreach($dates as $date)

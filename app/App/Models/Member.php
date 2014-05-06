@@ -1,9 +1,22 @@
 <?php namespace App\Models;
 
+use App\Internal\HistorableTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Member extends BaseModel {
+
+    /** History */
+    use HistorableTrait;
+    public function historyTable()
+    {
+        return 'member';
+    }
+
+    public function historyTitle()
+    {
+        return $this->full_name;
+    }
 
     public $timestamps = true;
     

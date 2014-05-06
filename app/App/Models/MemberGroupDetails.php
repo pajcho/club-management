@@ -1,7 +1,27 @@
 <?php namespace App\Models;
 
+use App\Internal\HistorableTrait;
+use Carbon\Carbon;
+
 class MemberGroupDetails extends BaseModel {
-    
+
+    /** History */
+    use HistorableTrait;
+    public function historyTable()
+    {
+        return 'member group details';
+    }
+
+    public function historyTitle()
+    {
+        return sprintf(
+            'for %s for %s, %s',
+            $this->group->name,
+            Carbon::createFromDate($this->year, $this->month)->format('F'),
+            $this->year
+        );
+    }
+
     public $timestamps = true;
     
     protected $table = 'member_group_details';

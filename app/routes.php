@@ -73,6 +73,11 @@ Route::group(array('prefix' => '', 'before' => 'auth'), function()
         Route::post('/', array('as' => 'settings.store', 'uses' => 'App\Controllers\SettingsController@store'));
     });
 
+    Route::group(array('prefix' => 'history'), function()
+    {
+        Route::get('/', array('as' => 'history.index', 'uses' => 'App\Controllers\HistoryController@index'));
+    });
+
     Route::get('/', function()
     {
         Session::reflash();

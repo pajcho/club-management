@@ -1,9 +1,22 @@
 <?php namespace App\Models;
 
+use App\Internal\HistorableTrait;
 use Carbon\Carbon;
 
 class MemberGroup extends BaseModel {
-    
+
+    /** History */
+    use HistorableTrait;
+    public function historyTable()
+    {
+        return 'member group';
+    }
+
+    public function historyTitle()
+    {
+        return $this->name;
+    }
+
     public $timestamps = true;
     
     protected $table = 'member_groups';
