@@ -1,11 +1,24 @@
 <?php
 
+use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Support\Facades\Hash;
 
 class User extends BaseModel implements UserInterface, RemindableInterface {
+
+    /** History */
+    use HistorableTrait;
+    public function historyTable()
+    {
+        return 'user';
+    }
+
+    public function historyTitle()
+    {
+        return $this->full_name;
+    }
 
     public $timestamps = true;
 
