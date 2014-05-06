@@ -23,7 +23,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
                             {{ Former::label('&nbsp;') }}
-                            {{ HTML::decode(Former::default_link('<i class="glyphicon glyphicon-remove"></i>', route('member.index'))->addClass('form-control')) }}
+                            {{ HTML::decode(Former::default_link('<i class="glyphicon glyphicon-remove"></i>', route('history.index'))->addClass('form-control')) }}
                         </div>
                     </div>
                 </div>

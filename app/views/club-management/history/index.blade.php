@@ -36,7 +36,7 @@
                 @else
                     <tr>
                         <td colspan="7" align="center">
-                            There is no history yet
+                            There is no history for now
                         </td>
                     </tr>
                 @endif
