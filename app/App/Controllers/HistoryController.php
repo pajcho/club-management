@@ -32,7 +32,7 @@ class HistoryController extends AdminController {
         $history = $this->history->filter($input);
 
         // Generate filters title
-        $filters_title = '';
+        $filters_title = 'Filter history';
         if(Input::get('message') ?: false) $filters_title = Input::get('message');
 
         return View::make(Theme::view('history.index'))->with(compact('history', 'filters_title'));
