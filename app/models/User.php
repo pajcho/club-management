@@ -26,7 +26,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     protected $softDelete = false;
 
     protected $hidden = array('password');
-    protected $fillable = array('first_name', 'last_name', 'username', 'email', 'password', 'type');
+    protected $fillable = array('first_name', 'last_name', 'username', 'email', 'phone', 'address', 'notes', 'password', 'type');
     protected $appends = array('full_name', 'group_ids');
 
     public function groups()
