@@ -1,7 +1,6 @@
-<?php
+<?php namespace App\Models;
 
 use App\Internal\HistorableTrait;
-use App\Models\BaseModel;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Support\Facades\Hash;
@@ -17,12 +16,12 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
     public function historyTitle()
     {
-        return $this->full_name;
+        return '<strong>' . link_to_route('user.show', $this->full_name, $this->id) . '</strong>';
     }
 
     public $timestamps = true;
 
-    protected $table = 'users123';
+    protected $table = 'users';
     protected $softDelete = false;
 
     protected $hidden = array('password');
