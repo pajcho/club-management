@@ -15,10 +15,9 @@ class MemberGroupDetails extends BaseModel {
     public function historyTitle()
     {
         return sprintf(
-            'for %s for %s, %s',
-            $this->group->name,
-            Carbon::createFromDate($this->year, $this->month)->format('F'),
-            $this->year
+            'for %s for %s',
+            '<strong>' . link_to_route('group.show', $this->group->name, $this->group->id) . '</strong>',
+            '<strong>' . link_to_route('group.details.show', Carbon::createFromDate($this->year, $this->month)->format('F') . ', ' . $this->year, array($this->group->id, $this->year, $this->month)) . '</strong>'
         );
     }
 
