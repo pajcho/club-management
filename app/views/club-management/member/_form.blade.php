@@ -38,6 +38,7 @@
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
                 ->help('Example: 21.10.2014')
+                ->autocomplete('off')
         }}
     </div>
     <div class="col-md-4">
@@ -48,6 +49,7 @@
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
                 ->help('Example: 12.10.2014')
+                ->autocomplete('off')
         }}
     </div>
     <div class="col-md-4">
@@ -58,6 +60,7 @@
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
                 ->help('Example: 21.10.2014')
+                ->autocomplete('off')
         }}
     </div>
 </div>
