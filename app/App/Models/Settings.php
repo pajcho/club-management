@@ -13,7 +13,7 @@ class Settings extends BaseModel {
 
     public function historyTitle()
     {
-        return $this->title;
+        return '<strong>' . link_to_route('settings.index', $this->title) . '</strong>';
     }
 
     public $timestamps = false;

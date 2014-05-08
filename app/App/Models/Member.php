@@ -15,7 +15,7 @@ class Member extends BaseModel {
 
     public function historyTitle()
     {
-        return $this->full_name;
+        return '<strong>' . link_to_route('member.show', $this->full_name, $this->id) . '</strong>';
     }
 
     public $timestamps = true;

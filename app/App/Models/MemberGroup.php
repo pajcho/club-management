@@ -14,7 +14,7 @@ class MemberGroup extends BaseModel {
 
     public function historyTitle()
     {
-        return $this->name;
+        return '<strong>' . link_to_route('group.show', $this->name, $this->id) . '</strong>';
     }
 
     public $timestamps = true;
