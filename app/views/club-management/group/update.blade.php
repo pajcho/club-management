@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-    Member Groups :: Create Memeber Group ::
+    Member Groups :: Update Memeber Group ::
     @parent
 @stop
 

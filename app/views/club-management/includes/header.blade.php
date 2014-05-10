@@ -20,6 +20,11 @@
                     <ul class="dropdown-menu">
                         <li>{{ HTML::decode(link_to_route('member.index', 'Members')) }}</li>
                         <li>{{ HTML::decode(link_to_route('member.create', 'Create Member')) }}</li>
+                        <li class="nav-divider"></li>
+                        <li{{ ($activeMenu == 'results' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('result.index', 'Results')) }}</li>
+                        <li>{{ HTML::decode(link_to_route('result.create', 'Add New Result')) }}</li>
+                        <li{{ ($activeMenu == 'result.categories' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('result.category.index', 'Result Categories')) }}</li>
+                        <li>{{ HTML::decode(link_to_route('result.category.create', 'Create Result Category')) }}</li>
                     </ul>
                 </li>
 

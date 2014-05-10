@@ -2,25 +2,25 @@
 
 {{-- Page title --}}
 @section('title')
-    Members :: Update Memeber ::
+    Results :: Create Memeber ::
     @parent
 @stop
 
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Members <small>{{ $member->full_name }}</small></h1>
+    <h1 class="page-header">Results <small>{{ $result->member->full_name }}</small></h1>
 
-    {{ Former::open()->method('PUT')->action(route('member.update', $member->id)) }}
+    {{ Former::open()->method('PUT')->action(route('result.update', $result->id)) }}
 
-        {{ Former::populate($member) }}
+        {{ Former::populate($result) }}
 
-        @include(theme_view('member/_form'))
+        @include(theme_view('result/_form'))
     
         <div class="well">
             {{
                 Former::actions(
-                    Former::link('Cancel', route('member.index')),
+                    Former::link('Cancel', route('result.index')),
                     Former::default_reset('Reset'),
                     Former::success_submit('Update')
                 )
