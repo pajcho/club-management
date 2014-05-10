@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-    Users :: Create User ::
+    Users :: Update User ::
     @parent
 @stop
 

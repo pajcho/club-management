@@ -152,4 +152,12 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             $member->{$type . 'History'}()->save($history);
         }
     }
+
+    /**
+     * Get all users as array to use for select box
+     */
+    public function getForSelect()
+    {
+        return $this->all()->lists('full_name', 'id');
+    }
 }

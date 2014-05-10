@@ -26,10 +26,8 @@ class HistoryController extends AdminController {
      */
 	public function index()
 	{
-        $input = Input::get();
-
         // Get all history
-        $history = $this->history->filter($input);
+        $history = $this->history->filter(Input::get());
 
         // Generate filters title
         $filters_title = 'Filter history';

@@ -122,13 +122,14 @@ trait HistorableTrait {
     private function getMessage($actionString)
     {
         $user = $this->getUser();
+        $title = $actionString == 'deleted' ? strip_tags($this->historyTitle(), '<strong>') : $this->historyTitle();
 
         return sprintf(
             '%s %s %s %s',
             $user ? $user->full_name : 'Anonymous',
             $actionString,
             $this->historyTable(),
-            $this->historyTitle()
+            $title
         );
     }
 

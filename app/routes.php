@@ -40,6 +40,28 @@ Route::group(array('prefix' => '', 'before' => 'auth'), function()
         Route::delete('{user}', array('as' => 'user.destroy', 'uses' => 'App\Controllers\UserController@destroy'));
     });
 
+    Route::group(array('prefix' => 'result'), function()
+    {
+        Route::group(array('prefix' => 'category'), function()
+        {
+            Route::get('/', array('as' => 'result.category.index', 'uses' => 'App\Controllers\ResultCategoryController@index'));
+            Route::get('create', array('as' => 'result.category.create', 'uses' => 'App\Controllers\ResultCategoryController@create'));
+            Route::post('/', array('as' => 'result.category.store', 'uses' => 'App\Controllers\ResultCategoryController@store'));
+            Route::get('{category}', array('as' => 'result.category.show', 'uses' => 'App\Controllers\ResultCategoryController@show'));
+            Route::get('{category}/edit', array('as' => 'result.category.edit', 'uses' => 'App\Controllers\ResultCategoryController@edit'));
+            Route::put('{category}', array('as' => 'result.category.update', 'uses' => 'App\Controllers\ResultCategoryController@update'));
+            Route::delete('{category}', array('as' => 'result.category.destroy', 'uses' => 'App\Controllers\ResultCategoryController@destroy'));
+        });
+
+        Route::get('/', array('as' => 'result.index', 'uses' => 'App\Controllers\ResultController@index'));
+        Route::get('create', array('as' => 'result.create', 'uses' => 'App\Controllers\ResultController@create'));
+        Route::post('/', array('as' => 'result.store', 'uses' => 'App\Controllers\ResultController@store'));
+        Route::get('{result}', array('as' => 'result.show', 'uses' => 'App\Controllers\ResultController@show'));
+        Route::get('{result}/edit', array('as' => 'result.edit', 'uses' => 'App\Controllers\ResultController@edit'));
+        Route::put('{result}', array('as' => 'result.update', 'uses' => 'App\Controllers\ResultController@update'));
+        Route::delete('{result}', array('as' => 'result.destroy', 'uses' => 'App\Controllers\ResultController@destroy'));
+    });
+
     Route::group(array('prefix' => 'group'), function()
     {
         Route::get('/', array('as' => 'group.index', 'uses' => 'App\Controllers\MemberGroupController@index'));
