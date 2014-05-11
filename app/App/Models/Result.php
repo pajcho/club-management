@@ -21,7 +21,7 @@ class Result extends BaseModel {
     protected $table = 'results';
     protected $softDelete = false;
     
-    protected $fillable = array('member_id', 'category_id', 'year', 'place', 'type', 'notes');
+    protected $fillable = array('member_id', 'category_id', 'subcategory', 'year', 'place', 'type', 'notes');
 
     public function member()
     {

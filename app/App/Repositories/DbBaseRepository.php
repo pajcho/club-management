@@ -63,7 +63,13 @@ abstract class DbBaseRepository extends BaseRepository {
 	{
         $this->preReturnFilters();
 
-		return $this->model->find($id)->delete();
+        // Get the item
+        $item = $this->model->find($id);
+
+        // Call pre delete actions
+        $this->preDelete($item);
+
+		return $item->delete();
 	}
 
     public function filter(array $params, $paginate = true)
@@ -102,5 +108,10 @@ abstract class DbBaseRepository extends BaseRepository {
     public function preReturnFilters()
     {
         // Define model filters here to call before queriing
+    }
+
+    public function preDelete($item)
+    {
+        // Define actions to be called pre deleting
     }
 }

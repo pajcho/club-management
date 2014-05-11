@@ -72,6 +72,7 @@ $(document).ready(function(){
     });
     $(document).on('pjax:complete', function() {
         NProgress.done();
+        applicationInit();
     });
     // disable the fallback timeout behavior if a spinner is being shown
     $(document).on('pjax:timeout', function(event) {
