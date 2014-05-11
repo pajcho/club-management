@@ -30,6 +30,12 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         }
     }
 
+    public function preDelete($item)
+    {
+        // Delete member results
+        if($item->results->count()) $item->results()->delete();
+    }
+
     public function filter(array $params = array(), $paginate = true)
     {
         // Default filter by every database column

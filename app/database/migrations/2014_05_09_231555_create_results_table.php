@@ -17,6 +17,7 @@ class CreateResultsTable extends Migration {
 			$table->increments('id');
 			$table->integer('member_id');
 			$table->integer('category_id');
+			$table->string('subcategory');
 			$table->integer('year');
 			$table->integer('place');
 			$table->string('type');

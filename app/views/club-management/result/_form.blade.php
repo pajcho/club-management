@@ -1,9 +1,12 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         {{ Former::select('member_id')->label('Member')->options($members)->required() }}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         {{ Former::select('category_id')->label('Category')->options($categories)->required() }}
+    </div>
+    <div class="col-md-4">
+        {{ Former::select('subcategory')->label('Subcategory')->options($subcategories)->required() }}
     </div>
 </div>
 

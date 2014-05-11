@@ -6,6 +6,7 @@ use App\Repositories\ResultRepositoryInterface;
 use App\Repositories\ResultCategoryRepositoryInterface;
 use App\Service\Theme;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -46,6 +47,7 @@ class ResultController extends AdminController {
         // Generate filters title
         $filters_title = '';
         if(isset($categories[Input::get('category_id') ?: false])) $filters_title = $categories[Input::get('category_id')] . ' / ' . $filters_title;
+        if(isset($subcategories[Input::get('subcategory') ?: false])) $filters_title = $subcategories[Input::get('subcategory')] . ' / ' . $filters_title;
         if(isset($years[Input::get('year') ?: false])) $filters_title = $years[Input::get('year')] . ' / ' . $filters_title;
         if(isset($types[Input::get('type') ?: false])) $filters_title = $types[Input::get('type')] . ' / ' . $filters_title;
         if(Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
@@ -54,7 +56,7 @@ class ResultController extends AdminController {
         $filters_title = trim($filters_title, ' / ');
         $filters_title = $filters_title ?: 'Filter results';
 
-        return View::make(Theme::view('result.index'))->with(compact('results', 'filters_title', 'categories', 'years', 'types'));
+        return View::make(Theme::view('result.index'))->with(compact('results', 'filters_title', 'categories', 'subcategories', 'years', 'types'));
     }
 
     /**
@@ -67,30 +69,7 @@ class ResultController extends AdminController {
         // Get variables for selectbox
         extract($this->generateVariables());
 
-        return View::make(Theme::view('result.create'))->with(compact('categories', 'members', 'years', 'places', 'types'));
-    }
-
-    protected function generateVariables()
-    {
-        $data['categories'] = $this->categories->getForSelect(true);
-        $data['members'] = $this->members->getForSelect();
-
-        // Generate years
-        $years = range(date('Y'), 2000);
-        $data['years'] = array_combine($years, $years);
-        $data['years'] = array('' => 'Year') + $data['years'];
-
-        // Generate places
-        $places = range(1, 50);
-        $data['places'] = array_combine($places, $places);
-        $data['places'] = array('' => 'Place') + $data['places'];
-
-        // Generate types
-        $types = array('pojedinacno', 'grupno', 'po spravi');
-        $data['types'] = array_combine($types, $types);
-        $data['types'] = array('' => 'Type') + $data['types'];
-
-        return $data;
+        return View::make(Theme::view('result.create'))->with(compact('categories', 'subcategories', 'members', 'years', 'places', 'types'));
     }
 
     /**
@@ -136,7 +115,7 @@ class ResultController extends AdminController {
         // Get variables for selectbox
         extract($this->generateVariables());
 
-        return View::make(Theme::view('result.update'))->with(compact('result', 'categories', 'members', 'years', 'places', 'types'));
+        return View::make(Theme::view('result.update'))->with(compact('result', 'categories', 'subcategories', 'members', 'years', 'places', 'types'));
     }
 
     /**
@@ -183,6 +162,34 @@ class ResultController extends AdminController {
         $this->results->delete($id);
 
         return Redirect::back()->withInput()->withSuccess('Result deleted!');
+    }
+
+    protected function generateVariables()
+    {
+        $data['categories'] = $this->categories->getForSelect(true);
+        $data['members'] = $this->members->getForSelect();
+
+        // Generate years
+        $years = range(date('Y'), 2000);
+        $data['years'] = array_combine($years, $years);
+        $data['years'] = array('' => 'Year') + $data['years'];
+
+        // Generate places
+        $places = range(1, 50);
+        $data['places'] = array_combine($places, $places);
+        $data['places'] = array('' => 'Place') + $data['places'];
+
+        // Generate types
+        $types = Config::get('club-management.result.types', array());
+        $data['types'] = array_combine($types, $types);
+        $data['types'] = array('' => 'Type') + $data['types'];
+
+        // Generate subcategories
+        $subcategories = Config::get('club-management.result.subcategories', array());
+        $data['subcategories'] = array_combine($subcategories, $subcategories);
+        $data['subcategories'] = array('' => 'Subcategory') + $data['subcategories'];
+
+        return $data;
     }
 
 }

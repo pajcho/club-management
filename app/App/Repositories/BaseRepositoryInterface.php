@@ -19,4 +19,8 @@ interface BaseRepositoryInterface
     function filter(array $params, $paginate = true);
 
     function filterWith(array $with, array $params, $paginate = true);
+
+    function preReturnFilters();
+
+    function preDelete($item);
 }

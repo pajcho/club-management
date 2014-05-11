@@ -42,6 +42,11 @@ class Member extends BaseModel {
         return $this->hasMany('App\Models\DateHistory')->where('type', 'freeOfCharge');
     }
 
+    public function results()
+    {
+        return $this->hasMany('App\Models\Result');
+    }
+
     public function trainers()
     {
         return $this->group->trainers();

@@ -16,6 +16,7 @@
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('type')->label('Type')->options($types) }}</div>
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('year')->label('Year')->options($years) }}</div>
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('category_id')->label('Category')->options($categories) }}</div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('subcategory')->label('Subcategory')->options($subcategories) }}</div>
                 <div class="col-lg-2 col-md-8">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
