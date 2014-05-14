@@ -1,6 +1,6 @@
 <?php namespace App\Service\Mailers;
 
-use App\Models\User;
+use App\Modules\Users\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Config;
