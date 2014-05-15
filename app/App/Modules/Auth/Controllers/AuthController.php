@@ -1,5 +1,6 @@
-<?php namespace App\Controllers;
+<?php namespace App\Modules\Auth\Controllers;
 
+use App\Controllers\BaseController;
 use App\Service\Theme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
