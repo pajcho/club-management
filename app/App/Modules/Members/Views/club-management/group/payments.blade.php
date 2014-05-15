@@ -53,28 +53,33 @@
 
                         @foreach($months as $tmp_month => $tmp_year)
 
-                            {{-- Mark month of subscription with border so we know when did member subscribed --}}
-                            <td {{ ($tmp_year == $member->dos->year && $tmp_month == $member->dos->month) ? 'style="border-left: solid 2px black !important;"' : '' }}>
+                            {{-- We don't want anything displayed if user was not even subscribed --}}
+                            @if(Carbon\Carbon::createFromDate($tmp_year, $tmp_month)->endOfMonth()->lt($member->dos))
+                                <td></td>
+                            @else
+                                {{-- Mark month of subscription with border so we know when did member subscribed --}}
+                                <td {{ ($tmp_year == $member->dos->year && $tmp_month == $member->dos->month) ? 'style="border-left: solid 2px black !important;"' : '' }}>
 
-                                {{-- Write day of subscription in top left corner of field --}}
-                                @if($tmp_year == $member->dos->year && $tmp_month == $member->dos->month)
-                                    <div style="position: relative;">
-                                        <span style="font-size: 7px; position: absolute; top: -4px; left: -3px;">{{ $member->dos->day }}</span>
-                                    </div>
-                                @endif
-
-                                @if($member->activeOnDate($tmp_year, $tmp_month, $member->active))
-                                    @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month, $member->freeOfCharge))
-                                        {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
-                                    @else
-                                        <!-- member is free of charge this month -->
-                                        <i class="glyphicon glyphicon-star small"></i>
+                                    {{-- Write day of subscription in top left corner of field --}}
+                                    @if($tmp_year == $member->dos->year && $tmp_month == $member->dos->month)
+                                        <div style="position: relative;">
+                                            <span style="font-size: 7px; position: absolute; top: -4px; left: -3px;">{{ $member->dos->day }}</span>
+                                        </div>
                                     @endif
-                                @else
-                                    <!-- member is inactive this month -->
-                                    /
-                                @endif
-                            </td>
+
+                                    @if($member->activeOnDate($tmp_year, $tmp_month, $member->active))
+                                        @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month, $member->freeOfCharge))
+                                            {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
+                                        @else
+                                            <!-- member is free of charge this month -->
+                                            <i class="glyphicon glyphicon-star small"></i>
+                                        @endif
+                                    @else
+                                        <!-- member is inactive this month -->
+                                        /
+                                    @endif
+                                </td>
+                            @endif
 
                         @endforeach
 
