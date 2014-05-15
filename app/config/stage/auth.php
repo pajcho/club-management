@@ -13,6 +13,6 @@ return array(
 	|
 	*/
 
-    'model' => 'App\Models\User',
+    'model' => 'App\Modules\Users\Models\User',
 
 );

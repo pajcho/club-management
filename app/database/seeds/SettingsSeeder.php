@@ -38,6 +38,20 @@ class SettingsSeeder extends Seeder {
             'description' => '* This will change layout on this page',
         ));
 
+        array_push($settings, array(
+            'title' => 'Month in year that marks start of season',
+            'key' => 'season_starts',
+            'value' => 9,
+            'description' => '* This will be used when generating documents',
+        ));
+
+        array_push($settings, array(
+            'title' => 'Month in year that marks end of season',
+            'key' => 'season_ends',
+            'value' => 6,
+            'description' => '* This will be used when generating documents',
+        ));
+
 		// Delete all users
 		DB::table('settings')->truncate();
 
