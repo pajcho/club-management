@@ -51,10 +51,11 @@
 
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-                    <!-- Notifications -->
-                    @include(theme_view('includes/notifications'))
-
                     <div id="pjax-container">
+
+                        <!-- Notifications -->
+                        @include(theme_view('includes/notifications', array('alertClass' => 'col-md-5 col-lg-4')))
+
                         <!-- Content -->
                         @yield('content')
                     </div>

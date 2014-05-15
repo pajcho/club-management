@@ -17,10 +17,10 @@
                 <th colspan="{{ 3 + count($months) }}">
                     {{ Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments' }}
                     (
-                    {{ Lang::has('dates.month.' . $first_month) ? substr(Lang::get('dates.month.' . $first_month), 0, 3) : Carbon\Carbon::createFromDate($year, $first_month, 1)->format('M') }}
+                    {{ Lang::has('dates.month.' . $firstMonth) ? substr(Lang::get('dates.month.' . $firstMonth), 0, 3) : Carbon\Carbon::createFromDate($year, $firstMonth, 1)->format('M') }}
                     {{ head($months) }}
                     -
-                    {{ Lang::has('dates.month.' . $last_month) ? substr(Lang::get('dates.month.' . $last_month), 0, 3) : Carbon\Carbon::createFromDate($year, $last_month, 1)->format('M') }}
+                    {{ Lang::has('dates.month.' . $lastMonth) ? substr(Lang::get('dates.month.' . $lastMonth), 0, 3) : Carbon\Carbon::createFromDate($year, $lastMonth, 1)->format('M') }}
                     {{ last($months) }}
                     )
                 </th>
@@ -63,16 +63,16 @@
                                     </div>
                                 @endif
 
-                                @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month, $member->freeOfCharge))
-                                    @if($member->activeOnDate($tmp_year, $tmp_month, $member->active))
+                                @if($member->activeOnDate($tmp_year, $tmp_month, $member->active))
+                                    @if(!$member->freeOfChargeOnDate($tmp_year, $tmp_month, $member->freeOfCharge))
                                         {{ $memberGroup->details($tmp_year, $tmp_month) ? ($memberGroup->details($tmp_year, $tmp_month)->details('payment.' . $member->id) ? '+' : '&nbsp;') : '&nbsp;' }}
                                     @else
-                                        <!-- member is inactive this month -->
-                                        /
+                                        <!-- member is free of charge this month -->
+                                        <i class="glyphicon glyphicon-star small"></i>
                                     @endif
                                 @else
-                                    <!-- member is free of charge this month -->
-                                    <i class="glyphicon glyphicon-star"></i>
+                                    <!-- member is inactive this month -->
+                                    /
                                 @endif
                             </td>
 

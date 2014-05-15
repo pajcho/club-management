@@ -67,7 +67,7 @@
                                             {{ Form::checkbox('payment[' . $member->id . ']', 1, $memberGroup->details($year, $month) ? $memberGroup->details($year, $month)->details('payment.' . $member->id) : false, array('id' => 'payment_' . $member->id)) }}
                                         </label>
                                     @else
-                                        <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;" title="Free of charge"><i class="glyphicon glyphicon-star"></i></label>
+                                        <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;" title="Free of charge"><i class="glyphicon glyphicon-star small"></i></label>
                                     @endif
                                 </td>
                                 @foreach($memberGroup->trainingDays($year, $month) as $day)

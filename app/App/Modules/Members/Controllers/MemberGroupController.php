@@ -7,6 +7,7 @@ use App\Modules\Users\Repositories\UserRepositoryInterface;
 use App\Service\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
@@ -159,7 +160,7 @@ class MemberGroupController extends AdminController {
     public function attendance($id, $year, $month)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
-        $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
+        $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
         $memberGroup = $this->memberGroups->find($id);
 
         // Get all active group members
@@ -191,46 +192,66 @@ class MemberGroupController extends AdminController {
     public function payments($id, $year, $month)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
-        $membersRepo = App::make('App\Repositories\MemberRepositoryInterface');
+        $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
         $memberGroup = $this->memberGroups->find($id);
 
-        $first_month = 9;
-        $last_month = 6;
+        $firstMonth = (int) Config::get('settings.season_starts', 9);
+        $lastMonth = (int) Config::get('settings.season_ends', 6);
 
         // Generate date limit
-        $subscribed_before = Carbon::createFromDate($year, $last_month);
-        if($month > $last_month) $subscribed_before = $subscribed_before->addYear();
+        $subscribedBefore = Carbon::createFromDate($year, $lastMonth);
+        if($month > $lastMonth) $subscribedBefore = $subscribedBefore->addYear();
 
         // Get all active group members
         $members = $membersRepo->filter(array(
             'group_id'          => $memberGroup->id,
-            'subscribed'        => array('<=', $subscribed_before->endOfMonth()->toDateTimeString()),
+            'subscribed'        => array('<=', $subscribedBefore->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
 
-        // Get only members active in this month
-//        $members = $members->filter(function($member) use ($year, $month){
-//            return $member->activeOnDate($year, $month);
-//        })->values();
-
         // Define what months numbers to show in this list
-        $months = array(
-            9 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
-            10 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
-            11 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
-            12 => Carbon::createFromDate($subscribed_before->year)->subYear()->year,
-            1 => Carbon::createFromDate($subscribed_before->year)->year,
-            2 => Carbon::createFromDate($subscribed_before->year)->year,
-            3 => Carbon::createFromDate($subscribed_before->year)->year,
-            4 => Carbon::createFromDate($subscribed_before->year)->year,
-            5 => Carbon::createFromDate($subscribed_before->year)->year,
-            6 => Carbon::createFromDate($subscribed_before->year)->year,
-        );
+        $months = $this->generateMonthsRange($firstMonth, $lastMonth, $subscribedBefore->year);
 
-        $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'first_month', 'last_month'))->render();
+        // Get only members active in this season
+        $members = $members->filter(function($member) use ($months){
+            return $member->activeInRange(
+                head($months), head(array_keys($months)),
+                last($months), last(array_keys($months)),
+                $member->active
+            );
+        })->values();
+
+        $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'firstMonth', 'lastMonth'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
 
         return $pdf->download($view, $documentName);
+    }
+
+    protected function generateMonthsRange($firstMonth, $lastMonth, $year)
+    {
+        // Make sure we have numeric values for everything
+        $firstMonth = (int) $firstMonth;
+        $lastMonth = (int) $lastMonth;
+        $year = (int) $year;
+
+        // Make sure we don't have same values
+        // If that happens we will make lastMonth to be smaller than firstMonth
+        if($firstMonth == $lastMonth) $lastMonth = $lastMonth - 1;
+
+        if($firstMonth < $lastMonth)
+        {
+            // Results are in same year
+            foreach(range($firstMonth, $lastMonth) as $month) $return[$month] = $year;
+        }
+        else
+        {
+            // Results are in two different years
+            // Results are in same year
+            foreach(range($firstMonth, 12) as $month) $return[$month] = $year-1;
+            foreach(range(1, $lastMonth) as $month) $return[$month] = $year;
+        }
+
+        return $return;
     }
 
     /**

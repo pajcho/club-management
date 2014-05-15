@@ -83,12 +83,54 @@ class Member extends BaseModel {
     public function activeOnDate($year, $month, $default = true)
     {
         $item = $this->activeHistory()->orderBy('date', 'desc')
-            ->where(DB::raw('YEAR(date)'), $year)
-            ->where(DB::raw('MONTH(date)'), '<=', $month)->get()->first();
+            ->whereYear('date', '=', $year)
+            ->whereMonth('date', '<=', $month)->get()->first();
 
         if($item)
         {
             return $item->value ? true : false;
+        }
+
+        return $default;
+    }
+
+    /**
+     * Check if user was active in given range
+     *
+     * @param $startYear
+     * @param $startMonth
+     * @param $endYear
+     * @param $endMonth
+     * @param $default = This value will be returned if no results are found for desired date
+     * @return bool
+     */
+    public function activeInRange($startYear, $startMonth, $endYear, $endMonth, $default = true)
+    {
+        $start = Carbon::createFromDate($startYear, $startMonth)->startOfMonth()->startOfDay()->toDateTimeString();
+        $end = Carbon::createFromDate($endYear, $endMonth)->endOfMonth()->endOfDay()->toDateTimeString();
+
+        // @TODO Fix this to use laravel's quesry builder instead of raw query
+        $query = "select dh.id, dh.member_id, dh.date, dh.value, dh.type from `date_history` dh
+            join (
+                select id, member_id, MAX(date) max_date, value, type from `date_history`
+                where `member_id` = {$this->id} and `type` = 'active'
+                and date BETWEEN '$start' and '$end'
+                group by YEAR(date), MONTH(date)
+            ) sub_dh ON (dh.date = sub_dh.max_date)
+            where dh.`member_id` = {$this->id} and dh.`type` = 'active'
+            and dh.date BETWEEN '$start' and '$end'
+            order by dh.`date` desc";
+
+        $result = DB::select($query);
+
+        if($result)
+        {
+            $result = array_where($result, function($key, $value)
+            {
+                return $value->value == 1;
+            });
+
+            return $result ? true : false;
         }
 
         return $default;
@@ -105,8 +147,8 @@ class Member extends BaseModel {
     public function freeOfChargeOnDate($year, $month, $default = false)
     {
         $item = $this->freeOfChargeHistory()->orderBy('date', 'desc')
-            ->where(DB::raw('YEAR(date)'), $year)
-            ->where(DB::raw('MONTH(date)'), '<=', $month)->get()->first();
+            ->whereYear('date', '=', $year)
+            ->whereMonth('date', '<=', $month)->get()->first();
 
         if($item)
         {
