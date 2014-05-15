@@ -29,7 +29,7 @@ trait HistorableTrait {
 
     public function history()
     {
-        return $this->morphMany('\App\Models\History', 'historable');
+        return $this->morphMany('\App\Modules\History\Models\History', 'historable');
     }
 
     /**
@@ -69,7 +69,7 @@ trait HistorableTrait {
 
     private function createHistory($message)
     {
-        $historyRepo = App::make('App\Repositories\HistoryRepositoryInterface');
+        $historyRepo = App::make('App\Modules\History\Repositories\HistoryRepositoryInterface');
 
         $historyRepo->create(array(
             'historable_type' => get_class($this),

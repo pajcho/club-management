@@ -1,0 +1,10 @@
+Todo:
+====================================
+1.  On payment list show only members that have at least one active month in period.
+    Basically remove members that don't have active month in period
+
+Charts:
+====================================
+1.  New members per year / month
+2.  Members that are still active in new year
+3.  Monthly new inactive members

@@ -81,3 +81,21 @@ body {
         padding-left: 40px;
     }
 }
+
+/* Make table row hover color more visible */
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+    background-color: #d6d6d6;
+}
+
+/* Reposition alert messages while logged in */
+.main .alert-message {
+    display: block;
+    position: fixed;
+    top: 57px;
+    right: 38px;
+    z-index: 100;
+
+    h4 {
+        display: inline;
+    }
+}
