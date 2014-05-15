@@ -14,7 +14,7 @@ class UserValidator extends BaseValidator
 
         'create' => array(
             'username' => array('required', 'unique:users,username'),
-            'email' => array('required', 'unique:users,email'),
+            'email' => array('unique:users,email'),
             'first_name' => array('required'),
             'last_name' => array('required'),
             'password' => array('required'),
@@ -25,7 +25,7 @@ class UserValidator extends BaseValidator
 
         'update' => array(
             'username' => array('required', 'unique:users,username,%s'),
-            'email' => array('required', 'unique:users,email,%s'),
+            'email' => array('unique:users,email,%s'),
             'first_name' => array('required'),
             'last_name' => array('required'),
             'password_confirm' => array('same:password'),

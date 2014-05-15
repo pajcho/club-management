@@ -16,10 +16,10 @@
         <h4 class="page-header alert alert-info">Login Details</h4>
         <div class="row">
             <div class="col-md-4">
-                {{ Former::text('username')->label('username')->required()->help('* Used for logging in. Must me unique.') }}
+                {{ Former::text('username')->label('username')->required()->help('* Used for logging in. Must be unique.') }}
             </div>
             <div class="col-md-4">
-                {{ Former::text('email')->label('Email')->required()->help('* Must be unique.') }}
+                {{ Former::text('email')->label('Email')->help('* Must be unique.') }}
             </div>
             <div class="col-md-4">
                 {{ Former::select('type')->label('Type')->options($types)->required() }}
