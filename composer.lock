@@ -368,16 +368,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.28",
+            "version": "v4.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4"
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
                 "shasum": ""
             },
             "require": {
@@ -404,7 +404,7 @@
                 "symfony/http-kernel": "2.4.*",
                 "symfony/process": "2.4.*",
                 "symfony/routing": "2.4.*",
-                "symfony/security": "2.4.*",
+                "symfony/security-core": "2.4.*",
                 "symfony/translation": "2.4.*"
             },
             "replace": {
@@ -480,7 +480,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-04-17 17:16:42"
+            "time": "2014-05-20 13:22:03"
         },
         {
             "name": "monolog/monolog",
@@ -552,16 +552,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "21c4cb4301969c7d85aee8a62eefdfa881413af0"
+                "reference": "b94de7192b01d0e80794eae984dcc773220ab0dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/21c4cb4301969c7d85aee8a62eefdfa881413af0",
-                "reference": "21c4cb4301969c7d85aee8a62eefdfa881413af0",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b94de7192b01d0e80794eae984dcc773220ab0dc",
+                "reference": "b94de7192b01d0e80794eae984dcc773220ab0dc",
                 "shasum": ""
             },
             "require": {
@@ -594,7 +594,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2014-01-07 05:10:44"
+            "time": "2014-05-13 02:29:30"
         },
         {
             "name": "nikic/php-parser",
@@ -642,16 +642,16 @@
         },
         {
             "name": "patchwork/utf8",
-            "version": "v1.1.21",
+            "version": "v1.1.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2"
+                "reference": "c1edbc82aed49ff2bdef0a0f659bf69e3f7b14cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/f45ba8bc7962b7356847724989a6949b68d975a2",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/c1edbc82aed49ff2bdef0a0f659bf69e3f7b14cc",
+                "reference": "c1edbc82aed49ff2bdef0a0f659bf69e3f7b14cc",
                 "shasum": ""
             },
             "require": {
@@ -689,7 +689,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-03-26 10:52:02"
+            "time": "2014-05-22 13:59:09"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -873,16 +873,16 @@
         },
         {
             "name": "stack/builder",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stackphp/builder.git",
-                "reference": "49ab90450d7f959943f3659a4bcb5965530117c2"
+                "reference": "b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stackphp/builder/zipball/49ab90450d7f959943f3659a4bcb5965530117c2",
-                "reference": "49ab90450d7f959943f3659a4bcb5965530117c2",
+                "url": "https://api.github.com/repos/stackphp/builder/zipball/b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7",
+                "reference": "b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7",
                 "shasum": ""
             },
             "require": {
@@ -919,29 +919,32 @@
             "keywords": [
                 "stack"
             ],
-            "time": "2013-10-25 14:04:45"
+            "time": "2014-01-28 19:42:24"
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.1.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "748c01c1144713ac0118396935d10b6ceec91b68"
+                "reference": "043e336b871f17a117f76ef8e190eddfc04c8d48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/748c01c1144713ac0118396935d10b6ceec91b68",
-                "reference": "748c01c1144713ac0118396935d10b6ceec91b68",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/043e336b871f17a117f76ef8e190eddfc04c8d48",
+                "reference": "043e336b871f17a117f76ef8e190eddfc04c8d48",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1-dev"
+                    "dev-master": "5.2-dev"
                 }
             },
             "autoload": {
@@ -970,7 +973,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-03-18 09:03:27"
+            "time": "2014-05-08 08:11:19"
         },
         {
             "name": "symfony/browser-kit",

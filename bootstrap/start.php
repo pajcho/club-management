@@ -27,6 +27,7 @@ $app = new Illuminate\Foundation\Application;
 $env = $app->detectEnvironment(array(
 
 	'local' => array('club-management'),
+	'homestead' => array('homestead'),
 	'stage' => array('*'),
 
 ));
