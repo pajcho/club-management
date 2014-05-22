@@ -3,6 +3,7 @@
 composer.phar
 .env.local.php
 .env.php
+Envoy.blade.php
 .DS_Store
 Thumbs.db
 
