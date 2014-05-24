@@ -1,7 +1,7 @@
 <?php namespace App\Service\Pdf;
 
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Response;
 use Symfony\Component\Process\Process;
 
 class PhantomPdf {
@@ -31,6 +31,25 @@ class PhantomPdf {
     }
 
     /**
+     * Generate PDF document and return it directly to browser
+     *
+     * @param $html
+     * @param null $fileName
+     * @return Response
+     */
+    public function stream($html, $fileName = null)
+    {
+        $document = $this->generate($html, $fileName);
+
+        $response = Response::make($this->files->get($document), 200);
+        $response->headers->set('Content-Type', 'application/pdf');
+
+        $this->files->delete($document);
+
+        return $response;
+    }
+
+    /**
      * Generate PDF document and return it to browser to download
      *
      * @param $html
@@ -39,16 +58,11 @@ class PhantomPdf {
      */
     public function download($html, $fileName = null)
     {
-        $document = $this->generate($html, $fileName);
+        $response = $this->stream($html, $fileName);
 
-        $response = new Response($this->files->get($document), 200, [
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename="'.($fileName ?: md5($html)).'.pdf'.'"',
-            'Content-Transfer-Encoding' => 'binary',
-            'Content-Type' => 'application/pdf',
-        ]);
-
-        $this->files->delete($document);
+        $response->headers->set('Content-Description', 'File Transfer');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.($fileName ?: md5($html)).'.pdf'.'"');
+        $response->headers->set('Content-Transfer-Encoding', 'binary');
 
         return $response;
     }

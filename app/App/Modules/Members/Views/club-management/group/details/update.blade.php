@@ -17,10 +17,10 @@
 
             <span class="col-md-4">
                 <div class="pull-right">
-                    {{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-print"></i> Payments', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'title' => 'Generate Payments PDF'))) }}
+                    {{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-print"></i> Payments', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Payments PDF'))) }}
 
                     @if($memberGroup->total_monthly_time)
-                        {{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-print"></i> Attendance', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'title' => 'Generate Attendance PDF'))) }}
+                        {{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-print"></i> Attendance', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Attendance PDF'))) }}
                     @endif
                 </div>
             </span>

@@ -43,8 +43,9 @@ class MemberGroupDetailsController extends AdminController {
         $months = $this->getEditableMonths();
 
         $months = Paginator::make(array_slice($months, (Input::get('page', $this->currentPage)-1) * $this->monthsPerPage, $this->monthsPerPage), count($months), $this->monthsPerPage);
+        $today = Carbon::now();
 
-        return View::make(Theme::view('group.details.index'))->with(compact('memberGroup', 'months'));
+        return View::make(Theme::view('group.details.index'))->with(compact('memberGroup', 'months', 'today'));
 	}
 
 	/**
@@ -149,16 +150,16 @@ class MemberGroupDetailsController extends AdminController {
      * @internal param $data
      * @return array
      */
-    private function getEditableMonths($startYear = 2009, $startMonth = 1)
+    private function getEditableMonths($startYear = 2013, $startMonth = 1)
     {
         $months = array();
         $start = Carbon::createFromDate($startYear, $startMonth);
-        $today = Carbon::now();
+        $end = Carbon::now()->addMonth();
 
-        while($today->gte($start))
+        while($end->gte($start))
         {
-            array_push($months, $today->copy());
-            $today->subMonth();
+            array_push($months, $end->copy());
+            $end->subMonth();
         }
 
         return $months;

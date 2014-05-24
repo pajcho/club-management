@@ -5,16 +5,18 @@ Functional
 ------------------------------------
 - [x] On payment list show only members that have at least one active month in period.
     Basically remove members that don't have active month in period
-- [ ] Show one month in future on payments and attendance page
+- [x] Show one month in future on payments and attendance page
+- [x] Add option to display PDF documents instead of only download
 - [ ] Find a better way to save payments and attendance data in database
     (currently it's serialized string)
 - [ ] Allow trainers to change their profile details (but not type, only admin can do that)
+- [ ] Migrate to postgres SQL at some time
 
 Visual
 ------------------------------------
-- [ ] Add plugin for nicer tooltips
+- [x] Add plugin for nicer tooltips
 - [ ] Change confirmation popup to use bootstrap popups rather than alert windows
-- [ ] Mark current month in green on payments and attendance page
+- [x] Mark current month in green on payments and attendance page
 
 Charts
 ------------------------------------
