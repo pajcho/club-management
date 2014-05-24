@@ -31,18 +31,18 @@
         Route::delete('{group}', array('as' => 'group.destroy', 'uses' => $groupController . '@destroy'));
 
         // Group PDF documents
-        Route::get('{group}/attendance/{year}/{month}', array('as' => 'group.attendance', 'uses' => $groupController . '@attendance'))
-            ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
-        Route::get('{group}/payments/{year}/{month}', array('as' => 'group.payments', 'uses' => $groupController . '@payments'))
-            ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
+        Route::get('{group}/attendance/{year}/{month}/{download?}', array('as' => 'group.attendance', 'uses' => $groupController . '@attendance'))
+            ->where(array('year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download'));
+        Route::get('{group}/payments/{year}/{month}/{download?}', array('as' => 'group.payments', 'uses' => $groupController . '@payments'))
+            ->where(array('year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download'));
 
         // Group details (Payments & Attendance)
         Route::group(array('prefix' => '{group}/details'), function() use ($groupDetailsController)
         {
             Route::get('/', array('as' => 'group.details.index', 'uses' => $groupDetailsController . '@index'));
             Route::get('{year}/{month}', array('as' => 'group.details.show', 'uses' => $groupDetailsController . '@show'))
-                ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
+                ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
             Route::put('{year}/{month}', array('as' => 'group.details.update', 'uses' => $groupDetailsController . '@update'))
-                ->where(array('year', '[0-9]+', 'month', '[0-9]+'));
+                ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
         });
     });

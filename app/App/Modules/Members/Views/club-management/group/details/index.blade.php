@@ -30,7 +30,7 @@
             <tbody>
                 @if($months->count())
                     @foreach($months as $key => $month)
-                        <tr>
+                        <tr class="{{ $today->year == $month->year && $today->month == $month->month ? 'success bold' : '' }}">
                             <td>{{ $months->getFrom() + $key }}</td>
                             <td>{{ $month->format('Y, F') }}</td>
                             <td class="text-center">{{ $memberGroup->details($month->year, $month->month) ? $memberGroup->details($month->year, $month->month)->payed() : '' }}</td>
@@ -39,13 +39,21 @@
                             </td>
                             <td>
                                 <div class="dropdown">
-                                    <a data-toggle="dropdown" href="#" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-print"></i> Print <span class="caret"></span></a>
+                                    <a data-toggle="dropdown" href="#" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-paperclip"></i> Documents <span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                        <li>{{ HTML::decode(link_to_route('group.payments', 'Payments', array($memberGroup->id, $month->year, $month->month), array('class' => '', 'title' => 'Generate Payments PDF'))) }}</li>
+                                        <li>{{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-print"></i> Payments', array($memberGroup->id, $month->year, $month->month), array('target' => '_blank', 'title' => 'Print Payments PDF', 'data-placement' => 'left'))) }}</li>
 
                                         @if($memberGroup->total_monthly_time)
-                                            <li>{{ HTML::decode(link_to_route('group.attendance', 'Attendance', array($memberGroup->id, $month->year, $month->month), array('class' => '', 'title' => 'Generate Attendance PDF'))) }}</li>
+                                            <li>{{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-print"></i> Attendance', array($memberGroup->id, $month->year, $month->month), array('target' => '_blank', 'title' => 'Print Attendance PDF', 'data-placement' => 'left'))) }}</li>
                                         @endif
+
+                                        <li class="divider"></li>
+                                        <li>{{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-cloud-download"></i> Payments', array($memberGroup->id, $month->year, $month->month, 'download'), array('title' => 'Save Payments PDF', 'data-placement' => 'left'))) }}</li>
+
+                                        @if($memberGroup->total_monthly_time)
+                                            <li>{{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-cloud-download"></i> Attendance', array($memberGroup->id, $month->year, $month->month, 'download'), array('title' => 'Save Attendance PDF', 'data-placement' => 'left'))) }}</li>
+                                        @endif
+
                                     </ul>
                                 </div>
                             </td>

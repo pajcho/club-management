@@ -50,6 +50,12 @@ $(document).ready(function(){
                 });
             });
         }
+
+        // Tooltips
+        $('[title]').tooltip();
+
+        // Confirmation popovers
+        $('[data-toggle="confirmation"]').confirmation();
     }
 
     applicationInit();

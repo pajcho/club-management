@@ -155,9 +155,10 @@ class MemberGroupController extends AdminController {
      * @param  int $id
      * @param $year
      * @param $month
+     * @param $download
      * @return Response
      */
-    public function attendance($id, $year, $month)
+    public function attendance($id, $year, $month, $download)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
         $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
@@ -178,7 +179,7 @@ class MemberGroupController extends AdminController {
         $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members', 'year', 'month'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.attendance.title') ? Lang::get('members::documents.attendance.title') : 'Monthly group attendance list') . ' ' . $year . ' ' . $month);
 
-        return $pdf->download($view, $documentName);
+        return $download ? $pdf->download($view, $documentName) : $pdf->stream($view, $documentName);
     }
 
     /**
@@ -187,9 +188,10 @@ class MemberGroupController extends AdminController {
      * @param  int $id
      * @param $year
      * @param $month
+     * @param bool $download
      * @return Response
      */
-    public function payments($id, $year, $month)
+    public function payments($id, $year, $month, $download = false)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
         $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
@@ -224,7 +226,7 @@ class MemberGroupController extends AdminController {
         $view = View::make(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'firstMonth', 'lastMonth'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
 
-        return $pdf->download($view, $documentName);
+        return $download ? $pdf->download($view, $documentName) : $pdf->stream($view, $documentName);
     }
 
     protected function generateMonthsRange($firstMonth, $lastMonth, $year)
