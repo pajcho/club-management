@@ -1,6 +1,0 @@
-web1:
-  name: gkdif
-  shared_writable_dirs:
-    - app/storage
-  document_root: public
-  php_version: 5.4.14
