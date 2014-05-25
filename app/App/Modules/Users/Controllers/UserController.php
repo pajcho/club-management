@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
 class UserController extends AdminController {
@@ -19,6 +20,8 @@ class UserController extends AdminController {
     public function __construct(UserRepositoryInterface $users, MemberGroupRepositoryInterface $groups)
     {
         parent::__construct();
+
+        $this->filterRequests();
 
         View::share('activeMenu', 'users');
 
@@ -146,6 +149,22 @@ class UserController extends AdminController {
         $this->users->delete($id);
 
         return Redirect::back()->withInput()->withSuccess('User deleted!');
+    }
+
+    /**
+     * Filter user requests, because some actions
+     * are only allowed to admin users
+     */
+    public function filterRequests()
+    {
+        if($userId = Route::input('user'))
+        {
+            // Allow only admin users and owners to edit their profile
+            $this->beforeFilter('isAdminOr:' . $userId, array('only' => array('show', 'edit', 'update')));
+        }
+
+        // Allow only admin users to do requests here
+        $this->beforeFilter('isAdminOr', array('except' => array('show', 'edit', 'update')));
     }
 
 }

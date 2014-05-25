@@ -59,7 +59,10 @@ class DbUserRepository extends DbBaseRepository implements UserRepositoryInterfa
     protected function syncGroups($user, $input)
     {
         // Sync user groups
-        $user->groups()->sync(array_get($input, 'groups', array()));
+        if($groups = array_get($input, 'groups', array()))
+        {
+            $user->groups()->sync($groups);
+        }
     }
 
     /**

@@ -11,8 +11,13 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active">
-                    <a href="" onclick="return false;">Logged in as: {{ $currentUser->full_name }}</a>
+                <li>
+                    {{ HTML::decode(link_to('#', $currentUser->full_name . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                    <ul class="dropdown-menu">
+                        <li>{{ HTML::decode(link_to_route('user.show', '<i class="glyphicon glyphicon-edit"></i> Edit Profile', $currentUser->id)) }}</li>
+                        <li class="nav-divider"></li>
+                        <li>{{ HTML::decode(link_to_route('logout', '<i class="glyphicon glyphicon-off"></i> Logout</span>')) }}</li>
+                    </ul>
                 </li>
 
                 <li{{ ($activeMenu == 'members' ? ' class="active"' : '') }}>
@@ -48,7 +53,6 @@
                     <li title="Settings"{{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('settings.index', '<i class="glyphicon glyphicon-cog"></i> <span class="hidden-sm">Settings</span>')) }}</li>
                     <li title="History"{{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="glyphicon glyphicon-cloud"></i> <span class="hidden-sm">History</span>')) }}</li>
                 @endif
-                <li title="Logout">{{ HTML::decode(link_to_route('logout', '<i class="glyphicon glyphicon-off"></i> <span class="hidden-sm">Logout</span>')) }}</li>
             </ul>
         </div>
     </div>

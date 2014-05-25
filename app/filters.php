@@ -38,6 +38,17 @@ Route::filter('auth', function()
 	if (Auth::guest()) return Redirect::guest(route('login'));
 });
 
+/**
+ * Check if user is either admin or has specified ID
+ */
+Route::filter('isAdminOr', function($route, $request, $value = null)
+{
+	if(!Auth::check() || (Auth::user()->isAdmin() || Auth::user()->id != $value))
+    {
+        return Redirect::to('/')->withError('You don\'t have permission to do this!');
+    }
+});
+
 
 Route::filter('auth.basic', function()
 {
