@@ -9,7 +9,9 @@
                 {{ Former::text('last_name')->label('Last Name')->required() }}
             </div>
             <div class="col-md-4">
-                {{ Former::select('groups[]')->label('Groups')->options($groups)->required()->multiple()->dataPlaceholder('Select groups') }}
+                @if($currentUser->isAdmin())
+                    {{ Former::select('groups[]')->label('Groups')->options($groups)->required()->multiple()->dataPlaceholder('Select groups') }}
+                @endif
             </div>
         </div>
 
@@ -22,7 +24,9 @@
                 {{ Former::text('email')->label('Email')->help('* Must be unique.') }}
             </div>
             <div class="col-md-4">
-                {{ Former::select('type')->label('Type')->options($types)->required() }}
+                @if($currentUser->isAdmin())
+                    {{ Former::select('type')->label('Type')->options($types)->required() }}
+                @endif
             </div>
         </div>
 
