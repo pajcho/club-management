@@ -43,7 +43,7 @@ Route::filter('auth', function()
  */
 Route::filter('isAdminOr', function($route, $request, $value = null)
 {
-	if(!Auth::check() || (Auth::user()->isAdmin() || Auth::user()->id != $value))
+	if(!Auth::check() || (!Auth::user()->isAdmin() && Auth::user()->id != $value))
     {
         return Redirect::to('/')->withError('You don\'t have permission to do this!');
     }
