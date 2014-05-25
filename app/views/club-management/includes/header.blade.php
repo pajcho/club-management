@@ -50,8 +50,8 @@
                             <li>{{ HTML::decode(link_to_route('user.create', 'Create User')) }}</li>
                         </ul>
                     </li>
-                    <li title="Settings"{{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('settings.index', '<i class="glyphicon glyphicon-cog"></i> <span class="hidden-sm">Settings</span>')) }}</li>
-                    <li title="History"{{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="glyphicon glyphicon-cloud"></i> <span class="hidden-sm">History</span>')) }}</li>
+                    <li {{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('settings.index', '<i class="glyphicon glyphicon-cog" title="Settings" data-placement="bottom"></i> <span class="hidden-sm">Settings</span>')) }}</li>
+                    <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="glyphicon glyphicon-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm">History</span>')) }}</li>
                 @endif
             </ul>
         </div>
