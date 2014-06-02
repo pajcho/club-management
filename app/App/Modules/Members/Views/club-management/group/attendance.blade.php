@@ -65,7 +65,7 @@
                 @endforeach
 
                 {{-- Fill rest of the page with empty rows, so new members can be hand written --}}
-                @for($i = 0; $i < 35-(($key+1)%36); $i++)
+                @for($i = 0; $i < 34-(($key+1)%36); $i++)
                     <tr>
                         <td>{{ $key+$i+2 }}</td>
                         <td>&nbsp;</td>
