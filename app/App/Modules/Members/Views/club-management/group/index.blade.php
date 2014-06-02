@@ -45,7 +45,7 @@
                             @if($currentUser->isAdmin())
                                 <td>
                                     {{ HTML::decode(link_to_route('group.show', '<i class="glyphicon glyphicon-edit"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                    {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item'))) }}
+                                    {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) }}
                                 </td>
                             @endif
                         </tr>

@@ -34,7 +34,7 @@
                             <td>{{ ucfirst($user->type) }}</td>
                             <td>
                                 {{ HTML::decode(link_to_route('user.show', '<i class="glyphicon glyphicon-edit"></i>', array($user->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                {{ HTML::decode(Form::delete(route('user.destroy', array($user->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs'), array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item'))) }}
+                                {{ HTML::decode(Form::delete(route('user.destroy', array($user->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this user?'))) }}
                             </td>
                         </tr>
                     @endforeach

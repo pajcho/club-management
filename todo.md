@@ -9,13 +9,13 @@ Functional
 - [x] Add option to display PDF documents instead of only download
 - [ ] Find a better way to save payments and attendance data in database
     (currently it's serialized string)
-- [ ] Allow trainers to change their profile details (but not type, only admin can do that)
+- [x] Allow trainers to change their profile details (but not type, only admin can do that)
 - [ ] Migrate to postgres SQL at some time
 
 Visual
 ------------------------------------
 - [x] Add plugin for nicer tooltips
-- [ ] Change confirmation popup to use bootstrap popups rather than alert windows
+- [x] Change confirmation popup to use bootstrap popups rather than alert windows
 - [x] Mark current month in green on payments and attendance page
 
 Charts
