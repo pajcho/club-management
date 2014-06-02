@@ -155,10 +155,10 @@ class MemberGroupController extends AdminController {
      * @param  int $id
      * @param $year
      * @param $month
-     * @param $download
+     * @param bool $download
      * @return Response
      */
-    public function attendance($id, $year, $month, $download)
+    public function attendance($id, $year, $month, $download = false)
     {
         $pdf = App::make('App\Service\Pdf\PhantomPdf');
         $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
