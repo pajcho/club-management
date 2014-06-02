@@ -32,13 +32,16 @@ class ClubPresenter extends Presenter {
     /**
      * Get HTML wrapper for a page link.
      *
-     * @param  string  $url
-     * @param  int  $page
+     * @param  string $url
+     * @param  int $page
+     * @param null $rel
      * @return string
      */
-    public function getPageLinkWrapper($url, $page)
+    public function getPageLinkWrapper($url, $page, $rel = null)
     {
-        return '<li><a href="'.$url.'">'.$page.'</a></li>';
+        $rel = is_null($rel) ? '' : ' rel="'.$rel.'"';
+
+        return '<li><a href="'.$url.'"'.$rel.'>'.$page.'</a></li>';
     }
 
     /**
