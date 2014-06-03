@@ -29,7 +29,7 @@ trait HistorableTrait {
 
     public function history()
     {
-        return $this->morphMany('\App\Modules\History\Models\History', 'historable');
+        return $this->morphMany('App\Modules\History\Models\History', 'historable');
     }
 
     /**
@@ -84,19 +84,23 @@ trait HistorableTrait {
      **/
     private function getUserId()
     {
+        $default = 0;
+
         try
         {
             if(Auth::check())
             {
                 return Auth::user()->getAuthIdentifier();
             }
+            else
+            {
+                return $default;
+            }
         }
         catch(\Exception $e)
         {
-            return null;
+            return $default;
         }
-
-        return null;
     }
 
     /**

@@ -35,6 +35,7 @@
     <div class="col-md-6">
         {{ Former::textarea('description')->label('Description')->rows(10)->help('* Here you can write anything you want about this member group. For example who is working on this location and with this group.') }}
 
+        {{ Former::hidden('trainers') }}
         {{ Former::select('trainers[]')->label('Trainers')->options($users)->multiple()->dataPlaceholder('Select trainers') }}
     </div>
 </div>

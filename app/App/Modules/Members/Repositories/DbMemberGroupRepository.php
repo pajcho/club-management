@@ -11,6 +11,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
     protected $columnNames;
     protected $orderBy = array('location' => 'asc', 'name' => 'asc');
     protected $perPage = 15;
+    protected $allowEmbeds = array('details', 'members', 'trainers', 'history');
 
     protected $modelDetails;
 
@@ -42,7 +43,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
      */
     public function create($input)
     {
-        $group = $this->model->create($input);
+        $group = $this->model->create($this->prepareTimesForInsert($input));
 
         // Sync group trainers
         $this->syncTrainers($group, $input);
@@ -66,7 +67,8 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
         // Sync group trainers
         $this->syncTrainers($group, $input);
 
-        return $group->update($input);
+        $group->update($this->prepareTimesForInsert($input));
+        return $group;
     }
 
     /**
@@ -77,8 +79,14 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
      */
     protected function syncTrainers($group, $input)
     {
-        // Sync user groups
-        $group->trainers()->sync(array_get($input, 'trainers', array()));
+        if(isset($input['trainers']))
+        {
+            // Force trainers to be an array of values
+            $trainers = array_get($input, 'trainers', array());
+            $trainers = is_array($trainers) ? $trainers : array();
+            // Sync group trainers
+            $group->trainers()->sync($trainers);
+        }
     }
 
     /**
@@ -126,6 +134,26 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
         $details = $this->modelDetails->firstOrNew($dataToCheck);
         $details->details = $data['details'];
 
-        $this->model->find($id)->details()->save($details);
+        $group = $this->model->find($id);
+        $group->details()->save($details);
+
+        return $group;
+    }
+
+    /**
+     * Prepare array columns for database by converting them to JSON
+     *
+     * @param $data
+     */
+    protected function prepareTimesForInsert($data)
+    {
+        $convert = array('training');
+
+        foreach($data as $key => $value)
+        {
+            if(is_array($value) && in_array($key, $convert)) $data[$key] = json_encode($value);
+        }
+
+        return $data;
     }
 }

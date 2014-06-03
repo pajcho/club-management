@@ -12,6 +12,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
     protected $columnNames;
     protected $orderBy = array('dob' => 'desc');
     protected $perPage = 15;
+    protected $allowEmbeds = array('group', 'activeHistory', 'freeOfChargeHistory', 'results', 'trainers', 'history');
 
     public function __construct(Member $model)
     {
@@ -72,9 +73,9 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
                         $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
                         $query->where('last_name', 'LIKE', '%' . $names[1] . '%');
                     })->orWhere(function($query) use ($names){
-                        $query->where('last_name', 'LIKE', '%' . $names[0] . '%');
-                        $query->where('first_name', 'LIKE', '%' . $names[1] . '%');
-                    });
+                            $query->where('last_name', 'LIKE', '%' . $names[0] . '%');
+                            $query->where('first_name', 'LIKE', '%' . $names[1] . '%');
+                        });
                     break;
             }
         }
@@ -134,7 +135,8 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         $this->updateHistory($member, $input, 'active');
         $this->updateHistory($member, $input, 'freeOfCharge');
 
-        return $member->update($input);
+        $member->update($input);
+        return $member;
     }
 
     /**

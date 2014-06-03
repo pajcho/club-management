@@ -110,9 +110,11 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         
         'App\AppServiceProvider',
+        'Api\ApiServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Former\FormerServiceProvider',
         'VTalbot\Pjax\PjaxServiceProvider',
+        'Dingo\Api\ApiServiceProvider',
 
 	),
 
@@ -182,6 +184,7 @@ return array(
 
         'Former'          => 'Former\Facades\Former',
         'Sanitize'        => 'Webpatser\Sanitize\Sanitize',
+        'API'             => 'Dingo\Api\Facades\API',
 
 	),
 

@@ -24,4 +24,10 @@ return array(
     // Modules folder (must include trailing slash)
     'modules_folder' => 'App/Modules/',
 
+    // Application API configuration
+    'api' => array(
+        // API Modules folder (must include trailing slash)
+        'modules_folder' => 'Api/Modules/',
+    ),
+
 );

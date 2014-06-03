@@ -32,8 +32,8 @@ class MemberGroupValidator extends BaseValidator
         ),
 
         'update' => array(
-            'name' => array('required'),
-            'location' => array('required'),
+            'name' => array('sometimes', 'required'),
+            'location' => array('sometimes', 'required'),
             'training.monday.start' => 'date_format:H:i',
             'training.monday.end' => 'date_format:H:i',
             'training.tuesday.start' => 'date_format:H:i',

@@ -2,19 +2,20 @@
 
 abstract class DbBaseRepository extends BaseRepository {
 
-	protected $model;
-	protected $columnNames;
-	protected $orderBy = array('id' => 'asc');
-	protected $perPage = 15;
+    protected $model;
+    protected $columnNames;
+    protected $orderBy = array('id' => 'asc');
+    protected $perPage = 15;
+    protected $allowEmbeds = array();
 
-	public function __construct($model)
-	{
-		$this->model = $model;
+    public function __construct($model)
+    {
+        $this->model = $model;
         $this->columnNames = $this->model->getColumnNames();
-	}
+    }
 
-	public function all()
-	{
+    public function all()
+    {
         // Order by
         foreach($this->orderBy as $orderBy => $orderDirection)
             $this->model = $this->model->orderBy($orderBy, $orderDirection);
@@ -22,45 +23,54 @@ abstract class DbBaseRepository extends BaseRepository {
         $this->preReturnFilters();
 
         return $this->model->get();
-	}
+    }
 
-	public function allWith(array $with)
-	{
-        $this->model = $this->model->with($with);
+    public function allWith(array $with)
+    {
+        if(!empty($with))
+        {
+            $this->model = $this->model->with(array_intersect($this->allowEmbeds, $with));
+        }
 
-		return $this->all();
-	}
+        return $this->all();
+    }
 
-	public function create($input)
-	{
-		return $this->model->create($input);
-	}
+    public function create($input)
+    {
+        return $this->model->create($input);
+    }
 
-	public function update($id, $input)
-	{
+    public function update($id, $input)
+    {
         $this->preReturnFilters();
 
-		return $this->model->find($id)->update($input);
-	}
+        $item = $this->model->find($id);
 
-	public function find($id)
-	{
+        $item->update($input);
+        return $item;
+    }
+
+    public function find($id)
+    {
         $this->preReturnFilters();
 
-		$model = $this->model->find($id);
+        $model = $this->model->find($id);
 
-		return $model ?: null;
-	}
+        return $model ?: null;
+    }
 
-	public function findWith($id, array $with)
-	{
-        $this->model = $this->model->with($with);
+    public function findWith($id, array $with)
+    {
+        if(!empty($with))
+        {
+            $this->model = $this->model->with(array_intersect($this->allowEmbeds, $with));
+        }
 
-		return $this->find($id);
-	}
+        return $this->find($id);
+    }
 
-	public function delete($id)
-	{
+    public function delete($id)
+    {
         $this->preReturnFilters();
 
         // Get the item
@@ -69,8 +79,8 @@ abstract class DbBaseRepository extends BaseRepository {
         // Call pre delete actions
         $this->preDelete($item);
 
-		return $item->delete();
-	}
+        return $item->delete();
+    }
 
     public function filter(array $params, $paginate = true)
     {
@@ -100,7 +110,10 @@ abstract class DbBaseRepository extends BaseRepository {
 
     public function filterWith(array $with, array $params, $paginate = true)
     {
-        $this->model = $this->model->with($with);
+        if(!empty($with))
+        {
+            $this->model = $this->model->with(array_intersect($this->allowEmbeds, $with));
+        }
 
         return $this->filter($params, $paginate);
     }

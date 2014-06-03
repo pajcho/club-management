@@ -1,11 +1,14 @@
 <?php namespace App\Modules\Members\Controllers;
 
 use App\Controllers\AdminController;
-use App\Modules\Members\Internal\Validators\MemberGroupValidator;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Users\Repositories\UserRepositoryInterface;
 use App\Service\Theme;
 use Carbon\Carbon;
+use Dingo\Api\Dispatcher;
+use Dingo\Api\Exception\DeleteResourceFailedException;
+use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Exception\UpdateResourceFailedException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
@@ -19,8 +22,12 @@ class MemberGroupController extends AdminController {
 
     private $memberGroups;
     private $users;
+    /**
+     * @var \Dingo\Api\Dispatcher
+     */
+    private $api;
 
-	public function __construct(MemberGroupRepositoryInterface $memberGroups, UserRepositoryInterface $users)
+    public function __construct(Dispatcher $api, MemberGroupRepositoryInterface $memberGroups, UserRepositoryInterface $users)
 	{
 		parent::__construct();
 
@@ -28,20 +35,22 @@ class MemberGroupController extends AdminController {
 
         $this->memberGroups = $memberGroups;
         $this->users = $users;
-	}
+        $this->api = $api;
+    }
 
     /**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		// Get all members
-        $memberGroups = $this->memberGroups->filter(Input::get());
-        
-        return View::make(Theme::view('group.index'))->with('memberGroups', $memberGroups);
-	}
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $input = Input::get();
+
+        $memberGroups = $this->api->with($input)->get('groups');
+
+        return View::make(Theme::view('group.index'))->with(compact('memberGroups'));
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -50,7 +59,10 @@ class MemberGroupController extends AdminController {
 	 */
 	public function create()
 	{
-        $users = $this->users->getForSelect();
+        $input = Input::get();
+
+        $filters = $this->api->with($input)->get('groups/filters');
+        $users = $filters['users'];
 
 		return View::make(Theme::view('group.create'))->with(compact('users'));
 	}
@@ -62,25 +74,23 @@ class MemberGroupController extends AdminController {
 	 */
 	public function store()
 	{
-        $validator = new MemberGroupValidator();
-
-        if ($validator->validate(Input::all(), 'create'))
+        try
         {
-            // validation passed
-            $this->memberGroups->create($this->prepareTimesForInsert($validator->data()));
-
-            // Create redirect depending on submit button
-            $redirect = Redirect::route('group.index');
-
-            if(Input::get('create_and_add', false))
-                $redirect = Redirect::route('group.create');
-
-
-            return $redirect->withSuccess('Member group created!');
+            $this->api->with(Input::get())->post('groups');
+        }
+        catch(StoreResourceFailedException $e)
+        {
+            // validation failed
+            return Redirect::route('group.create')->withInput()->withErrors($e->getErrors());
         }
 
-        // validation failed
-		return Redirect::route('group.create')->withInput()->withErrors($validator->errors());
+        // Create redirect depending on submit button
+        $redirect = Redirect::route('group.index');
+
+        if(Input::get('create_and_add', false))
+            $redirect = Redirect::route('group.create');
+
+        return $redirect->withSuccess('Member group created!');
 	}
 
 	/**
@@ -91,8 +101,11 @@ class MemberGroupController extends AdminController {
 	 */
 	public function show($id)
 	{
-        $memberGroup = $this->memberGroups->find($id);
-        $users = $this->users->getForSelect();
+        $input = Input::get();
+
+        $memberGroup = $this->api->get('groups/' . $id);
+        $filters = $this->api->with($input)->get('groups/filters');
+        $users = $filters['users'];
 
         return View::make(Theme::view('group.update'))->with(compact('memberGroup', 'users'));
 	}
@@ -116,18 +129,17 @@ class MemberGroupController extends AdminController {
 	 */
 	public function update($id)
 	{
-        $validator = new MemberGroupValidator();
-
-        if ($validator->validate(Input::all(), 'update', $id))
+        try
         {
-            // validation passed
-            $this->memberGroups->update($id, $this->prepareTimesForInsert($validator->data()));
-
-            return Redirect::route('group.show', $id)->withSuccess('Details updated!');
+            $this->api->with(Input::get())->put('groups/' . $id);
+        }
+        catch(UpdateResourceFailedException $e)
+        {
+            // validation failed
+            return Redirect::route('group.show', $id)->withInput()->withErrors($e->getErrors());
         }
 
-        // validation failed
-        return Redirect::route('group.show', $id)->withInput()->withErrors($validator->errors());
+        return Redirect::route('group.show', $id)->withSuccess('Details updated!');
 	}
 
 	/**
@@ -138,13 +150,14 @@ class MemberGroupController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        // We can not delete group that has members
-        if(!$this->memberGroups->canBeDeleted($id))
+        try
         {
-            return Redirect::back()->withInput()->withError('Member group already has members! In order to delete this group first remove all members from it.');
+            $this->api->delete('groups/' . $id);
         }
-
-        $this->memberGroups->delete($id);
+        catch(DeleteResourceFailedException $e)
+        {
+            return Redirect::back()->withInput()->withError($e->getMessage());
+        }
 
         return Redirect::back()->withInput()->withSuccess('Member group deleted!');
 	}
@@ -255,22 +268,4 @@ class MemberGroupController extends AdminController {
 
         return $return;
     }
-
-    /**
-     * Prepare array columns for database by converting them to JSON
-     *
-     * @param $data
-     */
-    private function prepareTimesForInsert($data)
-    {
-        $convert = array('training');
-
-        foreach($data as $key => $value)
-        {
-            if(is_array($value) && in_array($key, $convert)) $data[$key] = json_encode($value);
-        }
-
-        return $data;
-    }
-    
 }

@@ -1,34 +1,29 @@
 <?php namespace App\Modules\Members\Controllers;
 
 use App\Controllers\AdminController;
-use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
-use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use App\Service\Theme;
 use Carbon\Carbon;
+use Dingo\Api\Dispatcher;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Paginator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
 class MemberGroupDetailsController extends AdminController {
 
-    private $monthsPerPage;
-    private $currentPage;
-    private $memberGroups;
-    private $members;
+    /**
+     * @var \Dingo\Api\Dispatcher
+     */
+    private $api;
 
-	public function __construct(MemberGroupRepositoryInterface $memberGroups, MemberRepositoryInterface $members)
+    public function __construct(Dispatcher $api)
 	{
 		parent::__construct();
 
         View::share('activeMenu', 'groups');
 
-        $this->monthsPerPage = 15;
-        $this->currentPage = 1;
-        $this->memberGroups = $memberGroups;
-        $this->members = $members;
-	}
+        $this->api = $api;
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,11 +33,8 @@ class MemberGroupDetailsController extends AdminController {
      */
 	public function index($memberGroupId)
 	{
-		// Get all members
-        $memberGroup = $this->memberGroups->find($memberGroupId);
-        $months = $this->getEditableMonths();
-
-        $months = Paginator::make(array_slice($months, (Input::get('page', $this->currentPage)-1) * $this->monthsPerPage, $this->monthsPerPage), count($months), $this->monthsPerPage);
+        $memberGroup = $this->api->get('groups/' . $memberGroupId);
+        $months = $this->api->get('groups/' . $memberGroupId . '/details');
         $today = Carbon::now();
 
         return View::make(Theme::view('group.details.index'))->with(compact('memberGroup', 'months', 'today'));
@@ -55,7 +47,7 @@ class MemberGroupDetailsController extends AdminController {
 	 */
 	public function create()
 	{
-
+        //
 	}
 
 	/**
@@ -65,7 +57,7 @@ class MemberGroupDetailsController extends AdminController {
 	 */
 	public function store()
 	{
-
+        //
 	}
 
     /**
@@ -78,19 +70,14 @@ class MemberGroupDetailsController extends AdminController {
      */
 	public function show($memberGroupId, $year, $month)
 	{
-        $memberGroup = $this->memberGroups->findWith($memberGroupId, array('details'));
-
-        // Get all group members
-        $members = $this->members->filter(array(
+        $memberGroup = $this->api->with(array('embeds' => 'details'))->get('groups/' . $memberGroupId);
+        $members = $this->api->with(array(
             'group_id'          => $memberGroup->id,
             'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
-        ), false);
-
-        // Get only members active in this month
-        $members = $members->filter(function($member) use ($year, $month){
-            return $member->activeOnDate($year, $month);
-        })->values();
+            'activeOnDate'      => array('year' => $year, 'month' => $month),
+            'paginate'          => false,
+        ))->get('members');
 
         return View::make(Theme::view('group.details.update'))->with(compact('memberGroup', 'year', 'month', 'members'));
 	}
@@ -116,18 +103,8 @@ class MemberGroupDetailsController extends AdminController {
      */
 	public function update($memberGroupId, $year, $month)
 	{
-        $details['payment'] = Input::get('payment');
-        $details['attendance'] = Input::get('attendance');
+        $this->api->with(Input::all())->put('groups/' . $memberGroupId . '/details/' . $year . '/' . $month);
 
-        $data = array(
-            'year' => $year,
-            'month' => $month,
-            'details' => json_encode($details)
-        );
-
-        $this->memberGroups->updateDetails($memberGroupId, $data);
-
-        // validation failed
         return Redirect::route('group.details.show', array($memberGroupId, $year, $month))->withSuccess('Group details updated!');
 	}
 
@@ -139,31 +116,6 @@ class MemberGroupDetailsController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-
+        //
 	}
-
-    /**
-     * Get editable months for group
-     *
-     * @param int $startYear
-     * @param int $startMonth
-     * @internal param $data
-     * @return array
-     */
-    private function getEditableMonths($startYear = 2013, $startMonth = 1)
-    {
-        $months = array();
-        $start = Carbon::createFromDate($startYear, $startMonth);
-        $end = Carbon::now()->addMonth();
-
-        while($end->gte($start))
-        {
-            array_push($months, $end->copy());
-            $end->subMonth();
-        }
-
-        return $months;
-
-    }
-    
 }

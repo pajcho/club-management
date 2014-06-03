@@ -22,12 +22,12 @@ class MemberValidator extends BaseValidator
         ),
 
         'update' => array(
-            'first_name' => array('required'),
-            'last_name' => array('required'),
-            //'uid'    => array('required', 'unique:members,uid,%s'),
-            'dob'    => array('required', 'date'),
-            'dos'    => array('required', 'date'),
-            'doc'    => array('date'),
+            'first_name' => array('sometimes', 'required'),
+            'last_name' => array('sometimes', 'required'),
+            //'uid'    => array('sometimes', 'required', 'unique:members,uid,%s'),
+            'dob'    => array('sometimes', 'required', 'date'),
+            'dos'    => array('sometimes', 'required', 'date'),
+            'doc'    => array('sometimes', 'date'),
         ),
 
     );
