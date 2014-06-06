@@ -116,8 +116,9 @@ return [
 	'transformer' => function($app)
 	{
 		$fractal = new League\Fractal\Manager;
+        $fractal->setRecursionLimit(5);
 
-		return new Dingo\Api\Transformer\FractalTransformer($fractal);
+		return new Dingo\Api\Transformer\FractalTransformer($fractal, 'embeds', ',');
 	},
 
 	/*

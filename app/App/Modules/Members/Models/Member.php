@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Members\Models;
 
+use Api\Modules\Members\Transformers\MemberTransformer;
 use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
 use Carbon\Carbon;

@@ -2,8 +2,9 @@
 
 use Api\Controllers\ApiController;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
-use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use Carbon\Carbon;
+use Dingo\Api\Dispatcher;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Paginator;
 use Illuminate\Support\Facades\Response;
@@ -13,25 +14,24 @@ class MemberGroupDetailsController extends ApiController {
     private $monthsPerPage;
     private $currentPage;
     private $memberGroups;
-    private $members;
+    protected $api;
 
-	public function __construct(MemberGroupRepositoryInterface $memberGroups, MemberRepositoryInterface $members)
+	public function __construct(Dispatcher $api, MemberGroupRepositoryInterface $memberGroups)
 	{
 		parent::__construct();
 
         $this->monthsPerPage = 15;
         $this->currentPage = 1;
         $this->memberGroups = $memberGroups;
-        $this->members = $members;
-	}
+        $this->api = $api;
+    }
 
     /**
      * Display a listing of the resource.
      *
-     * @param $memberGroupId
      * @return Response
      */
-	public function index($memberGroupId)
+	public function index()
 	{
         $months = $this->getEditableMonths();
         $months = Paginator::make(array_slice($months, (Input::get('page', $this->currentPage)-1) * $this->monthsPerPage, $this->monthsPerPage), count($months), $this->monthsPerPage);
@@ -65,11 +65,19 @@ class MemberGroupDetailsController extends ApiController {
      * @param $memberGroupId
      * @param $year
      * @param $month
+     * @throws \Dingo\Api\Exception\ResourceException
      * @return Response
      */
 	public function show($memberGroupId, $year, $month)
 	{
-        //
+        $memberGroup = $this->api->with(array('embeds' => 'details'))->get('groups/'.$memberGroupId);
+
+        $details = $memberGroup->details()->where('year', $year)->where('month', $month)->first();
+
+        // Details for this month don't exists
+        if(!$details) App::abort(404);
+
+        return $details;
 	}
 
 	/**

@@ -8,6 +8,7 @@ class UsersProvider extends ServiceProvider
     {
         // Bring in the routes
         require __DIR__ . '/../routes.php';
+        require __DIR__ . '/../transformers.php';
     }
 
     public function register()
