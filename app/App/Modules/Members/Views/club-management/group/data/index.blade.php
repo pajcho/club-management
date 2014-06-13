@@ -33,9 +33,9 @@
                         <tr class="{{ $today->year == $month->year && $today->month == $month->month ? 'success bold' : '' }}">
                             <td>{{ $months->getFrom() + $key }}</td>
                             <td>{{ $month->format('Y, F') }}</td>
-                            <td class="text-center">{{ $memberGroup->details($month->year, $month->month) ? $memberGroup->details($month->year, $month->month)->payed() : '' }}</td>
+                            <td class="text-center">{{ $memberGroup->data($month->year, $month->month) ? $memberGroup->payedString($month->year, $month->month) : '' }}</td>
                             <td>
-                                {{ link_to_route('group.details.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) }}
+                                {{ link_to_route('group.data.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) }}
                             </td>
                             <td>
                                 <div class="dropdown">

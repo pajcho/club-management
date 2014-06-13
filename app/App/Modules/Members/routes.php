@@ -2,7 +2,7 @@
 
     $controller = 'App\Modules\Members\Controllers\MemberController';
     $groupController = 'App\Modules\Members\Controllers\MemberGroupController';
-    $groupDetailsController = 'App\Modules\Members\Controllers\MemberGroupDetailsController';
+    $groupDataController = 'App\Modules\Members\Controllers\MemberGroupDataController';
 
     /**
      * We are using this instead of resource routes just
@@ -20,7 +20,7 @@
         Route::delete('{member}', array('as' => 'member.destroy', 'uses' => $controller . '@destroy'));
     });
 
-    Route::group(array('prefix' => 'group', 'before' => 'auth'), function() use ($groupController, $groupDetailsController)
+    Route::group(array('prefix' => 'group', 'before' => 'auth'), function() use ($groupController, $groupDataController)
     {
         Route::get('/', array('as' => 'group.index', 'uses' => $groupController . '@index'));
         Route::get('create', array('as' => 'group.create', 'uses' => $groupController . '@create'));
@@ -36,13 +36,13 @@
         Route::get('{group}/payments/{year}/{month}/{download?}', array('as' => 'group.payments', 'uses' => $groupController . '@payments'))
             ->where(array('year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download'));
 
-        // Group details (Payments & Attendance)
-        Route::group(array('prefix' => '{group}/details'), function() use ($groupDetailsController)
+        // Group data (Payments & Attendance)
+        Route::group(array('prefix' => '{group}/data'), function() use ($groupDataController)
         {
-            Route::get('/', array('as' => 'group.details.index', 'uses' => $groupDetailsController . '@index'));
-            Route::get('{year}/{month}', array('as' => 'group.details.show', 'uses' => $groupDetailsController . '@show'))
+            Route::get('/', array('as' => 'group.data.index', 'uses' => $groupDataController . '@index'));
+            Route::get('{year}/{month}', array('as' => 'group.data.show', 'uses' => $groupDataController . '@show'))
                 ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
-            Route::put('{year}/{month}', array('as' => 'group.details.update', 'uses' => $groupDetailsController . '@update'))
+            Route::put('{year}/{month}', array('as' => 'group.data.update', 'uses' => $groupDataController . '@update'))
                 ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
         });
     });

@@ -10,5 +10,5 @@ interface MemberGroupRepositoryInterface extends BaseRepositoryInterface {
 
     function canBeDeleted($id);
 
-    function updateDetails($id, $data);
+    function updateData($id, $data);
 }

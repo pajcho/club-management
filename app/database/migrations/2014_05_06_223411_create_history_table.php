@@ -18,7 +18,7 @@ class CreateHistoryTable extends Migration {
 			$table->string('historable_type');
 			$table->integer('historable_id');
 			$table->integer('user_id');
-			$table->string('message');
+			$table->text('message');
 
 			$table->timestamps();
 		});

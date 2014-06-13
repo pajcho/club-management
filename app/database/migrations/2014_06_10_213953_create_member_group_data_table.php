@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemberGroupDetailsTable extends Migration {
+class CreateMemberGroupDataTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -13,12 +13,14 @@ class CreateMemberGroupDetailsTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('member_group_details', function(Blueprint $table) {
+        Schema::create('member_group_data', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('group_id');
+            $table->integer('member_id');
             $table->integer('year');
             $table->integer('month');
-            $table->text('details')->nullable()->default(NULL);
+            $table->unsignedInteger('payed')->default(0);
+            $table->text('attendance')->nullable()->default(NULL);
 
             $table->timestamps();
         });
@@ -31,7 +33,7 @@ class CreateMemberGroupDetailsTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('member_group_details');
+        Schema::drop('member_group_data');
 	}
 
 }

@@ -31,7 +31,7 @@
 
 <div class="row">
     <div class="col-lg-8 col-md-12">
-        {{ Former::open()->method('PUT')->action(route('group.details.update', array($memberGroup->id, $year, $month))) }}
+        {{ Former::open()->method('PUT')->action(route('group.data.update', array($memberGroup->id, $year, $month))) }}
 
             <table class="table table-bordered table-condensed table-hover">
                 <thead>
@@ -63,8 +63,8 @@
                                 <td class="text-center">
                                     @if(!$member->freeOfChargeOnDate($year, $month, $member->freeOfCharge))
                                         <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;">
-                                            {{ Form::hidden('payment[' . $member->id . ']', 0) }}
-                                            {{ Form::checkbox('payment[' . $member->id . ']', 1, $memberGroup->details($year, $month) ? $memberGroup->details($year, $month)->details('payment.' . $member->id) : false, array('id' => 'payment_' . $member->id)) }}
+                                            {{ Form::hidden('data[' . $member->id . '][payed]', 0) }}
+                                            {{ Form::checkbox('data[' . $member->id . '][payed]', 1, $memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->payed : false, array('id' => 'payment_' . $member->id)) }}
                                         </label>
                                     @else
                                         <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;" title="Free of charge"><i class="glyphicon glyphicon-star small"></i></label>
@@ -73,8 +73,8 @@
                                 @foreach($memberGroup->trainingDays($year, $month) as $day)
                                     <td class="text-center">
                                         <label for="attendance_{{$member->id}}_{{$day->day}}" style="width: 100%; height: 100%;">
-                                            {{ Form::hidden('attendance[' . $member->id . '][' . $day->day . ']', 0) }}
-                                            {{ Form::checkbox('attendance[' . $member->id . '][' . $day->day . ']', 1, $memberGroup->details($year, $month) ? $memberGroup->details($year, $month)->details('attendance.' . $member->id . '.' . $day->day) : false, array('id' => 'attendance_' . $member->id . '_' . $day->day)) }}
+                                            {{ Form::hidden('data[' . $member->id . '][attendance][' . $day->day . ']', 0) }}
+                                            {{ Form::checkbox('data[' . $member->id . '][attendance][' . $day->day . ']', 1, $memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance($day->day) : false, array('id' => 'attendance_' . $member->id . '_' . $day->day)) }}
                                         </label>
                                     </td>
                                 @endforeach
@@ -87,7 +87,7 @@
             <div class="well">
                 {{
                     Former::actions(
-                        Former::link('Cancel', route('group.details.index', array($memberGroup->id))),
+                        Former::link('Cancel', route('group.data.index', array($memberGroup->id))),
                         Former::default_reset('Reset'),
                         Former::success_submit('Update')
                     )

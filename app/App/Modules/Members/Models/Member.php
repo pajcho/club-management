@@ -33,6 +33,11 @@ class Member extends BaseModel {
         return $this->belongsTo('App\Modules\Members\Models\MemberGroup');
     }
 
+    public function data()
+    {
+        return $this->hasMany('App\Modules\Members\Models\MemberGroupData');
+    }
+
     public function activeHistory()
     {
         return $this->hasMany('App\Modules\Members\Models\DateHistory')->where('type', 'active');

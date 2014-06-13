@@ -23,10 +23,10 @@ class MemberGroupDetails extends BaseModel {
     }
 
     public $timestamps = true;
-    
+
     protected $table = 'member_group_details';
     protected $softDelete = false;
-    
+
     protected $fillable = array('group_id', 'year', 'month', 'details');
 
     public function group()
