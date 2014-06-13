@@ -40,7 +40,7 @@
                                 {{ HTML::decode(link_to_route('member.index', '<i class="glyphicon glyphicon-user"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link'))) }}
                             </td>
                             <td>
-                                {{ link_to_route('group.details.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
+                                {{ link_to_route('group.data.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>
                             @if($currentUser->isAdmin())
                                 <td>

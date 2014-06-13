@@ -1,7 +1,7 @@
 <?php namespace App\Modules\Members\Repositories;
 
 use App\Modules\Members\Models\MemberGroup;
-use App\Modules\Members\Models\MemberGroupDetails;
+use App\Modules\Members\Models\MemberGroupData;
 use App\Repositories\DbBaseRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,13 +12,13 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
     protected $orderBy = array('location' => 'asc', 'name' => 'asc');
     protected $perPage = 15;
 
-    protected $modelDetails;
+    protected $modelData;
 
-    public function __construct(MemberGroup $model, MemberGroupDetails $modelDetails)
+    public function __construct(MemberGroup $model, MemberGroupData $modelData)
     {
         parent::__construct($model);
 
-        $this->modelDetails = $modelDetails;
+        $this->modelData = $modelData;
     }
 
     public function preReturnFilters()
@@ -112,20 +112,21 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
     }
 
     /**
-     * Create or update member group details
+     * Create or update member group data
      *
      * @param $id
      * @param $data
      */
-    public function updateDetails($id, $data)
+    public function updateData($id, $data)
     {
         $data['group_id'] = $id;
 
-        $dataToCheck = array_except($data, array('details'));
+        $dataToCheck = array_except($data, array('payed', 'attendance'));
 
-        $details = $this->modelDetails->firstOrNew($dataToCheck);
-        $details->details = $data['details'];
+        $dataToInsert = $this->modelData->firstOrNew($dataToCheck);
+        $dataToInsert->payed = $data['payed'];
+        $dataToInsert->attendance = $data['attendance'];
 
-        $this->model->find($id)->details()->save($details);
+        $this->model->find($id)->data()->save($dataToInsert);
     }
 }

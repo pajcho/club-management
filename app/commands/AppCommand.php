@@ -83,7 +83,7 @@ class AppCommand extends Command {
         Schema::dropIfExists('migrations');
         Schema::dropIfExists('members');
         Schema::dropIfExists('member_groups');
-        Schema::dropIfExists('member_group_details');
+        Schema::dropIfExists('member_group_data');
         Schema::dropIfExists('settings');
         Schema::dropIfExists('users');
         Schema::dropIfExists('date_history');

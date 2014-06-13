@@ -23,7 +23,7 @@ class MemberGroup extends BaseModel {
     protected $table = 'member_groups';
     protected $softDelete = false;
     
-    protected $fillable = array('name', 'location', 'description', 'training', 'details');
+    protected $fillable = array('name', 'location', 'description', 'training', 'data');
 
     protected $appends = array('total_monthly_time', 'trainer_ids');
 
@@ -53,17 +53,76 @@ class MemberGroup extends BaseModel {
         return $this->hasMany('App\Modules\Members\Models\Member', 'group_id');
     }
 
-    public function details($year = null, $month = null)
+    public function data($year = null, $month = null, $member_id = null)
     {
-        $relation = $this->hasMany('App\Modules\Members\Models\MemberGroupDetails', 'group_id');
+        $relation = $this->hasMany('App\Modules\Members\Models\MemberGroupData', 'group_id');
 
-        if(is_numeric($year)) $relation = $relation->where('member_group_details.year', $year);
-        if(is_numeric($month)) $relation = $relation->where('member_group_details.month', $month);
+        if(is_numeric($year)) $relation = $relation->where('member_group_data.year', $year);
+        if(is_numeric($month)) $relation = $relation->where('member_group_data.month', $month);
+        if(is_numeric($member_id)) $relation = $relation->where('member_group_data.member_id', $member_id);
 
-        if(is_numeric($year) || is_numeric($month)) $relation = $relation->get();
-        if(is_numeric($year) && is_numeric($month)) $relation = $relation->first();
+        // If we pass all filters than return only one result
+        if(is_numeric($year) && is_numeric($month) && is_numeric($member_id)) $relation = $relation->first();
+        // Otherwise return all we found
+        else if(is_numeric($year) || is_numeric($month) || is_numeric($member_id)) $relation = $relation->get();
 
         return $relation;
+    }
+
+    public function payedString22($year = null, $month = null)
+    {
+        $data = $this->data($year, $month);
+
+        if(count($data))
+        {
+            $payed = $data->filter(function($member){
+                return $member->payed;
+            });
+
+            return '<span class="btn btn-xs btn-success">'.count($payed).' / '.count($data).'</a>';
+        }
+
+        return '';
+    }
+
+    public function payedString($year = null, $month = null)
+    {
+        $this->members = app('App\Modules\Members\Repositories\MemberRepositoryInterface');
+
+        // Get all group members
+        $members = $this->members->filter(array(
+            'group_id'          => $this->id,
+            'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
+            'orderBy'           => array('dos' => 'asc'),
+        ), false);
+
+        // Get only members active in this month
+        $activeMembers = $members->filter(function($member) use ($year, $month){
+            return $member->activeOnDate($year, $month);
+        })->values();
+
+        $freeOfChargeMembers = $activeMembers->filter(function($member) use ($year, $month){
+            return $member->freeOfChargeOnDate($year, $month);
+        })->values();
+
+        $payedMembers = $this->data($year, $month)->filter(function($memberData) use ($activeMembers){
+            $hasMember = $activeMembers->filter(function($activeMember) use ($memberData){
+                return $activeMember->id == $memberData->member_id;
+            })->values();
+
+            return $memberData->payed && count($hasMember);
+        });
+
+        $totalMembersCount = count($activeMembers) - count($freeOfChargeMembers);
+        $payedMembersCount = count($payedMembers);
+
+        $buttonClass = $payedMembersCount && ($totalMembersCount / $payedMembersCount == 1) ? 'success' : 'default';
+
+        // Generate string to return
+        $payingMembersString = '<span class="bold btn btn-xs btn-' . $buttonClass . '">'.$payedMembersCount.' / '.$totalMembersCount.'</span>';
+
+        return $payingMembersString;
+
     }
 
     /**

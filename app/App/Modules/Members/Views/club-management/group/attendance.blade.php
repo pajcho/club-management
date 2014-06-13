@@ -56,7 +56,7 @@
 
                         @foreach($memberGroup->trainingDays($year, $month) as $day)
                             <td {{ ($year == $member->dos->year && $month == $member->dos->month && $day->day == $member->dos->day ) ? 'style="border-left: solid 2px black !important;"' : '' }}>
-                                {{ $memberGroup->details($year, $month) ? ($memberGroup->details($year, $month)->details('attendance.' . $member->id . '.' . $day->day) ? '+' : '&nbsp;') : '&nbsp;' }}
+                                {{ $memberGroup->data($year, $month, $member->id) ? ($memberGroup->data($year, $month, $member->id)->attendance($day->day) ? '+' : '&nbsp;') : '&nbsp;' }}
                             </td>
                         @endforeach
 
