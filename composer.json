@@ -11,7 +11,8 @@
 		"anahkiasen/former": "dev-develop",
 		"webpatser/laravel-sanitize": "dev-master",
 		"vtalbot/pjax": "0.2.*",
-		"dingo/api": "0.*"
+		"dingo/api": "0.*",
+		"barryvdh/laravel-cors": "0.2.*"
 	},
 	"autoload": {
 		"classmap": [
