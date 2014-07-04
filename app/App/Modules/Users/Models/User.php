@@ -31,7 +31,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
     public function groups()
     {
-        return $this->belongsToMany('App\Modules\members\Models\MemberGroup', 'users_groups', 'user_id', 'group_id')->withTimestamps();
+        return $this->belongsToMany('App\Modules\Members\Models\MemberGroup', 'users_groups', 'user_id', 'group_id')->withTimestamps();
     }
 
     /**
