@@ -59,7 +59,7 @@
                 ->addClass(is_object(Former::getValue('doc')) ? (Former::getValue('doc')->gte(\Carbon\Carbon::now()->startOfDay()) ? 'btn-success' : 'btn-danger') : 'btn-warning')
                 ->addGroupClass('date datepicker')
                 ->append('<i class="glyphicon glyphicon-calendar"></i>')
-                ->help('Example: 21.10.2014')
+                ->help('Example: 21.10.2014 <i>(Enter date of expire)</i>')
                 ->autocomplete('off')
         }}
     </div>
