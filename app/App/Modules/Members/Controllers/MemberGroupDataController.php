@@ -92,7 +92,9 @@ class MemberGroupDataController extends AdminController {
             return $member->activeOnDate($year, $month);
         })->values();
 
-        return View::make(Theme::view('group.data.update'))->with(compact('memberGroup', 'year', 'month', 'members'));
+        $highlight = Input::get('highlight', false);
+
+        return View::make(Theme::view('group.data.update'))->with(compact('memberGroup', 'year', 'month', 'members', 'highlight'));
 	}
 
 	/**

@@ -57,7 +57,7 @@
                 <tbody>
                     @if($members->count())
                         @foreach($members as $key => $member)
-                            <tr>
+                            <tr {{ ($highlight == $member->id) ? 'class="warning"' : '' }}>
                                 <td width="50">{{ $key+1 }}</td>
                                 <td style="text-align: left;">{{ $member->full_name }}</td>
                                 <td class="text-center">

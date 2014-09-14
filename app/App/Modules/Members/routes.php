@@ -3,13 +3,14 @@
     $controller = 'App\Modules\Members\Controllers\MemberController';
     $groupController = 'App\Modules\Members\Controllers\MemberGroupController';
     $groupDataController = 'App\Modules\Members\Controllers\MemberGroupDataController';
+    $paymentsAndAttendanceController = 'App\Modules\Members\Controllers\MemberPaymentsAndAttendanceController';
 
     /**
      * We are using this instead of resource routes just
      * to be able to have route names preserved
      * if there is future change in names
      */
-    Route::group(array('prefix' => 'member', 'before' => 'auth'), function() use ($controller)
+    Route::group(array('prefix' => 'member', 'before' => 'auth'), function() use ($controller, $paymentsAndAttendanceController)
     {
         Route::get('/', array('as' => 'member.index', 'uses' => $controller . '@index'));
         Route::get('create', array('as' => 'member.create', 'uses' => $controller . '@create'));
@@ -18,6 +19,10 @@
         Route::get('{member}/edit', array('as' => 'member.edit', 'uses' => $controller . '@edit'));
         Route::put('{member}', array('as' => 'member.update', 'uses' => $controller . '@update'));
         Route::delete('{member}', array('as' => 'member.destroy', 'uses' => $controller . '@destroy'));
+
+        Route::get('{member}/payments-and-attendance', array('as' => 'member.payments.index', 'uses' => $paymentsAndAttendanceController . '@index'));
+        Route::put('{member}/payments-and-attendance/{year}/{month}', array('as' => 'member.payments.update', 'uses' => $paymentsAndAttendanceController . '@update'))
+            ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
     });
 
     Route::group(array('prefix' => 'group', 'before' => 'auth'), function() use ($groupController, $groupDataController)
