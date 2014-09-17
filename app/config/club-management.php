@@ -21,7 +21,7 @@ return array(
 
     ),
 
-    // Modules folder (must include trailing slash)
-    'modules_folder' => 'App/Modules/',
+    // Modules folder (without trailing slash)
+    'modules_folder' => 'App/Modules',
 
 );

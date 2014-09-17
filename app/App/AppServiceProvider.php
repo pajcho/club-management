@@ -44,9 +44,10 @@ class AppServiceProvider extends ServiceProvider {
      */
     protected function loadModules()
     {
-        $modulesRoot = $this->app->config['club-management.modules_folder'];
+        // Make sure that path is without trailing slash
+        $modulesRoot = rtrim($this->app->config['club-management.modules_folder'], '/');
 
-        $files = File::files(app_path($modulesRoot . '*/Providers'));
+        $files = File::files(app_path($modulesRoot . '/*/Providers'));
 
         // If there are no files than exit
         if(!$files) return;

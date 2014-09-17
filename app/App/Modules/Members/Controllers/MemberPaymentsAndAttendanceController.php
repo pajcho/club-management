@@ -1,7 +1,9 @@
 <?php namespace App\Modules\Members\Controllers;
 
 use App\Controllers\AdminController;
+use App\Modules\Members\Internal\EditableMonthsTrait;
 use App\Modules\Members\Internal\Validators\MemberValidator;
+use App\Modules\Members\Models\MemberGroupData;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use App\Service\Theme;
@@ -12,6 +14,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
 class MemberPaymentsAndAttendanceController extends AdminController {
+
+    use EditableMonthsTrait;
 
     private $members;
     private $groups;
@@ -38,7 +42,33 @@ class MemberPaymentsAndAttendanceController extends AdminController {
 
         if(!$member) App::abort(404);
 
-        $data = $member->data()->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
+        $memberData = $member->data()->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
+        $data = [];
+
+        $months = $this->getEditableMonths($member->dos->year, $member->dos->month);
+
+        foreach($months as $month)
+        {
+            $monthData = $memberData->filter(function($memberDataItem) use ($month){
+                return $memberDataItem->year == $month->year && $memberDataItem->month == $month->month;
+            });
+
+            if($monthData->count())
+            {
+                foreach($monthData->all() as $monthDataItem) array_push($data, $monthDataItem);
+            }
+            else
+            {
+                array_push($data, new MemberGroupData([
+                    'group_id' => $member->group_id,
+                    'member_id' => $member->id,
+                    'year' => $month->year,
+                    'month' => $month->month,
+                    'payed' => 0,
+                    'attendance' => json_encode([]),
+                ]));
+            }
+        }
 
         // Array of available years to be used as tabs on this page
         $years = array();

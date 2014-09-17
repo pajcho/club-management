@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Members\Controllers;
 
 use App\Controllers\AdminController;
+use App\Modules\Members\Internal\EditableMonthsTrait;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use App\Service\Theme;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
 class MemberGroupDataController extends AdminController {
+
+    use EditableMonthsTrait;
 
     private $monthsPerPage;
     private $currentPage;
@@ -144,28 +147,4 @@ class MemberGroupDataController extends AdminController {
 	{
 
 	}
-
-    /**
-     * Get editable months for group
-     *
-     * @param int $startYear
-     * @param int $startMonth
-     * @return array
-     */
-    private function getEditableMonths($startYear = 2013, $startMonth = 1)
-    {
-        $months = array();
-        $start = Carbon::createFromDate($startYear, $startMonth);
-        $end = Carbon::now()->addMonth();
-
-        while($end->gte($start))
-        {
-            array_push($months, $end->copy());
-            $end->subMonth();
-        }
-
-        return $months;
-
-    }
-    
 }
