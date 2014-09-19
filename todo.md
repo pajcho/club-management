@@ -14,7 +14,7 @@ Functional
 - [x] Add email field to members form
 - [x] Option to search members by email (maybe display email in listing)
 - [ ] Ability to delete every resource type from it's edit page (place a delete button on top or bottom of the page)
-- [ ] Cron job that will delete obsolete history items (for example older than 2 months)
+- [x] Cron job that will delete obsolete history items (for example older than 2 months)
 - [ ] Add Clubs resource to database table (Clubs are created manually)
 - [ ] Add club_id to every database table
 - [ ] When user is logged in, search for it's club and pull only corresponding details
@@ -26,7 +26,7 @@ Visual
 - [x] Change confirmation popup to use bootstrap popups rather than alert windows
 - [x] Mark current month in green on payments and attendance page
 - [ ] Alert user when trying to leave page and form is dirty
-- [ ] Hide DOB and DOS and DOC from member listing table on smaller screen resolutions
+- [x] Hide DOB and DOS and DOC from member listing table on smaller screen resolutions
 
 Charts (not a priority just nice to have feature)
 ------------------------------------

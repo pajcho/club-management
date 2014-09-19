@@ -21,10 +21,10 @@
                 <tr>
                     <th width="50">#</th>
                     <th>Full Name</th>
-                    <th>Date of Birth</th>
-                    <th>Subscribed</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Date of Birth</th>
+                    <th class="hidden-md hidden-sm hidden-xs">Subscribed</th>
                     <th>Email</th>
-                    <th>&nbsp;</th>
+                    <th class="hidden-md hidden-sm hidden-xs">&nbsp;</th>
                     <th>Phone</th>
                     <th width="80">Actions</th>
                 </tr>
@@ -35,10 +35,10 @@
                         <tr class="{{ $member->active ? '' : 'danger' }} {{ $member->freeOfCharge ? 'success' : '' }}">
                             <td>{{ $members->getFrom() + $key }}</td>
                             <td>{{ $member->full_name }}</td>
-                            <td>{{ $member->dob->format('d.m.Y') }}</td>
-                            <td>{{ $member->dos->format('d.m.Y') }} ({{ $member->dos->diffForHumans() }})</td>
+                            <td class="hidden-md hidden-sm hidden-xs">{{ $member->dob->format('d.m.Y') }}</td>
+                            <td class="hidden-md hidden-sm hidden-xs">{{ $member->dos->format('d.m.Y') }} ({{ $member->dos->diffForHumans() }})</td>
                             <td>{{ $member->email }}</td>
-                            <td>
+                            <td class="hidden-md hidden-sm hidden-xs">
                                 <span class="btn btn-xs {{ $member->getMedicalExaminationClass() }}" title="{{ $member->getMedicalExaminationTitle() }}">&nbsp;</span>
                             </td>
                             <td>{{ $member->phone }}</td>
