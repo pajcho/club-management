@@ -22,7 +22,7 @@ class AppCommand extends Command {
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @return \AppCommand
      */
     public function __construct()
     {
@@ -47,7 +47,7 @@ class AppCommand extends Command {
         $this->comment('');
 
         // Generate the Application Encryption key
-        $this->call('key:generate');
+//        $this->call('key:generate');
 
         // Drop previos database tables to make sure we have all the new data
         $this->dropTables();

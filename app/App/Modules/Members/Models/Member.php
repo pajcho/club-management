@@ -24,7 +24,7 @@ class Member extends BaseModel {
     protected $table = 'members';
     protected $softDelete = false;
     
-    protected $fillable = array('group_id', 'uid', 'first_name', 'last_name', 'phone', 'notes', 'dob', 'dos', 'doc', 'active', 'freeOfCharge');
+    protected $fillable = array('group_id', 'uid', 'first_name', 'last_name', 'email', 'phone', 'notes', 'dob', 'dos', 'doc', 'active', 'freeOfCharge');
     protected $dates = array('dob', 'dos', 'doc');
     protected $appends = array('full_name');
 

@@ -13,21 +13,23 @@ class MemberValidator extends BaseValidator
     protected $rules = array(
 
         'create' => array(
-            'first_name' => array('required'),
-            'last_name' => array('required'),
+            'first_name'    => array('required'),
+            'last_name'     => array('required'),
+            'email'         => array('email'),
             //'uid'    => array('required', 'unique:members,uid'),
-            'dob'    => array('required', 'date'),
-            'dos'    => array('required', 'date'),
-            'doc'    => array('date'),
+            'dob'           => array('required', 'date'),
+            'dos'           => array('required', 'date'),
+            'doc'           => array('date'),
         ),
 
         'update' => array(
-            'first_name' => array('required'),
-            'last_name' => array('required'),
+            'first_name'    => array('required'),
+            'last_name'     => array('required'),
+            'email'         => array('email'),
             //'uid'    => array('required', 'unique:members,uid,%s'),
-            'dob'    => array('required', 'date'),
-            'dos'    => array('required', 'date'),
-            'doc'    => array('date'),
+            'dob'           => array('required', 'date'),
+            'dos'           => array('required', 'date'),
+            'doc'           => array('date'),
         ),
 
     );

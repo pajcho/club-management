@@ -9,6 +9,8 @@ class MembersSeeder extends Seeder {
 	public function run()
 	{
         $faker = Factory::create('sr_Latn_RS');
+        $fakerEN = Factory::create();
+
         $members = array();
 
         // Create 1000 members
@@ -21,6 +23,7 @@ class MembersSeeder extends Seeder {
                 'uid' => $faker->unique()->randomNumber(13),
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->firstName,
+                'email' => $faker->randomElement(array(NULL, $fakerEN->safeEmail)),
                 'phone' => $faker->randomElement(array(NULL, $phone)),
                 'notes' => NULL,
                 'dob' => $faker->dateTimeBetween($startDate = '-10 years', $endDate = '-5 years'),

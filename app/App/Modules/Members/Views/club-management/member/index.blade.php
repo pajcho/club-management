@@ -23,6 +23,7 @@
                     <th>Full Name</th>
                     <th>Date of Birth</th>
                     <th>Subscribed</th>
+                    <th>Email</th>
                     <th>&nbsp;</th>
                     <th>Phone</th>
                     <th width="80">Actions</th>
@@ -36,6 +37,7 @@
                             <td>{{ $member->full_name }}</td>
                             <td>{{ $member->dob->format('d.m.Y') }}</td>
                             <td>{{ $member->dos->format('d.m.Y') }} ({{ $member->dos->diffForHumans() }})</td>
+                            <td>{{ $member->email }}</td>
                             <td>
                                 <span class="btn btn-xs {{ $member->getMedicalExaminationClass() }}" title="{{ $member->getMedicalExaminationTitle() }}">&nbsp;</span>
                             </td>

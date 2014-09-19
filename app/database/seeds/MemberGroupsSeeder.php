@@ -30,26 +30,31 @@ class MemberGroupsSeeder extends Seeder {
         array_push($memberGroups, array(
             'name' => 'R4',
             'location' => 'DIF',
+            'training' => NULL,
         ));
 
         array_push($memberGroups, array(
             'name' => 'R5',
             'location' => 'Karadjordje',
+            'training' => NULL,
         ));
 
         array_push($memberGroups, array(
             'name' => 'R6',
             'location' => 'Karadjordje',
+            'training' => NULL,
         ));
 
         array_push($memberGroups, array(
             'name' => 'R7',
             'location' => 'Novi Beograd',
+            'training' => NULL,
         ));
 
         array_push($memberGroups, array(
             'name' => 'R8',
             'location' => 'Novi Beograd',
+            'training' => NULL,
         ));
 
 		// Delete all users

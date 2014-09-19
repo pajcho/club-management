@@ -65,6 +65,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
                     $this->model = $this->model->where(function($query) use ($names){
                         $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
                         $query->orWhere('last_name', 'LIKE', '%' . $names[0] . '%');
+                        $query->orWhere('email', 'LIKE', '%' . $names[0] . '%');
                     });
                     break;
                 case 2:

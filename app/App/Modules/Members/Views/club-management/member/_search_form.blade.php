@@ -12,7 +12,7 @@
 
         {{ Former::open()->method('GET')->action(route('member.index'))->dataPjax() }}
             <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::text('name')->label('Name') }}</div>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::text('name')->label('Name or Email') }}</div>
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('group_id')->label('Group')->options($groups) }}</div>
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('location')->label('Location')->options($locations) }}</div>
                 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">{{ Former::select('active')->label('Active')->options($member_status) }}</div>
