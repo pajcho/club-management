@@ -11,7 +11,7 @@ Route::get('/', array('before' => 'auth', function()
 
 Route::get('/cron/clear-history/{months}', array(function($months)
 {
-    $response = History::where('created_at', '>', Carbon::now()->subMonths($months))->delete();
+    $response = History::where('created_at', '<', Carbon::now()->subMonths($months))->delete();
 
     echo json_encode([
         'status' => 'OK',
