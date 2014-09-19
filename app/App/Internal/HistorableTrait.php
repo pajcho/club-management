@@ -54,29 +54,32 @@ trait HistorableTrait {
 
     public function postCreate()
     {
-        $this->createHistory($this->getMessage('created new'));
+        $this->createHistory('created new');
     }
 
     public function postUpdate()
     {
-        $this->createHistory($this->getMessage('updated'));
+        $this->createHistory('updated');
     }
 
     public function postDelete()
     {
-        $this->createHistory($this->getMessage('deleted'));
+        $this->createHistory('deleted');
     }
 
-    private function createHistory($message)
+    private function createHistory($actionString)
     {
-        $historyRepo = App::make('App\Modules\History\Repositories\HistoryRepositoryInterface');
+        if($this->shouldBeLogged($actionString))
+        {
+            $historyRepo = App::make('App\Modules\History\Repositories\HistoryRepositoryInterface');
 
-        $historyRepo->create(array(
-            'historable_type' => get_class($this),
-            'historable_id' => $this->getKey(),
-            'user_id' => $this->getUserId(),
-            'message' => $message,
-        ));
+            $historyRepo->create(array(
+                'historable_type' => get_class($this),
+                'historable_id' => $this->getKey(),
+                'user_id' => $this->getUserId(),
+                'message' => $this->getMessage($actionString),
+            ));
+        }
     }
 
     /**
@@ -131,6 +134,28 @@ trait HistorableTrait {
             $this->historyTable(),
             $title
         );
+    }
+
+    /**
+     * Check if history should be logged
+     * This is hardcoded at this moment until we figure a way to make it more flexible
+     *
+     * @param $actionString
+     * @return boolean
+     */
+    private function shouldBeLogged($actionString)
+    {
+        $user = $this->getUser();
+
+        if($actionString == 'updated')
+        {
+            // For now we don't want to log any change that user makes on his own account
+            // This is mainly because every time user logs in cookie is refreshed and profile updated
+            // And each time this is logged in history, and we dont want this to happen any more from now on
+            if($this->historyTable() == 'user' && $user->full_name == $this->getFullNameAttribute()) return false;
+        }
+
+        return true;
     }
 
 }
