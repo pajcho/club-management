@@ -31,21 +31,45 @@
                 @foreach($data as $key => $dataItem)
                     @if($dataItem->year == $year)
 
+                        <?php
+                            // Defaults to a member that was inactive on a month that was not payed
+                            $itemClass = 'info';
+
+                            // If member payed for this month
+                            if($member->freeOfChargeOnDate($dataItem->year, $dataItem->month, $member->freeOfCharge) || $dataItem->payed)
+                            {
+                                $itemClass = 'success';
+                            }
+                            // If member was active on this month but not payed yet
+                            elseif($member->activeOnDate($dataItem->year, $dataItem->month, $member->active))
+                            {
+                                $itemClass = 'warning';
+                            }
+                        ?>
+
                         {{ Former::open()->method('PUT')->action(route('member.payments.update', array($member->id, $dataItem->year, $dataItem->month))) }}
                             <table class="table table-bordered table-condensed">
                                 <thead>
                                     <tr>
-                                        <th colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 2 }}" class="{{ $member->freeOfChargeOnDate($dataItem->year, $dataItem->month, $member->freeOfCharge) || $dataItem->payed ? 'success' : 'warning' }}">
+                                        <th colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 2 }}" class="{{$itemClass}}">
                                             {{
                                                 link_to_route(
                                                     'group.data.show',
                                                     \Carbon\Carbon::createFromDate($dataItem->year, $dataItem->month)->format('F, Y'),
                                                     array($dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $member->id),
-                                                    array('class' => 'btn btn-xs btn-' . ($member->freeOfChargeOnDate($dataItem->year, $dataItem->month, $member->freeOfCharge) || $dataItem->payed ? 'success' : 'warning'))
+                                                    array('class' => 'btn btn-xs btn-' . $itemClass)
                                                 )
                                             }}
+
                                             @if(($dataItem->year . '.' . $dataItem->month) === date('Y.n', time()))
                                                 <span class="label label-primary">Current month</span>
+                                            @endif
+
+                                            @if(!$member->activeOnDate($dataItem->year, $dataItem->month, $member->active))
+                                                <span class="label label-danger">
+                                                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                                                    Inactive
+                                                </span>
                                             @endif
                                             {{
                                                 link_to_route(
