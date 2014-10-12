@@ -98,7 +98,7 @@ class MemberGroup extends BaseModel {
 
         // Get only members active in this month
         $activeMembers = $members->filter(function($member) use ($year, $month){
-            return $member->activeOnDate($year, $month);
+            return $member->inGroupOnDate($this->id, $year, $month) && $member->activeOnDate($year, $month);
         })->values();
 
         $freeOfChargeMembers = $activeMembers->filter(function($member) use ($year, $month){

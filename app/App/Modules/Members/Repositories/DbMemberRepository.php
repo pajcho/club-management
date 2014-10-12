@@ -115,6 +115,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
         $this->updateHistory($member, $input, 'active', true);
         $this->updateHistory($member, $input, 'freeOfCharge', true);
+        $this->updateHistory($member, $input, 'group_id', true);
 
         return $member;
     }
@@ -134,6 +135,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
         $this->updateHistory($member, $input, 'active');
         $this->updateHistory($member, $input, 'freeOfCharge');
+        $this->updateHistory($member, $input, 'group_id');
 
         return $member->update($input);
     }
@@ -157,7 +159,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
                 'type' => $type,
             ));
 
-            $member->{$type . 'History'}()->save($history);
+            $member->dateHistory()->save($history);
         }
     }
 

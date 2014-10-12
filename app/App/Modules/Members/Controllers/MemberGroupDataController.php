@@ -85,14 +85,15 @@ class MemberGroupDataController extends AdminController {
 
         // Get all group members
         $members = $this->members->filter(array(
-            'group_id'          => $memberGroup->id,
+            // We need to show old members that are now in new groups so we dont need this filter any more
+            // 'group_id'          => $memberGroup->id,
             'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
 
         // Get only members active in this month
-        $members = $members->filter(function($member) use ($year, $month){
-            return $member->activeOnDate($year, $month);
+        $members = $members->filter(function($member) use ($memberGroupId, $year, $month){
+            return $member->inGroupOnDate($memberGroupId, $year, $month) && $member->activeOnDate($year, $month);
         })->values();
 
         $highlight = Input::get('highlight', false);

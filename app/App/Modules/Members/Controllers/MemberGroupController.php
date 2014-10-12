@@ -166,14 +166,15 @@ class MemberGroupController extends AdminController {
 
         // Get all active group members
         $members = $membersRepo->filter(array(
-            'group_id'      => $memberGroup->id,
+            // We need to show old members that are now in new groups so we dont need this filter any more
+            //'group_id'      => $memberGroup->id,
             'subscribed'    => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
             'orderBy'       => array('dos' => 'asc'),
         ), false);
 
         // Get only members active in this month
-        $members = $members->filter(function($member) use ($year, $month){
-            return $member->activeOnDate($year, $month);
+        $members = $members->filter(function($member) use ($id, $year, $month){
+            return $member->inGroupOnDate($id, $year, $month) && $member->activeOnDate($year, $month);
         })->values();
 
         $view = View::make(Theme::view('group.attendance'))->with(compact('memberGroup', 'members', 'year', 'month'))->render();
@@ -206,7 +207,8 @@ class MemberGroupController extends AdminController {
 
         // Get all active group members
         $members = $membersRepo->filter(array(
-            'group_id'          => $memberGroup->id,
+            // We need to show old members that are now in new groups so we dont need this filter any more
+            //'group_id'          => $memberGroup->id,
             'subscribed'        => array('<=', $subscribedBefore->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
@@ -215,8 +217,13 @@ class MemberGroupController extends AdminController {
         $months = $this->generateMonthsRange($firstMonth, $lastMonth, $subscribedBefore->year);
 
         // Get only members active in this season
-        $members = $members->filter(function($member) use ($months){
-            return $member->activeInRange(
+        $members = $members->filter(function($member) use ($id, $months){
+            return $member->inGroupInRange(
+                $id,
+                head($months), head(array_keys($months)),
+                last($months), last(array_keys($months)),
+                $member->group_id == $id
+            ) && $member->activeInRange(
                 head($months), head(array_keys($months)),
                 last($months), last(array_keys($months)),
                 $member->active
