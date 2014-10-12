@@ -1,6 +1,5 @@
 <div class="row">
     <div class="col-lg-8 col-md-12">
-        <h4 class="page-header alert alert-info">User Details</h4>
         <div class="row">
             <div class="col-md-4">
                 {{ Former::text('first_name')->label('First Name')->required() }}
@@ -15,7 +14,6 @@
             </div>
         </div>
 
-        <h4 class="page-header alert alert-info">Login Details</h4>
         <div class="row">
             <div class="col-md-4">
                 {{ Former::text('username')->label('username')->required()->help('* Used for logging in. Must be unique.') }}
@@ -32,33 +30,40 @@
 
         <div class="row">
             <div class="col-md-4">
-                @if($form == 'update')
-                {{ Former::password('password')->label('Password') }}
-                @else
-                {{ Former::password('password')->label('Password')->required() }}
-                @endif
-            </div>
-            <div class="col-md-4">
-                @if($form == 'update')
-                {{ Former::password('password_confirm')->label('Confirm Password') }}
-                @else
-                {{ Former::password('password_confirm')->label('Confirm Password')->required() }}
-                @endif
-            </div>
-        </div>
-
-        <h4 class="page-header alert alert-info">Additional Details</h4>
-        <div class="row">
-            <div class="col-md-4">
                 {{ Former::text('phone')->label('Phone') }}
             </div>
             <div class="col-md-4">
                 {{ Former::text('address')->label('Address') }}
             </div>
         </div>
+
+        {{--On update page we want to hide password fields by default because we dont need them that often--}}
+        {{--We will use javascript trigger to show them on page once required--}}
+        @if($form == 'update')
+            <div class="row">
+                <div class="col-md-8">
+                    {{ Former::checkbox('change_password')->text('Change password? ') }}
+                </div>
+            </div>
+        @endif
+        <div class="row {{ $form == 'update' ? 'change_password' : '' }}">
+            <div class="col-md-4">
+                @if($form == 'update')
+                    {{ Former::password('password')->label('Password') }}
+                @else
+                    {{ Former::password('password')->label('Password')->required() }}
+                @endif
+            </div>
+            <div class="col-md-4">
+                @if($form == 'update')
+                    {{ Former::password('password_confirm')->label('Confirm Password') }}
+                @else
+                    {{ Former::password('password_confirm')->label('Confirm Password')->required() }}
+                @endif
+            </div>
+        </div>
     </div>
     <div class="col-lg-4 col-md-12">
-        <h4 class="page-header alert alert-info">Additional Notes</h4>
         <div class="row">
             <div class="col-md-12">
                 {{ Former::textarea('notes')->label('Notes')->rows(20) }}
@@ -66,3 +71,26 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+    <script type="text/javascript">
+
+        var showHidePasswords = function(){
+            if($("#change_password").is(":checked"))
+            {
+                $('.change_password').removeClass('hidden');
+            }
+            else
+            {
+                $('.change_password').addClass('hidden')
+            }
+        }
+
+        $(document).on('change', '#change_password', function(){
+            showHidePasswords();
+        });
+
+        showHidePasswords()
+
+    </script>
+@stop
