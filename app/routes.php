@@ -36,7 +36,7 @@ Route::get('/cron/update-members-group-date-history', array(function()
 
     foreach($members as $member)
     {
-        $memberHistory = $member->dateHistory('group_id')->get();
+        $memberHistory = $member->dateHistory('group_id')->orderBy('date', 'asc')->get();
 
         if(!$memberHistory->count())
         {
@@ -48,6 +48,14 @@ Route::get('/cron/update-members-group-date-history', array(function()
             ));
 
             $member->dateHistory()->save($history);
+        }
+        elseif($memberHistory->count())
+        {
+            $memberHistory->first()->update(array(
+                'date' => $member->dos,
+                'value' => $member->group_id,
+                'type' => 'group_id',
+            ));
         }
     }
 
