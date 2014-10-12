@@ -60,7 +60,7 @@ class MemberPaymentsAndAttendanceController extends AdminController {
             else
             {
                 array_push($data, new MemberGroupData([
-                    'group_id' => $member->group_id,
+                    'group_id' => $member->getGroupOnDate($month->year, $month->month, $member->group_id),
                     'member_id' => $member->id,
                     'year' => $month->year,
                     'month' => $month->month,

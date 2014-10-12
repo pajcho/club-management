@@ -188,6 +188,24 @@ class Member extends BaseModel {
     }
 
     /**
+     * Get member group on given month in year
+     *
+     * @param $year
+     * @param $month
+     * @param bool $default = This value will be returned if no results are found for desired date
+     * @return bool
+     */
+    public function getGroupOnDate($year, $month, $default = false)
+    {
+        $date = Carbon::createFromDate($year, $month)->endOfMonth();
+
+        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
+            ->where('date', '<=', $date)->get()->first();
+
+        return $item ? $item->value : $default;
+    }
+
+    /**
      * Check if user was in given group in given range
      *
      * @param $groupId

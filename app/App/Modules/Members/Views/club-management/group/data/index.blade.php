@@ -32,7 +32,13 @@
                     @foreach($months as $key => $month)
                         <tr class="{{ $today->year == $month->year && $today->month == $month->month ? 'success bold' : '' }}">
                             <td>{{ $months->getFrom() + $key }}</td>
-                            <td>{{ $month->format('Y, F') }}</td>
+                            <td>
+                                {{ $month->format('Y, F') }}
+
+                                @if($today->year == $month->year && $today->month == $month->month)
+                                    <span class="label label-primary">Current month</span>
+                                @endif
+                            </td>
                             <td class="text-center">{{ $memberGroup->data($month->year, $month->month) ? $memberGroup->payedString($month->year, $month->month) : '' }}</td>
                             <td>
                                 {{ link_to_route('group.data.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) }}

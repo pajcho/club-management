@@ -19,6 +19,10 @@ Functional
 - [ ] Add club_id to every database table
 - [ ] When user is logged in, search for it's club and pull only corresponding details
       Find a way to do this on most generic way possible, without having to rewrite every database query out there
+- [x] Manage members payments and attendance from the edit page (per member, not per group)
+- [x] There needs to be a way to know in what group member was in every moment. 
+      Make that remember in date history database table and implement where needed
+      
 
 Visual
 ------------------------------------
