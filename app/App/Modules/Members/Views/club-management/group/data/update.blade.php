@@ -37,7 +37,7 @@
                 <thead>
                     <tr>
                         <th colspan="3">&nbsp;</th>
-                        <th colspan="{{ count($memberGroup->trainingDays($year, $month)) }}" class="text-center">
+                        <th colspan="{{ count($memberGroup->trainingDays($year, $month)) + 1 }}" class="text-center">
                             <strong>
                                 {{ \Carbon\Carbon::createFromDate($year, $month)->format('Y, F') }}
                             </strong>
@@ -51,6 +51,7 @@
                         @foreach($memberGroup->trainingDays($year, $month) as $day)
                             <th width="35" class="text-center">{{ $day->day }}</th>
                         @endforeach
+                        <th class="text-center"></th>
                     </tr>
 
                 </thead>
@@ -78,6 +79,10 @@
                                         </label>
                                     </td>
                                 @endforeach
+                                <td class="text-center {{ round(count(array_filter($memberGroup->data($year, $month, $member->id)->attendance(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) >= 50 ? 'success' : 'warning' }}">
+                                    {{ round(count(array_filter($memberGroup->data($year, $month, $member->id)->attendance(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) }}%
+                                </td>
+
                             </tr>
                         @endforeach
                     @endif
