@@ -79,8 +79,8 @@
                                         </label>
                                     </td>
                                 @endforeach
-                                <td class="text-center {{ round(count(array_filter($memberGroup->data($year, $month, $member->id)->attendance(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) >= 50 ? 'success' : 'warning' }}">
-                                    {{ round(count(array_filter($memberGroup->data($year, $month, $member->id)->attendance(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) }}%
+                                <td class="text-center {{ round(count(array_filter($memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance() : array(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) >= 50 ? 'success' : 'warning' }}">
+                                    {{ round(count(array_filter($memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance() : array(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) }}%
                                 </td>
 
                             </tr>
