@@ -69,22 +69,6 @@ class MemberGroup extends BaseModel {
         return $relation;
     }
 
-    public function payedString22($year = null, $month = null)
-    {
-        $data = $this->data($year, $month);
-
-        if(count($data))
-        {
-            $payed = $data->filter(function($member){
-                return $member->payed;
-            });
-
-            return '<span class="btn btn-xs btn-success">'.count($payed).' / '.count($data).'</a>';
-        }
-
-        return '';
-    }
-
     public function payedString($year = null, $month = null)
     {
         $this->members = app('App\Modules\Members\Repositories\MemberRepositoryInterface');

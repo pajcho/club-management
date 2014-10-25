@@ -1,4 +1,4 @@
-<?php namespace App\Modules\Members\Internal;
+<?php namespace App\Internal;
 
 use Carbon\Carbon;
 

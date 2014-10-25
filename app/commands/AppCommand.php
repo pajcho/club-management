@@ -47,13 +47,13 @@ class AppCommand extends Command {
         $this->comment('');
 
         // Generate the Application Encryption key
-//        $this->call('key:generate');
+        //$this->call('key:generate');
 
         // Drop previos database tables to make sure we have all the new data
         $this->dropTables();
         
         // Run the Revisionable Migrations
-//        $this->call('migrate', array('--package' => 'venturecraft/revisionable'));
+        //$this->call('migrate', array('--package' => 'venturecraft/revisionable'));
 
         // Run the Migrations
         $this->call('migrate');
@@ -62,7 +62,7 @@ class AppCommand extends Command {
         $this->call('db:seed');
         
         // Set writable permissions to required folders
-//        $this->setFolders();
+        //$this->setFolders();
         
         $this->comment('');
         $this->comment('');
@@ -86,9 +86,10 @@ class AppCommand extends Command {
         Schema::dropIfExists('member_group_data');
         Schema::dropIfExists('settings');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('date_history');
         Schema::dropIfExists('users_groups');
+        Schema::dropIfExists('users_groups_data');
         Schema::dropIfExists('history');
+        Schema::dropIfExists('date_history');
         Schema::dropIfExists('results');
         Schema::dropIfExists('result_categories');
     }

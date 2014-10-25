@@ -24,5 +24,9 @@ class UsersProvider extends ServiceProvider
             'App\Modules\Users\Repositories\UserRepositoryInterface',
             'App\Modules\Users\Repositories\DbUserRepository'
         );
+        $this->app->singleton(
+            'App\Modules\Users\Repositories\UserGroupDataRepositoryInterface',
+            'App\Modules\Users\Repositories\DbUserGroupDataRepository'
+        );
     }
 }

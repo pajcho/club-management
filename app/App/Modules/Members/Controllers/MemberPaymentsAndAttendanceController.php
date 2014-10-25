@@ -1,8 +1,7 @@
 <?php namespace App\Modules\Members\Controllers;
 
 use App\Controllers\AdminController;
-use App\Modules\Members\Internal\EditableMonthsTrait;
-use App\Modules\Members\Internal\Validators\MemberValidator;
+use App\Internal\EditableMonthsTrait;
 use App\Modules\Members\Models\MemberGroupData;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;

@@ -34,6 +34,11 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         return $this->belongsToMany('App\Modules\Members\Models\MemberGroup', 'users_groups', 'user_id', 'group_id')->withTimestamps();
     }
 
+    public function data()
+    {
+        return $this->hasMany('App\Modules\Users\Models\UserGroupData');
+    }
+
     /**
      * Hash password automaticaly when creating user
      *
