@@ -9,6 +9,7 @@ use App\Service\Theme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
 class UserAttendanceController extends AdminController {
@@ -21,6 +22,8 @@ class UserAttendanceController extends AdminController {
     public function __construct(UserRepositoryInterface $users, UserGroupDataRepositoryInterface $userGroupData)
     {
         parent::__construct();
+
+        $this->filterRequests();
 
         View::share('activeMenu', 'users');
 
@@ -190,4 +193,19 @@ class UserAttendanceController extends AdminController {
         //
     }
 
+    /**
+     * Filter user requests, because some actions
+     * are only allowed to admin users
+     */
+    public function filterRequests()
+    {
+        if($userId = Route::input('user'))
+        {
+            // Allow only admin users and owners to edit their profile
+            $this->beforeFilter('isAdminOr:' . $userId, ['only' => ['index', 'update']]);
+        }
+
+        // Allow only admin users to do requests here
+        $this->beforeFilter('isAdminOr', ['except' => ['index', 'update']]);
+    }
 }
