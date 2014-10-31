@@ -54,7 +54,7 @@
                         @foreach($months as $tmp_month => $tmp_year)
 
                             {{-- We don't want anything displayed if user was not even subscribed --}}
-                            @if(Carbon\Carbon::createFromDate($tmp_year, $tmp_month)->endOfMonth()->lt($member->dos))
+                            @if(Carbon\Carbon::createFromDate($tmp_year, $tmp_month, 1)->endOfMonth()->lt($member->dos))
                                 <td></td>
                             @else
                                 {{-- Mark month of subscription with border so we know when did member subscribed --}}

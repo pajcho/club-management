@@ -19,7 +19,7 @@ class UserGroupData extends BaseModel {
             'for %s in %s for %s',
             '<strong>' . link_to_route('user.show', $this->user->full_name, $this->user->id) . '</strong>',
             '<strong>' . link_to_route('group.show', $this->group->name, $this->group->id) . '</strong>',
-            '<strong>' . link_to_route('user.attendance.index', Carbon::createFromDate($this->year, $this->month)->format('F, Y'), $this->user->id) . '</strong>'
+            '<strong>' . link_to_route('user.attendance.index', Carbon::createFromDate($this->year, $this->month, 1)->format('F, Y'), $this->user->id) . '</strong>'
         );
     }
 

@@ -85,7 +85,7 @@ class Member extends BaseModel {
      */
     public function activeOnDate($year, $month, $default = true)
     {
-        $date = Carbon::createFromDate($year, $month)->endOfMonth();
+        $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->dateHistory('active')->orderBy('date', 'desc')
             ->where('date', '<=', $date)->get()->first();
@@ -110,8 +110,8 @@ class Member extends BaseModel {
      */
     public function activeInRange($startYear, $startMonth, $endYear, $endMonth, $default = true)
     {
-        $start = Carbon::createFromDate($startYear, $startMonth)->startOfMonth()->startOfDay()->toDateTimeString();
-        $end = Carbon::createFromDate($endYear, $endMonth)->endOfMonth()->endOfDay()->toDateTimeString();
+        $start = Carbon::createFromDate($startYear, $startMonth, 1)->startOfMonth()->startOfDay()->toDateTimeString();
+        $end = Carbon::createFromDate($endYear, $endMonth, 1)->endOfMonth()->endOfDay()->toDateTimeString();
 
         // @TODO Fix this to use laravel's query builder instead of raw query
         $query = "select dh.id, dh.member_id, dh.date, dh.value, dh.type from `date_history` dh
@@ -150,7 +150,7 @@ class Member extends BaseModel {
      */
     public function freeOfChargeOnDate($year, $month, $default = false)
     {
-        $date = Carbon::createFromDate($year, $month)->endOfMonth();
+        $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->dateHistory('freeOfCharge')->orderBy('date', 'desc')
             ->where('date', '<=', $date)->get()->first();
@@ -174,7 +174,7 @@ class Member extends BaseModel {
      */
     public function inGroupOnDate($groupId, $year, $month, $default = false)
     {
-        $date = Carbon::createFromDate($year, $month)->endOfMonth();
+        $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
             ->where('date', '<=', $date)->get()->first();
@@ -197,7 +197,7 @@ class Member extends BaseModel {
      */
     public function getGroupOnDate($year, $month, $default = false)
     {
-        $date = Carbon::createFromDate($year, $month)->endOfMonth();
+        $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
             ->where('date', '<=', $date)->get()->first();
@@ -218,8 +218,8 @@ class Member extends BaseModel {
      */
     public function inGroupInRange($groupId, $startYear, $startMonth, $endYear, $endMonth, $default = true)
     {
-        $start = Carbon::createFromDate($startYear, $startMonth)->startOfMonth()->startOfDay()->toDateTimeString();
-        $end = Carbon::createFromDate($endYear, $endMonth)->endOfMonth()->endOfDay()->toDateTimeString();
+        $start = Carbon::createFromDate($startYear, $startMonth, 1)->startOfMonth()->startOfDay()->toDateTimeString();
+        $end = Carbon::createFromDate($endYear, $endMonth, 1)->endOfMonth()->endOfDay()->toDateTimeString();
 
         // @TODO Fix this to use laravel's query builder instead of raw query
         $query = "select dh.id, dh.member_id, dh.date, dh.value, dh.type from `date_history` dh

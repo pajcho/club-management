@@ -168,7 +168,7 @@ class MemberGroupController extends AdminController {
         $members = $membersRepo->filter(array(
             // We need to show old members that are now in new groups so we dont need this filter any more
             //'group_id'      => $memberGroup->id,
-            'subscribed'    => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
+            'subscribed'    => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
             'orderBy'       => array('dos' => 'asc'),
         ), false);
 
@@ -202,7 +202,7 @@ class MemberGroupController extends AdminController {
         $lastMonth = (int) Config::get('settings.season_ends', 6);
 
         // Generate date limit
-        $subscribedBefore = Carbon::createFromDate($year, $lastMonth);
+        $subscribedBefore = Carbon::createFromDate($year, $lastMonth, 1);
         if($month > $lastMonth) $subscribedBefore = $subscribedBefore->addYear();
 
         // Get all active group members

@@ -76,7 +76,7 @@ class MemberGroup extends BaseModel {
         // Get all group members
         $members = $this->members->filter(array(
             'group_id'          => $this->id,
-            'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
+            'subscribed'        => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
 
@@ -192,8 +192,8 @@ class MemberGroup extends BaseModel {
     public function trainingDays($year, $month)
     {
         $days = array();
-        $startOfMonth = Carbon::createFromDate($year, $month)->startOfMonth();
-        $endOfMonth = Carbon::createFromDate($year, $month)->endOfMonth();
+        $startOfMonth = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $endOfMonth = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         while($startOfMonth->lte($endOfMonth))
         {

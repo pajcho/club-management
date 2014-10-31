@@ -14,7 +14,7 @@ trait EditableMonthsTrait {
     private function getEditableMonths($startYear = 2013, $startMonth = 1)
     {
         $months = array();
-        $start = Carbon::createFromDate($startYear, $startMonth);
+        $start = Carbon::createFromDate($startYear, $startMonth, 1);
         $end = Carbon::now()->addMonth();
 
         while($end->gte($start))

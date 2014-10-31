@@ -87,7 +87,7 @@ class MemberGroupDataController extends AdminController {
         $members = $this->members->filter(array(
             // We need to show old members that are now in new groups so we dont need this filter any more
             // 'group_id'          => $memberGroup->id,
-            'subscribed'        => array('<=', Carbon::createFromDate($year, $month)->endOfMonth()->toDateTimeString()),
+            'subscribed'        => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
 

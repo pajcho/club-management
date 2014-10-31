@@ -25,7 +25,7 @@
                 </th>
                 <th colspan="{{ count($memberGroup->trainingDays($year, $month)) }}">
                     <strong>
-                        {{ Lang::has('dates.month.' . $month) ? Lang::get('dates.month.' . $month) : Carbon\Carbon::createFromDate($year, $month)->format('F') }} {{ $year }}
+                        {{ Lang::has('dates.month.' . $month) ? Lang::get('dates.month.' . $month) : Carbon\Carbon::createFromDate($year, $month, 1)->format('F') }} {{ $year }}
                     </strong>
                 </th>
                 <th><strong>{{ $memberGroup->name }}</strong></th>

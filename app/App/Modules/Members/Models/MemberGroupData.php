@@ -19,7 +19,7 @@ class MemberGroupData extends BaseModel {
             'for %s in %s for %s',
             '<strong>' . link_to_route('member.show', $this->member->full_name, $this->member->id) . '</strong>',
             '<strong>' . link_to_route('group.show', $this->group->name, $this->group->id) . '</strong>',
-            '<strong>' . link_to_route('group.data.show', Carbon::createFromDate($this->year, $this->month)->format('F') . ', ' . $this->year, array($this->group->id, $this->year, $this->month)) . '</strong>'
+            '<strong>' . link_to_route('group.data.show', Carbon::createFromDate($this->year, $this->month, 1)->format('F') . ', ' . $this->year, array($this->group->id, $this->year, $this->month)) . '</strong>'
         );
     }
 
