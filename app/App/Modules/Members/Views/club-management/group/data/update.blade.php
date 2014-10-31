@@ -39,7 +39,7 @@
                         <th colspan="3">&nbsp;</th>
                         <th colspan="{{ count($memberGroup->trainingDays($year, $month)) + 1 }}" class="text-center">
                             <strong>
-                                {{ \Carbon\Carbon::createFromDate($year, $month)->format('Y, F') }}
+                                {{ \Carbon\Carbon::createFromDate($year, $month, 1)->format('Y, F') }}
                             </strong>
                         </th>
                     </tr>

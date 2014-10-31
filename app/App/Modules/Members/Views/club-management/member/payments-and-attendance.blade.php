@@ -55,7 +55,7 @@
                                             {{
                                                 link_to_route(
                                                     'group.data.show',
-                                                    \Carbon\Carbon::createFromDate($dataItem->year, $dataItem->month)->format('F, Y'),
+                                                    \Carbon\Carbon::createFromDate($dataItem->year, $dataItem->month, 1)->format('F, Y'),
                                                     array($dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $member->id),
                                                     array('class' => 'btn btn-xs btn-' . $itemClass)
                                                 )
