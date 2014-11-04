@@ -75,7 +75,8 @@ class MemberGroup extends BaseModel {
 
         // Get all group members
         $members = $this->members->filter(array(
-            'group_id'          => $this->id,
+            // We need to show old members that are now in new groups so we dont need this filter any more
+            // 'group_id'          => $this->id,
             'subscribed'        => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
             'orderBy'           => array('dos' => 'asc'),
         ), false);
