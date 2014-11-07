@@ -125,6 +125,14 @@ $(document).ready(function(){
             });
         }
 
+        $('.ajax-content').each(function(){
+            var element = $(this).html('<i class="fa fa-spinner fa-spin"></i>');
+
+            $.ajax($(this).data('url')).done(function(response){
+                element.html(response);
+            });
+        });
+
         // Tooltips
         $('[title]').tooltip();
 
