@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Member Groups <small>Create Member Group</small></h1>
+    <h1 class="page-header"><i class="fa fa-users"></i> Member Groups <small>Create Member Group</small></h1>
 
     {{ Former::open()->action(route('group.store')) }}
 

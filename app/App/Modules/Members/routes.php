@@ -49,5 +49,9 @@
                 ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
             Route::put('{year}/{month}', array('as' => 'group.data.update', 'uses' => $groupDataController . '@update'))
                 ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
+
+            // AJAX route to get number of members that have already payed membership for month
+            Route::get('{year}/{month}/payment-data', array('as' => 'group.data.get.payment-data', 'uses' => $groupDataController . '@getPaymentData'))
+                ->where(array('year' => '[0-9]+', 'month' => '[0-9]+'));
         });
     });

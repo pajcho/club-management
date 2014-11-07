@@ -14,14 +14,14 @@
                 <li>
                     {{ HTML::decode(link_to('#', $currentUser->full_name . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
-                        <li>{{ HTML::decode(link_to_route('user.show', '<i class="glyphicon glyphicon-edit"></i> Edit Profile', $currentUser->id)) }}</li>
+                        <li>{{ HTML::decode(link_to_route('user.show', '<i class="fa fa-pencil"></i> Edit Profile', $currentUser->id)) }}</li>
                         <li class="nav-divider"></li>
-                        <li>{{ HTML::decode(link_to_route('logout', '<i class="glyphicon glyphicon-off"></i> Logout</span>')) }}</li>
+                        <li>{{ HTML::decode(link_to_route('logout', '<i class="fa fa-power-off"></i> Logout</span>')) }}</li>
                     </ul>
                 </li>
 
                 <li{{ ($activeMenu == 'members' ? ' class="active"' : '') }}>
-                    {{ HTML::decode(link_to('#', '<i class="glyphicon glyphicon-user"></i> Members <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                    {{ HTML::decode(link_to('#', '<i class="fa fa-user"></i> Members <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
                         <li>{{ HTML::decode(link_to_route('member.index', 'Members')) }}</li>
                         <li>{{ HTML::decode(link_to_route('member.create', 'Create Member')) }}</li>
@@ -34,7 +34,7 @@
                 </li>
 
                 <li{{ ($activeMenu == 'groups' ? ' class="active"' : '') }}>
-                    {{ HTML::decode(link_to('#', '<i class="glyphicon glyphicon-bookmark"></i> Groups <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                    {{ HTML::decode(link_to('#', '<i class="fa fa-users"></i> Groups <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
                         <li>{{ HTML::decode(link_to_route('group.index', 'Groups')) }}</li>
                         @if($currentUser->isAdmin())
@@ -44,14 +44,14 @@
                 </li>
                 @if($currentUser->isAdmin())
                     <li{{ ($activeMenu == 'users' ? ' class="active"' : '') }}>
-                        {{ HTML::decode(link_to('#', '<i class="glyphicon glyphicon-bookmark"></i> Users <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                        {{ HTML::decode(link_to('#', '<i class="fa fa-male"></i> Users <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                         <ul class="dropdown-menu">
                             <li>{{ HTML::decode(link_to_route('user.index', 'Users')) }}</li>
                             <li>{{ HTML::decode(link_to_route('user.create', 'Create User')) }}</li>
                         </ul>
                     </li>
-                    <li {{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('settings.index', '<i class="glyphicon glyphicon-cog" title="Settings" data-placement="bottom"></i> <span class="hidden-sm">Settings</span>')) }}</li>
-                    <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="glyphicon glyphicon-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm">History</span>')) }}</li>
+                    <li {{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('settings.index', '<i class="fa fa-cog" title="Settings" data-placement="bottom"></i> <span class="hidden-sm">Settings</span>')) }}</li>
+                    <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="fa fa-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm">History</span>')) }}</li>
                 @endif
             </ul>
         </div>

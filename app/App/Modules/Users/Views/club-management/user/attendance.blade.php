@@ -12,7 +12,7 @@
     <h1 class="page-header">
         Users <small>{{ $user->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-info" href="{{ route('user.show', array($user->id)) }}"><i class="glyphicon glyphicon-circle-arrow-left"></i> Back to user</a>
+            <a class="btn btn-info" href="{{ route('user.show', array($user->id)) }}"><i class="fa fa-arrow-left"></i> Back to user</a>
         </div>
     </h1>
 

@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Result Categories</h1>
+    <h1 class="page-header"><i class="fa fa-bars"></i> Result Categories</h1>
 
     @include(theme_view('result/category/_search_form'))
 
@@ -31,8 +31,8 @@
                             <td>{{ $resultCategories->getFrom() + $key }}</td>
                             <td>{{ $category->name }}</td>
                             <td>
-                                {{ HTML::decode(link_to_route('result.category.show', '<i class="glyphicon glyphicon-edit"></i>', array($category->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                {{ HTML::decode(Form::delete(route('result.category.destroy', array($category->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this result category?'))) }}
+                                {{ HTML::decode(link_to_route('result.category.show', '<i class="fa fa-pencil"></i>', array($category->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                {{ HTML::decode(Form::delete(route('result.category.destroy', array($category->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this result category?'))) }}
                             </td>
                         </tr>
                     @endforeach

@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Members</h1>
+    <h1 class="page-header"><i class="fa fa-user"></i> Members</h1>
 
     @include(theme_view('member/_search_form'))
 
@@ -43,8 +43,8 @@
                             </td>
                             <td>{{ $member->phone }}</td>
                             <td>
-                                {{ HTML::decode(link_to_route('member.show', '<i class="glyphicon glyphicon-edit"></i>', array($member->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                {{ HTML::decode(Form::delete(route('member.destroy', array($member->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member?'))) }}
+                                {{ HTML::decode(link_to_route('member.show', '<i class="fa fa-pencil"></i>', array($member->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                {{ HTML::decode(Form::delete(route('member.destroy', array($member->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member?'))) }}
                             </td>
                         </tr>
                     @endforeach

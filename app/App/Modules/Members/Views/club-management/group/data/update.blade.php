@@ -17,10 +17,10 @@
 
             <span class="col-md-4">
                 <div class="pull-right">
-                    {{ HTML::decode(link_to_route('group.payments', '<i class="glyphicon glyphicon-print"></i> Payments', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Payments PDF'))) }}
+                    {{ HTML::decode(link_to_route('group.payments', '<i class="fa fa-print"></i> Payments', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Payments PDF'))) }}
 
                     @if($memberGroup->total_monthly_time)
-                        {{ HTML::decode(link_to_route('group.attendance', '<i class="glyphicon glyphicon-print"></i> Attendance', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Attendance PDF'))) }}
+                        {{ HTML::decode(link_to_route('group.attendance', '<i class="fa fa-print"></i> Attendance', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Attendance PDF'))) }}
                     @endif
                 </div>
             </span>
@@ -68,7 +68,7 @@
                                             {{ Form::checkbox('data[' . $member->id . '][payed]', 1, $memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->payed : false, array('id' => 'payment_' . $member->id)) }}
                                         </label>
                                     @else
-                                        <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;" title="Free of charge"><i class="glyphicon glyphicon-star small"></i></label>
+                                        <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;" title="Free of charge"><i class="fa fa-star small"></i></label>
                                     @endif
                                 </td>
                                 @foreach($memberGroup->trainingDays($year, $month) as $day)

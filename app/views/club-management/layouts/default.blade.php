@@ -19,6 +19,7 @@
         </script>
         
         <!-- BEGIN THEME STYLES -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="{{ asset(theme_path('css/styles.min.css')) }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 

@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Settings</h1>
+    <h1 class="page-header"><i class="fa fa-cog"></i> Settings</h1>
 
     {{ Former::open()->action(route('settings.store')) }}
 

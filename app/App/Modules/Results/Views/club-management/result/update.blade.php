@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Results <small>{{ $result->member->full_name }}</small></h1>
+    <h1 class="page-header"><i class="fa fa-trophy"></i> Results <small>{{ $result->member->full_name }}</small></h1>
 
     {{ Former::open()->method('PUT')->action(route('result.update', $result->id)) }}
 

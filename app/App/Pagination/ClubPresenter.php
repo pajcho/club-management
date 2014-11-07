@@ -75,7 +75,7 @@ class ClubPresenter extends Presenter {
      */
     public function getPrevPageLinkWrapper($url, $class)
     {
-        return '<li class="'.$class.'"><a href="'.$url.'"><i class="glyphicon glyphicon-arrow-left"></i></a></li>';
+        return '<li class="'.$class.'"><a href="'.$url.'"><i class="fa fa-arrow-left"></i></a></li>';
     }
 
     /**
@@ -87,7 +87,7 @@ class ClubPresenter extends Presenter {
      */
     public function getNextPageLinkWrapper($url, $class)
     {
-        return '<li class="'.$class.'"><a href="'.$url.'"><i class="glyphicon glyphicon-arrow-right"></i></a></li>';
+        return '<li class="'.$class.'"><a href="'.$url.'"><i class="fa fa-arrow-right"></i></a></li>';
     }
 
     /**
@@ -98,7 +98,7 @@ class ClubPresenter extends Presenter {
      */
     public function getPrevDisabledTextWrapper($class)
     {
-        return '<li class="disabled '.$class.'"><a href="#"><i class="glyphicon glyphicon-arrow-left"></i></a></li>';
+        return '<li class="disabled '.$class.'"><a href="#"><i class="fa fa-arrow-left"></i></a></li>';
     }
 
     /**
@@ -109,7 +109,7 @@ class ClubPresenter extends Presenter {
      */
     public function getNextDisabledTextWrapper($class)
     {
-        return '<li class="disabled '.$class.'"><a href="#"><i class="glyphicon glyphicon-arrow-right"></i></a></li>';
+        return '<li class="disabled '.$class.'"><a href="#"><i class="fa fa-arrow-right"></i></a></li>';
     }
 
     /**

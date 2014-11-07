@@ -10,9 +10,9 @@
 @section('content')
 
     <h1 class="page-header">
-        Members <small>{{ $member->full_name }}</small>
+        <i class="fa fa-user"></i> Members <small>{{ $member->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-info" href="{{ route('member.show', array($member->id)) }}"><i class="glyphicon glyphicon-circle-arrow-left"></i> Back to member</a>
+            <a class="btn btn-info" href="{{ route('member.show', array($member->id)) }}"><i class="fa fa-arrow-left"></i> Back to member</a>
         </div>
     </h1>
 
@@ -67,7 +67,7 @@
 
                                             @if(!$member->activeOnDate($dataItem->year, $dataItem->month, $member->active))
                                                 <span class="label label-danger">
-                                                    <i class="glyphicon glyphicon-exclamation-sign"></i>
+                                                    <i class="fa fa-warning"></i>
                                                     Inactive
                                                 </span>
                                             @endif
@@ -99,7 +99,7 @@
                                                     {{ Form::checkbox('data[' . $dataItem->group_id . '][payed]', 1, $dataItem->payed == '1' ? true : false, array('id' => 'payment_' . $dataItem->member_id . '_' . $dataItem->group_id . '_' . $dataItem->month)) }}
                                                 </label>
                                             @else
-                                                <label for="payment_{{ $dataItem->group_id }}" style="width: 100%; height: 100%;" title="Free of charge"><i class="glyphicon glyphicon-star small"></i></label>
+                                                <label for="payment_{{ $dataItem->group_id }}" style="width: 100%; height: 100%;" title="Free of charge"><i class="fa fa-star small"></i></label>
                                             @endif
                                         </td>
                                         <th>&nbsp;</th>

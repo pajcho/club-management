@@ -81,15 +81,15 @@ class MemberGroupDataController extends AdminController {
      */
 	public function show($memberGroupId, $year, $month)
 	{
-        $memberGroup = $this->memberGroups->findWith($memberGroupId, array('data'));
+        $memberGroup = $this->memberGroups->findWith($memberGroupId, ['data']);
 
         // Get all group members
-        $members = $this->members->filter(array(
+        $members = $this->members->filter([
             // We need to show old members that are now in new groups so we dont need this filter any more
             // 'group_id'          => $memberGroup->id,
-            'subscribed'        => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
-            'orderBy'           => array('dos' => 'asc'),
-        ), false);
+            'subscribed'        => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'orderBy'           => ['dos' => 'asc'],
+        ], false);
 
         // Get only members active in this month
         $members = $members->filter(function($member) use ($memberGroupId, $year, $month){
@@ -122,20 +122,20 @@ class MemberGroupDataController extends AdminController {
      */
 	public function update($memberGroupId, $year, $month)
 	{
-        foreach(Input::get('data', array()) as $memberId => $data)
+        foreach(Input::get('data', []) as $memberId => $data)
         {
-            $data = array(
+            $data = [
                 'member_id'     => $memberId,
                 'year'          => $year,
                 'month'         => $month,
                 'payed'         => array_get($data, 'payed', 0),
                 'attendance'    => json_encode($data['attendance']),
-            );
+            ];
 
             $this->memberGroups->updateData($memberGroupId, $data);
         }
 
-        return Redirect::route('group.data.show', array($memberGroupId, $year, $month))->withSuccess('Group data updated!');
+        return Redirect::route('group.data.show', [$memberGroupId, $year, $month])->withSuccess('Group data updated!');
 	}
 
 	/**
@@ -148,4 +148,20 @@ class MemberGroupDataController extends AdminController {
 	{
 
 	}
+
+    /**
+     * Should be only called as an AJAX call as it will only return content of one button
+     *
+     * @param $memberGroupId
+     * @param $year
+     * @param $month
+     *
+     * @return string
+     */
+    public function getPaymentData($memberGroupId, $year, $month)
+    {
+        $memberGroup = $this->memberGroups->findWith($memberGroupId, ['data']);
+
+        return $memberGroup->data($year, $month) ? $memberGroup->payedString($year, $month) : '';
+    }
 }

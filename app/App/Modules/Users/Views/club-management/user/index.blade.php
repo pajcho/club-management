@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Users</h1>
+    <h1 class="page-header"><i class="fa fa-male"></i> Users</h1>
 
     <div class="table-responsive">
         <table class="table table-striped table-condensed table-hover">
@@ -33,8 +33,8 @@
                             <td>{{ implode(', ', $user->groups->lists('name')) }}</td>
                             <td>{{ ucfirst($user->type) }}</td>
                             <td>
-                                {{ HTML::decode(link_to_route('user.show', '<i class="glyphicon glyphicon-edit"></i>', array($user->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                {{ HTML::decode(Form::delete(route('user.destroy', array($user->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this user?'))) }}
+                                {{ HTML::decode(link_to_route('user.show', '<i class="fa fa-pencil"></i>', array($user->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                {{ HTML::decode(Form::delete(route('user.destroy', array($user->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this user?'))) }}
                             </td>
                         </tr>
                     @endforeach

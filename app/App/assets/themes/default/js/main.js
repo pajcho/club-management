@@ -30,7 +30,7 @@ var confirmPopup =
         // Set default message ending if none is defined
         if(typeof extraMsg == "undefined") extraMsg = "do this?";
 
-        var msg  = '<i class="glyphicon glyphicon-warning-sign modal-icon text-danger"></i>&nbsp;Are you sure you want to&nbsp;' + extraMsg;
+        var msg  = '<i class="fa fa-warning modal-icon text-danger"></i>&nbsp;Are you sure you want to&nbsp;' + extraMsg;
 
         // If the data-method attribute is not PUT or DELETE,
         // then we don't know what to do. Just ignore.

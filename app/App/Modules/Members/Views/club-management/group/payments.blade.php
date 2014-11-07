@@ -72,7 +72,7 @@
                                             {{ $memberGroup->data($tmp_year, $tmp_month, $member->id) ? ($memberGroup->data($tmp_year, $tmp_month, $member->id)->payed ? '+' : '&nbsp;') : '&nbsp;' }}
                                         @else
                                             <!-- member is free of charge this month -->
-                                            <i class="glyphicon glyphicon-star small"></i>
+                                            <i class="fa fa-star small"></i>
                                         @endif
                                     @else
                                         <!-- member is inactive this month -->

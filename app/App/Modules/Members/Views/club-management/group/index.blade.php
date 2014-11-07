@@ -10,7 +10,7 @@
 @section('content')
 
     <h1 class="page-header">
-        Member Groups
+        <i class="fa fa-users"></i> Member Groups
     </h1>
 
     <div class="table-responsive">
@@ -37,15 +37,15 @@
                             <td>{{ $memberGroup->location }}</td>
                             <td>{{ $memberGroup->total_monthly_time }} hours</td>
                             <td>
-                                {{ HTML::decode(link_to_route('member.index', '<i class="glyphicon glyphicon-user"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link'))) }}
+                                {{ HTML::decode(link_to_route('member.index', '<i class="fa fa-user"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link'))) }}
                             </td>
                             <td>
                                 {{ link_to_route('group.data.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>
                             @if($currentUser->isAdmin())
                                 <td>
-                                    {{ HTML::decode(link_to_route('group.show', '<i class="glyphicon glyphicon-edit"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
-                                    {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="glyphicon glyphicon-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) }}
+                                    {{ HTML::decode(link_to_route('group.show', '<i class="fa fa-pencil"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                    {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) }}
                                 </td>
                             @endif
                         </tr>

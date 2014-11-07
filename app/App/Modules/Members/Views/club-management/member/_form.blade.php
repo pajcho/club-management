@@ -43,7 +43,7 @@
                         ->label('Medical Examination')
                         ->addClass(is_object(Former::getValue('doc')) ? (Former::getValue('doc')->gte(\Carbon\Carbon::now()->startOfDay()) ? 'btn-success' : 'btn-danger') : 'btn-warning')
                         ->addGroupClass('date datepicker')
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>')
+                        ->append('<i class="fa fa-calendar"></i>')
                         ->help('Example: 21.10.2014 <i>(Enter date of expire)</i>')
                         ->autocomplete('off')
                 }}
@@ -57,7 +57,7 @@
                         ->label('Date of Birth')
                         ->required()
                         ->addGroupClass('date datepicker')
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>')
+                        ->append('<i class="fa fa-calendar"></i>')
                         ->help('Example: 21.10.2014')
                         ->autocomplete('off')
                 }}
@@ -68,7 +68,7 @@
                         ->label('Date of Subscription')
                         ->required()
                         ->addGroupClass('date datepicker')
-                        ->append('<i class="glyphicon glyphicon-calendar"></i>')
+                        ->append('<i class="fa fa-calendar"></i>')
                         ->help('Example: 12.10.2014')
                         ->autocomplete('off')
                 }}

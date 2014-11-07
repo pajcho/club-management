@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Users <small>Create User</small></h1>
+    <h1 class="page-header"><i class="fa fa-male"></i> Users <small>Create User</small></h1>
 
     {{ Former::open()->action(route('user.store')) }}
 

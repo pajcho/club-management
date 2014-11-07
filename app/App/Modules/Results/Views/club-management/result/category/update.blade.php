@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Result Category <small>{{ $resultCategory->name }}</small></h1>
+    <h1 class="page-header"><i class="fa fa-bars"></i> Result Category <small>{{ $resultCategory->name }}</small></h1>
 
     {{ Former::open()->method('PUT')->action(route('result.category.update', $resultCategory->id)) }}
 

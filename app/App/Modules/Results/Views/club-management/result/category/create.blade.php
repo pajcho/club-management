@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Result Categories <small>Create Result Category</small></h1>
+    <h1 class="page-header"><i class="fa fa-bars"></i> Result Categories <small>Create Result Category</small></h1>
 
     {{ Former::open()->action(route('result.category.store')) }}
 

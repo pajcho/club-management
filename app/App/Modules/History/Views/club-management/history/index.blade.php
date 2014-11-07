@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">History</h1>
+    <h1 class="page-header"><i class="fa fa-cloud"></i> History</h1>
 
     @include(theme_view('history/_search_form'))
 

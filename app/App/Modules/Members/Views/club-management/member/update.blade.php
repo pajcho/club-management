@@ -10,9 +10,9 @@
 @section('content')
 
     <h1 class="page-header">
-        Members <small>{{ $member->full_name }}</small>
+        <i class="fa fa-user"></i> Members <small>{{ $member->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-sm btn-info" href="{{ route('member.payments.index', array($member->id)) }}">Payments and Attendance <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+            <a class="btn btn-sm btn-info" href="{{ route('member.payments.index', array($member->id)) }}">Payments and Attendance <i class="fa fa-arrow-right"></i></a>
         </div>
     </h1>
 

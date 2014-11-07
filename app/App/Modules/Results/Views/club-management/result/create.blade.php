@@ -9,7 +9,7 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header">Results <small>Create Result</small></h1>
+    <h1 class="page-header"><i class="fa fa-trophy"></i> Results <small>Create Result</small></h1>
 
     {{ Former::open()->action(route('result.store')) }}
 
