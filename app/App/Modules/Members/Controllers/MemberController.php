@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
-class MemberController extends AdminController {
+class MemberController extends AdminController
+{
 
     private $members;
     private $groups;
@@ -38,28 +39,28 @@ class MemberController extends AdminController {
         // Get all members
         $members = $this->members->filter($input);
 
-        $groups = array('' => 'Group') + $this->groups->getForSelect();
-        $locations = array('' => 'Location') + $this->groups->getLocationsForSelect();
+        $groups = ['' => 'Group'] + $this->groups->getForSelect();
+        $locations = ['' => 'Location'] + $this->groups->getLocationsForSelect();
 
         // Make user status search options
-        $member_status = array(
-            '' => 'All members',
-            '1' => 'Active Members',
+        $member_status = [
+            ''   => 'All members',
+            '1'  => 'Active Members',
             '00' => 'Inactive Members'
-        );
-        $member_free = array(
-            '' => 'All members',
+        ];
+        $member_free = [
+            ''   => 'All members',
             '00' => 'Paying Members',
-            '1' => 'Free Members'
-        );
+            '1'  => 'Free Members'
+        ];
 
         // Generate filters title
         $filters_title = '';
-        if(isset($member_status[Input::get('active', '')])) $filters_title = $member_status[Input::get('active', '')];
-        if(isset($member_free[Input::get('freeOfCharge', '')])) $filters_title = $member_free[Input::get('freeOfCharge', '')] . ' / ' . $filters_title;
-        if(isset($locations[Input::get('location') ?: false])) $filters_title = $locations[Input::get('location')] . ' / ' . $filters_title;
-        if(isset($groups[Input::get('group_id') ?: false])) $filters_title = $groups[Input::get('group_id')] . ' / ' . $filters_title;
-        if(Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
+        if (isset($member_status[ Input::get('active', '') ])) $filters_title = $member_status[ Input::get('active', '') ];
+        if (isset($member_free[ Input::get('freeOfCharge', '') ])) $filters_title = $member_free[ Input::get('freeOfCharge', '') ] . ' / ' . $filters_title;
+        if (isset($locations[ Input::get('location') ?: false ])) $filters_title = $locations[ Input::get('location') ] . ' / ' . $filters_title;
+        if (isset($groups[ Input::get('group_id') ?: false ])) $filters_title = $groups[ Input::get('group_id') ] . ' / ' . $filters_title;
+        if (Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
 
         return View::make(Theme::view('member.index'))->with(compact('members', 'groups', 'locations', 'member_status', 'member_free', 'filters_title'));
     }
@@ -72,6 +73,7 @@ class MemberController extends AdminController {
     public function create()
     {
         $groups = $this->groups->getForSelect();
+
         return View::make(Theme::view('member.create'))->with(compact('groups'));
     }
 
@@ -84,17 +86,15 @@ class MemberController extends AdminController {
     {
         $validator = new MemberValidator();
 
-        if ($validator->validate(Input::all(), 'create'))
-        {
+        if ($validator->validate(Input::all(), 'create')) {
             // validation passed
             $this->members->create($validator->data());
 
             // Create redirect depending on submit button
             $redirect = Redirect::route('member.index');
 
-            if(Input::get('create_and_add', false))
+            if (Input::get('create_and_add', false))
                 $redirect = Redirect::route('member.create');
-
 
             return $redirect->withSuccess('Member created!');
         }
@@ -106,14 +106,15 @@ class MemberController extends AdminController {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function show($id)
     {
         $member = $this->members->find($id);
 
-        if(!$member) App::abort(404);
+        if (!$member) App::abort(404);
 
         $groups = $this->groups->getForSelect();
 
@@ -123,7 +124,8 @@ class MemberController extends AdminController {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -134,15 +136,15 @@ class MemberController extends AdminController {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function update($id)
     {
         $validator = new MemberValidator();
 
-        if ($validator->validate(Input::all(), 'update', $id))
-        {
+        if ($validator->validate(Input::all(), 'update', $id)) {
             // validation passed
             $this->members->update($id, $validator->data());
 
@@ -156,7 +158,8 @@ class MemberController extends AdminController {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function destroy($id)
