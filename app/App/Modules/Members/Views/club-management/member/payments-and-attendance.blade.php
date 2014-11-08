@@ -116,6 +116,9 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 2 }}" class="text-right">
+                                            @if($dataItem->id)
+                                                {{ HTML::decode(Form::delete(route('member.payments.destroy', array($dataItem->member_id, $dataItem->group_id, $dataItem->year, $dataItem->month)), 'Delete?', array('class' => 'pull-left btn btn-xs btn-link', 'title' => 'Delete data for this month', 'data-modal-text' => 'delete data for this month?'))) }}
+                                            @endif
                                             {{ Form::submit('Update', array('class' => 'btn btn-xs btn-success')) }}
                                         </td>
                                     </tr>

@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
-class MemberPaymentsAndAttendanceController extends AdminController {
+class MemberPaymentsAndAttendanceController extends AdminController
+{
 
     use EditableMonthsTrait;
 
@@ -33,47 +34,43 @@ class MemberPaymentsAndAttendanceController extends AdminController {
      * Display a listing of the resource.
      *
      * @param int $id
+     *
      * @return Response
      */
     public function index($id)
     {
-        $member = $this->members->findWith($id, array('data'));
+        $member = $this->members->findWith($id, ['data']);
 
-        if(!$member) App::abort(404);
+        if (!$member) App::abort(404);
 
         $memberData = $member->data()->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
         $data = [];
 
         $months = $this->getEditableMonths($member->dos->year, $member->dos->month);
 
-        foreach($months as $month)
-        {
-            $monthData = $memberData->filter(function($memberDataItem) use ($month){
+        foreach ($months as $month) {
+            $monthData = $memberData->filter(function ($memberDataItem) use ($month) {
                 return $memberDataItem->year == $month->year && $memberDataItem->month == $month->month;
             });
 
-            if($monthData->count())
-            {
-                foreach($monthData->all() as $monthDataItem) array_push($data, $monthDataItem);
-            }
-            else
-            {
+            if ($monthData->count()) {
+                foreach ($monthData->all() as $monthDataItem) array_push($data, $monthDataItem);
+            } else {
                 array_push($data, new MemberGroupData([
-                    'group_id' => $member->getGroupOnDate($month->year, $month->month, $member->group_id),
-                    'member_id' => $member->id,
-                    'year' => $month->year,
-                    'month' => $month->month,
-                    'payed' => 0,
+                    'group_id'   => $member->getGroupOnDate($month->year, $month->month, $member->group_id),
+                    'member_id'  => $member->id,
+                    'year'       => $month->year,
+                    'month'      => $month->month,
+                    'payed'      => 0,
                     'attendance' => json_encode([]),
                 ]));
             }
         }
 
         // Array of available years to be used as tabs on this page
-        $years = array();
-        foreach($data as $key => $value)
-        {
-            if(!in_array($value->year, $years)) array_push($years, $value->year);
+        $years = [];
+        foreach ($data as $key => $value) {
+            if (!in_array($value->year, $years)) array_push($years, $value->year);
         }
 
         return View::make(Theme::view('member.payments-and-attendance'))->with(compact('member', 'data', 'years'));
@@ -102,7 +99,8 @@ class MemberPaymentsAndAttendanceController extends AdminController {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -113,7 +111,8 @@ class MemberPaymentsAndAttendanceController extends AdminController {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -124,36 +123,54 @@ class MemberPaymentsAndAttendanceController extends AdminController {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $memberId
+     * @param  int $memberId
+     *
      * @return Response
      */
     public function update($memberId, $year, $month)
     {
-        foreach(Input::get('data', array()) as $memberGroupId => $data)
-        {
-            $data = array(
-                'member_id'     => $memberId,
-                'year'          => $year,
-                'month'         => $month,
-                'payed'         => array_get($data, 'payed', 0),
-                'attendance'    => json_encode($data['attendance']),
-            );
+        foreach (Input::get('data', []) as $memberGroupId => $data) {
+            $data = [
+                'member_id'  => $memberId,
+                'year'       => $year,
+                'month'      => $month,
+                'payed'      => array_get($data, 'payed', 0),
+                'attendance' => json_encode($data['attendance']),
+            ];
 
             $this->groups->updateData($memberGroupId, $data);
         }
 
-        return Redirect::route('member.payments.index', array($memberId))->withSuccess('Member data updated!');
+        return Redirect::route('member.payments.index', [$memberId])->withSuccess('Member data updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param $memberId
+     * @param $memberGroupId
+     * @param $year
+     * @param $month
+     *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($memberId, $memberGroupId, $year, $month)
     {
-        //
+        $member = $this->members->findWith($memberId, ['data']);
+
+        if (!$member) App::abort(404);
+
+        $data = $member->data()
+            ->where('group_id', $memberGroupId)
+            ->where('year', $year)
+            ->where('month', $month)
+            ->get()->first();
+
+        // Delete data only if it exists in database
+        $data && $data->delete();
+
+        // Return message each time because why not :)
+        return Redirect::route('member.payments.index', [$memberId])->withSuccess('Member data deleted!');
     }
 
 }

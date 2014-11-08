@@ -23,6 +23,8 @@
         Route::get('{member}/payments-and-attendance', ['as' => 'member.payments.index', 'uses' => $paymentsAndAttendanceController . '@index']);
         Route::put('{member}/payments-and-attendance/{year}/{month}', ['as' => 'member.payments.update', 'uses' => $paymentsAndAttendanceController . '@update'])
             ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+        Route::delete('{member}/payments-and-attendance/{group}/{year}/{month}', ['as' => 'member.payments.destroy', 'uses' => $paymentsAndAttendanceController . '@destroy'])
+            ->where(['group' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+']);
 
     });
 
