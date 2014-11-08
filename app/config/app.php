@@ -113,6 +113,7 @@ return array(
         'Way\Generators\GeneratorsServiceProvider',
         'Former\FormerServiceProvider',
         'VTalbot\Pjax\PjaxServiceProvider',
+		'Barryvdh\Debugbar\ServiceProvider',
 
 	),
 
@@ -182,6 +183,7 @@ return array(
 
         'Former'          => 'Former\Facades\Former',
         'Sanitize'        => 'Webpatser\Sanitize\Sanitize',
+		'Debugbar' 	      => 'Barryvdh\Debugbar\Facade',
 
 	),
 

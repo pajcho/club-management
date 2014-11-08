@@ -8,6 +8,8 @@ class MemberGroup extends BaseModel {
 
     /** History */
     use HistorableTrait;
+    protected $temp;
+
     public function historyTable()
     {
         return 'member group';
@@ -23,9 +25,9 @@ class MemberGroup extends BaseModel {
     protected $table = 'member_groups';
     protected $softDelete = false;
     
-    protected $fillable = array('name', 'location', 'description', 'training', 'data');
+    protected $fillable = ['name', 'location', 'description', 'training', 'data'];
 
-    protected $appends = array('total_monthly_time', 'trainer_ids');
+    protected $appends = ['total_monthly_time', 'trainer_ids'];
 
     public function trainers()
     {
@@ -55,16 +57,23 @@ class MemberGroup extends BaseModel {
 
     public function data($year = null, $month = null, $member_id = null)
     {
-        $relation = $this->hasMany('App\Modules\Members\Models\MemberGroupData', 'group_id');
+        if(!isset($this->temp['data'.$year.$month.$member_id]))
+        {
+            $relation = $this->hasMany('App\Modules\Members\Models\MemberGroupData', 'group_id');
 
-        if(is_numeric($year)) $relation = $relation->where('member_group_data.year', $year);
-        if(is_numeric($month)) $relation = $relation->where('member_group_data.month', $month);
-        if(is_numeric($member_id)) $relation = $relation->where('member_group_data.member_id', $member_id);
+            if(is_numeric($year)) $relation = $relation->where('member_group_data.year', $year);
+            if(is_numeric($month)) $relation = $relation->where('member_group_data.month', $month);
+            if(is_numeric($member_id)) $relation = $relation->where('member_group_data.member_id', $member_id);
 
-        // If we pass all filters than return only one result
-        if(is_numeric($year) && is_numeric($month) && is_numeric($member_id)) $relation = $relation->first();
-        // Otherwise return all we found
-        else if(is_numeric($year) || is_numeric($month) || is_numeric($member_id)) $relation = $relation->get();
+            // If we pass all filters than return only one result
+            if(is_numeric($year) && is_numeric($month) && is_numeric($member_id)) $relation = $relation->first();
+            // Otherwise return all we found
+            else if(is_numeric($year) || is_numeric($month) || is_numeric($member_id)) $relation = $relation->get();
+
+            $this->temp['data'.$year.$month.$member_id] = $relation;
+        }
+
+        $relation = $this->temp['data'.$year.$month.$member_id];
 
         return $relation;
     }
@@ -74,12 +83,12 @@ class MemberGroup extends BaseModel {
         $this->members = app('App\Modules\Members\Repositories\MemberRepositoryInterface');
 
         // Get all group members
-        $members = $this->members->filter(array(
+        $members = $this->members->filter([
             // We need to show old members that are now in new groups so we dont need this filter any more
             // 'group_id'          => $this->id,
-            'subscribed'        => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
-            'orderBy'           => array('dos' => 'asc'),
-        ), false);
+            'subscribed'        => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'orderBy'           => ['dos' => 'asc'],
+        ], false);
 
         // Get only members active in this month
         $activeMembers = $members->filter(function($member) use ($year, $month){
@@ -192,7 +201,7 @@ class MemberGroup extends BaseModel {
      */
     public function trainingDays($year, $month)
     {
-        $days = array();
+        $days = [];
         $startOfMonth = Carbon::createFromDate($year, $month, 1)->startOfMonth();
         $endOfMonth = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 

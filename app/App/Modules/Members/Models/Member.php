@@ -9,6 +9,8 @@ class Member extends BaseModel {
 
     /** History */
     use HistorableTrait;
+    protected $temp;
+
     public function historyTable()
     {
         return 'member';
@@ -24,9 +26,9 @@ class Member extends BaseModel {
     protected $table = 'members';
     protected $softDelete = false;
     
-    protected $fillable = array('group_id', 'uid', 'first_name', 'last_name', 'email', 'phone', 'notes', 'dob', 'dos', 'doc', 'active', 'freeOfCharge');
-    protected $dates = array('dob', 'dos', 'doc');
-    protected $appends = array('full_name');
+    protected $fillable = ['group_id', 'uid', 'first_name', 'last_name', 'email', 'phone', 'notes', 'dob', 'dos', 'doc', 'active', 'freeOfCharge'];
+    protected $dates = ['dob', 'dos', 'doc'];
+    protected $appends = ['full_name'];
 
     public function group()
     {
@@ -87,8 +89,9 @@ class Member extends BaseModel {
     {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
-        $item = $this->dateHistory('active')->orderBy('date', 'desc')
-            ->where('date', '<=', $date)->get()->first();
+        $item = $this->getDateHistory('active', $date);
+//        $item = $this->dateHistory('active')->orderBy('date', 'desc')
+//            ->where('date', '<=', $date)->get()->first();
 
         if($item)
         {
@@ -152,8 +155,9 @@ class Member extends BaseModel {
     {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
-        $item = $this->dateHistory('freeOfCharge')->orderBy('date', 'desc')
-            ->where('date', '<=', $date)->get()->first();
+        $item = $this->getDateHistory('freeOfCharge', $date);
+//        $item = $this->dateHistory('freeOfCharge')->orderBy('date', 'desc')
+//            ->where('date', '<=', $date)->get()->first();
 
         if($item)
         {
@@ -176,8 +180,9 @@ class Member extends BaseModel {
     {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
-        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
-            ->where('date', '<=', $date)->get()->first();
+        $item = $this->getDateHistory('group_id', $date);
+//        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
+//            ->where('date', '<=', $date)->get()->first();
 
         if($item)
         {
@@ -199,8 +204,9 @@ class Member extends BaseModel {
     {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
-        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
-            ->where('date', '<=', $date)->get()->first();
+        $item = $this->getDateHistory('group_id', $date);
+//        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
+//            ->where('date', '<=', $date)->get()->first();
 
         return $item ? $item->value : $default;
     }
@@ -274,5 +280,28 @@ class Member extends BaseModel {
      */
     public function getMedicalExaminationTitle(){
         return is_object($this->doc) ? ($this->doc->gte(Carbon::now()->startOfDay()) ? 'Medical examination is valid.' : 'Medical examination expired.') : 'Medical examination not supplied.';
+    }
+
+
+    /**
+     * Return date history from private property in order to lower down number of database queries
+     *
+     * @param $date
+     *
+     * @return mixed
+     */
+    private function getDateHistory($type, $date)
+    {
+        if(!isset($this->temp['getDateHistory'.$date]))
+        {
+            $this->temp['getDateHistory'.$date] = $this->dateHistory()->orderBy('date', 'desc')
+                ->where('date', '<=', $date)->get();
+        }
+
+        $items = $this->temp['getDateHistory'.$date]->filter(function($item) use ($type){
+            return $item->type == $type;
+        });
+
+        return $items ? $items->first() : null;
     }
 }
