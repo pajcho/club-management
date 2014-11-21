@@ -90,8 +90,6 @@ class Member extends BaseModel {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->getDateHistory('active', $date);
-//        $item = $this->dateHistory('active')->orderBy('date', 'desc')
-//            ->where('date', '<=', $date)->get()->first();
 
         if($item)
         {
@@ -156,8 +154,6 @@ class Member extends BaseModel {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->getDateHistory('freeOfCharge', $date);
-//        $item = $this->dateHistory('freeOfCharge')->orderBy('date', 'desc')
-//            ->where('date', '<=', $date)->get()->first();
 
         if($item)
         {
@@ -181,8 +177,6 @@ class Member extends BaseModel {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->getDateHistory('group_id', $date);
-//        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
-//            ->where('date', '<=', $date)->get()->first();
 
         if($item)
         {
@@ -205,8 +199,6 @@ class Member extends BaseModel {
         $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         $item = $this->getDateHistory('group_id', $date);
-//        $item = $this->dateHistory('group_id')->orderBy('date', 'desc')
-//            ->where('date', '<=', $date)->get()->first();
 
         return $item ? $item->value : $default;
     }

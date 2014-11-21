@@ -6,6 +6,7 @@ use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use App\Service\Theme;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Paginator;
 use Illuminate\Support\Facades\Redirect;
@@ -133,6 +134,10 @@ class MemberGroupDataController extends AdminController {
             ];
 
             $this->memberGroups->updateData($memberGroupId, $data);
+
+            // Clear related cache
+            $tags = array('memberGroup', 'payedString', 'memberGroup:'.$memberGroupId, 'year:'.$year, 'month:'.$month);
+            Cache::tags($tags)->forget(implode('|', $tags));
         }
 
         return Redirect::route('group.data.show', [$memberGroupId, $year, $month])->withSuccess('Group data updated!');

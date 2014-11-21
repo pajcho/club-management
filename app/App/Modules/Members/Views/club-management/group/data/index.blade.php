@@ -40,6 +40,7 @@
                                 @endif
                             </td>
                             <td class="text-center ajax-content" data-url="{{route('group.data.get.payment-data', array($memberGroup->id, $month->year, $month->month))}}"></td>
+                            {{--<td class="text-center">{{ $memberGroup->data($month->year, $month->month) ? $memberGroup->payedString($month->year, $month->month) : '' }}</td>--}}
                             <td>
                                 {{ link_to_route('group.data.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) }}
                             </td>

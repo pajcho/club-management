@@ -7,6 +7,7 @@ use App\Modules\Users\Repositories\UserRepositoryInterface;
 use App\Service\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
@@ -165,12 +166,12 @@ class MemberGroupController extends AdminController {
         $memberGroup = $this->memberGroups->find($id);
 
         // Get all active group members
-        $members = $membersRepo->filter(array(
+        $members = $membersRepo->filter([
             // We need to show old members that are now in new groups so we dont need this filter any more
             //'group_id'      => $memberGroup->id,
-            'subscribed'    => array('<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()),
-            'orderBy'       => array('dos' => 'asc'),
-        ), false);
+            'subscribed'    => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'orderBy'       => ['dos' => 'asc'],
+        ], false);
 
         // Get only members active in this month
         $members = $members->filter(function($member) use ($id, $year, $month){
@@ -206,12 +207,12 @@ class MemberGroupController extends AdminController {
         if($month > $lastMonth) $subscribedBefore = $subscribedBefore->addYear();
 
         // Get all active group members
-        $members = $membersRepo->filter(array(
+        $members = $membersRepo->filter([
             // We need to show old members that are now in new groups so we dont need this filter any more
             //'group_id'          => $memberGroup->id,
-            'subscribed'        => array('<=', $subscribedBefore->endOfMonth()->toDateTimeString()),
-            'orderBy'           => array('dos' => 'asc'),
-        ), false);
+            'subscribed'        => ['<=', $subscribedBefore->endOfMonth()->toDateTimeString()],
+            'orderBy'           => ['dos' => 'asc'],
+        ], false);
 
         // Define what months numbers to show in this list
         $months = $this->generateMonthsRange($firstMonth, $lastMonth, $subscribedBefore->year);
@@ -238,29 +239,33 @@ class MemberGroupController extends AdminController {
 
     protected function generateMonthsRange($firstMonth, $lastMonth, $year)
     {
-        // Make sure we have numeric values for everything
-        $firstMonth = (int) $firstMonth;
-        $lastMonth = (int) $lastMonth;
-        $year = (int) $year;
+        $cacheKey = implode('|', ['monthsRange', $firstMonth, $lastMonth, $year]);
 
-        // Make sure we don't have same values
-        // If that happens we will make lastMonth to be smaller than firstMonth
-        if($firstMonth == $lastMonth) $lastMonth = $lastMonth - 1;
+        return Cache::rememberForever($cacheKey, function() use ($firstMonth, $lastMonth, $year){
+            // Make sure we have numeric values for everything
+            $firstMonth = (int) $firstMonth;
+            $lastMonth = (int) $lastMonth;
+            $year = (int) $year;
 
-        if($firstMonth < $lastMonth)
-        {
-            // Results are in same year
-            foreach(range($firstMonth, $lastMonth) as $month) $return[$month] = $year;
-        }
-        else
-        {
-            // Results are in two different years
-            // Results are in same year
-            foreach(range($firstMonth, 12) as $month) $return[$month] = $year-1;
-            foreach(range(1, $lastMonth) as $month) $return[$month] = $year;
-        }
+            // Make sure we don't have same values
+            // If that happens we will make lastMonth to be smaller than firstMonth
+            if($firstMonth == $lastMonth) $lastMonth = $lastMonth - 1;
 
-        return $return;
+            if($firstMonth < $lastMonth)
+            {
+                // Results are in same year
+                foreach(range($firstMonth, $lastMonth) as $month) $return[$month] = $year;
+            }
+            else
+            {
+                // Results are in two different years
+                // Results are in same year
+                foreach(range($firstMonth, 12) as $month) $return[$month] = $year-1;
+                foreach(range(1, $lastMonth) as $month) $return[$month] = $year;
+            }
+
+            return $return;
+        });
     }
 
     /**
@@ -270,7 +275,7 @@ class MemberGroupController extends AdminController {
      */
     private function prepareTimesForInsert($data)
     {
-        $convert = array('training');
+        $convert = ['training'];
 
         foreach($data as $key => $value)
         {

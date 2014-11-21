@@ -10,7 +10,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
     protected $model;
     protected $columnNames;
-    protected $orderBy = array('dob' => 'desc');
+    protected $orderBy = ['dob' => 'desc'];
     protected $perPage = 15;
 
     public function __construct(Member $model)
@@ -37,7 +37,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         if($item->results->count()) $item->results()->delete();
     }
 
-    public function filter(array $params = array(), $paginate = true)
+    public function filter(array $params = [], $paginate = true)
     {
         // Default filter by every database column
         foreach($this->columnNames as $column)
@@ -113,9 +113,9 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
     {
         $member = $this->model->create($input);
 
-        $this->updateHistory($member, $input, 'active', true);
-        $this->updateHistory($member, $input, 'freeOfCharge', true);
-        $this->updateHistory($member, $input, 'group_id', true);
+        $this->updateHistory($member, $input, 'active', true, $member->dos);
+        $this->updateHistory($member, $input, 'freeOfCharge', true, $member->dos);
+        $this->updateHistory($member, $input, 'group_id', true, $member->dos);
 
         return $member;
     }
@@ -143,21 +143,22 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
     /**
      * Helper function to update user date history status
      *
-     * @param $member
-     * @param $input
-     * @param $type
+     * @param      $member
+     * @param      $input
+     * @param      $type
      * @param bool $force
+     * @param null $date
      */
-    private function updateHistory($member, $input, $type, $force = false)
+    private function updateHistory($member, $input, $type, $force = false, $date = null)
     {
         // Only update if it is different value than before
         if($force || $member->$type != array_get($input, $type, 1))
         {
-            $history = new DateHistory(array(
-                'date' => new DateTime,
+            $history = new DateHistory([
+                'date' => $date ?: new DateTime,
                 'value' => array_get($input, $type, 1),
                 'type' => $type,
-            ));
+            ]);
 
             $member->dateHistory()->save($history);
         }

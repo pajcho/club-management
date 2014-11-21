@@ -16,13 +16,15 @@ Functional
 - [ ] Ability to delete every resource type from it's edit page (place a delete button on top or bottom of the page)
 - [x] Cron job that will delete obsolete history items (for example older than 2 months)
 - [ ] Add Clubs resource to database table (Clubs are created manually)
-- [ ] Add club_id to every database table
-- [ ] When user is logged in, search for it's club and pull only corresponding details
-      Find a way to do this on most generic way possible, without having to rewrite every database query out there
+    - [ ] Add club_id to every database table
+    - [ ] When user is logged in, search for it's club and pull only corresponding details
+    - [ ] Find a way to do this on most generic way possible, without having to rewrite every database query out there
 - [x] Manage members payments and attendance from the edit page (per member, not per group)
 - [x] There needs to be a way to know in what group member was in every moment. 
       Make that remember in date history database table and implement where needed
-      
+- [x] When new member is created don't save current date to date_history table but instead use date of subscription
+- [ ] Implement caching mechanism. This is very important but should be done correctly
+    - [x] Payed string caching as this is most important thing
 
 Visual
 ------------------------------------
@@ -31,6 +33,7 @@ Visual
 - [x] Mark current month in green on payments and attendance page
 - [ ] Alert user when trying to leave page and form is dirty
 - [x] Hide DOB and DOS and DOC from member listing table on smaller screen resolutions
+
 
 Charts (not a priority just nice to have feature)
 ------------------------------------
