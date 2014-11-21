@@ -5,6 +5,7 @@ use App\Modules\Members\Models\Member;
 use App\Repositories\DbBaseRepository;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInterface {
 
@@ -161,6 +162,10 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             ]);
 
             $member->dateHistory()->save($history);
+
+            // Clear related cache for old and new group
+            $tags = ['memberGroup:'.$member->group_id, 'memberGroup:'.$input['group_id']];
+            Cache::tags($tags)->flush();
         }
     }
 
