@@ -3,6 +3,7 @@
 use App\Controllers\AdminController;
 use App\Modules\Settings\Repositories\SettingsRepositoryInterface;
 use App\Service\Theme;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -44,5 +45,17 @@ class SettingsController extends AdminController {
         $this->settings->saveSettings(Input::get('settings'));
 
         return Redirect::route('settings.index')->withSuccess('Settings updated!');
+	}
+
+    /**
+     * Clear all application cache.
+     *
+     * @return Response
+     */
+	public function clearCache()
+	{
+        Cache::flush();
+
+        return Redirect::back()->withSuccess('Cache cleared!');
 	}
 }

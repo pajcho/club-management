@@ -50,7 +50,13 @@
                             <li>{{ HTML::decode(link_to_route('user.create', 'Create User')) }}</li>
                         </ul>
                     </li>
-                    <li {{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('settings.index', '<i class="fa fa-cog" title="Settings" data-placement="bottom"></i> <span class="hidden-sm">Settings</span>')) }}</li>
+                    <li{{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>
+                        {{ HTML::decode(link_to('#', '<i class="fa fa-cog"></i> Settings <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                        <ul class="dropdown-menu">
+                            <li>{{ HTML::decode(link_to_route('settings.index', 'Settings')) }}</li>
+                            <li>{{ HTML::decode(link_to_route('settings.clear.cache', 'Clear Cache')) }}</li>
+                        </ul>
+                    </li>
                     <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="fa fa-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm">History</span>')) }}</li>
                 @endif
             </ul>
