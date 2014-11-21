@@ -34,8 +34,13 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
     public function preDelete($item)
     {
-        // Delete member results
+        // Delete additional member data
+        if($item->data->count()) $item->data()->delete();
         if($item->results->count()) $item->results()->delete();
+        if($item->dateHistory->count()) $item->dateHistory()->delete();
+
+        // Deleting users will happen so rare we can delete all member group data
+        Cache::tags('memberGroup')->flush();
     }
 
     public function filter(array $params = [], $paginate = true)

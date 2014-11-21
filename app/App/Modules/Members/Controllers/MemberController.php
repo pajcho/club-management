@@ -114,7 +114,9 @@ class MemberController extends AdminController
     {
         $member = $this->members->find($id);
 
-        if (!$member) App::abort(404);
+        if (!$member) {
+            return Redirect::route('member.index')->withError('Invalid member');
+        }
 
         $groups = $this->groups->getForSelect();
 
