@@ -165,12 +165,15 @@ class MemberGroupController extends AdminController {
         $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
         $memberGroup = $this->memberGroups->find($id);
 
+        // Get only ids of members that are or were in this group at some time
+        // This will lower number of required database queries to do all necessary calculations
+        $memberIds = $membersRepo->thatAreInGroupOnDate($id, $year, $month);
+
         // Get all active group members
         $members = $membersRepo->filter([
-            // We need to show old members that are now in new groups so we dont need this filter any more
-            //'group_id'      => $memberGroup->id,
-            'subscribed'    => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
-            'orderBy'       => ['dos' => 'asc'],
+            'ids'        => $memberGroup->id,
+            'subscribed' => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'orderBy'    => ['dos' => 'asc'],
         ], false);
 
         // Get only members active in this month
@@ -206,12 +209,15 @@ class MemberGroupController extends AdminController {
         $subscribedBefore = Carbon::createFromDate($year, $lastMonth, 1);
         if($month > $lastMonth) $subscribedBefore = $subscribedBefore->addYear();
 
+        // Get only ids of members that are or were in this group at some time
+        // This will lower number of required database queries to do all necessary calculations
+        $memberIds = $membersRepo->thatAreInGroupOnDate($id, $year, $month);
+
         // Get all active group members
         $members = $membersRepo->filter([
-            // We need to show old members that are now in new groups so we dont need this filter any more
-            //'group_id'          => $memberGroup->id,
-            'subscribed'        => ['<=', $subscribedBefore->endOfMonth()->toDateTimeString()],
-            'orderBy'           => ['dos' => 'asc'],
+            'ids'        => $memberIds,
+            'subscribed' => ['<=', $subscribedBefore->endOfMonth()->toDateTimeString()],
+            'orderBy'    => ['dos' => 'asc'],
         ], false);
 
         // Define what months numbers to show in this list

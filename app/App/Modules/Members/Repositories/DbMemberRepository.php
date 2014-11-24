@@ -3,6 +3,7 @@
 use App\Modules\Members\Models\DateHistory;
 use App\Modules\Members\Models\Member;
 use App\Repositories\DbBaseRepository;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -100,6 +101,12 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             $this->model = $this->model->where('dos', $params['subscribed'][0], $params['subscribed'][1]);
         }
 
+        // Filter by member id
+        if(isset($params['ids']) && is_array($params['ids']))
+        {
+            $this->model = $this->model->whereIn('id', $params['ids']);
+        }
+
         // Order by
         foreach($this->orderBy as $orderBy => $orderDirection)
             $this->model = $this->model->orderBy($orderBy, $orderDirection);
@@ -172,6 +179,39 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
             $tags = ['memberGroup:'.$member->group_id, 'memberGroup:'.$input['group_id']];
             Cache::tags($tags)->flush();
         }
+    }
+
+    /**
+     * Get all members that were in group at some time and return their ids
+     *
+     * @param $groupId
+     *
+     * @return array
+     */
+    public function thatAreInGroup($groupId)
+    {
+        return DateHistory::where('type', 'group_id')
+            ->where('value', $groupId)
+            ->get()->lists('member_id');
+    }
+
+    /**
+     * Get all members that were in group on desired date and return their ids
+     *
+     * @param $groupId
+     * @param $year
+     * @param $month
+     *
+     * @return array
+     */
+    public function thatAreInGroupOnDate($groupId, $year, $month)
+    {
+        $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+        return DateHistory::where('type', 'group_id')
+            ->where('value', $groupId)
+            ->where('date', '<=', $date)
+            ->get()->lists('member_id');
     }
 
     /**

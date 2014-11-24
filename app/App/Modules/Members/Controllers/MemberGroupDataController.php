@@ -84,12 +84,15 @@ class MemberGroupDataController extends AdminController {
 	{
         $memberGroup = $this->memberGroups->findWith($memberGroupId, ['data']);
 
+        // Get only ids of members that are or were in this group at some time
+        // This will lower number of required database queries to do all necessary calculations
+        $memberIds = $this->members->thatAreInGroupOnDate($memberGroupId, $year, $month);
+
         // Get all group members
         $members = $this->members->filter([
-            // We need to show old members that are now in new groups so we dont need this filter any more
-            // 'group_id'          => $memberGroup->id,
-            'subscribed'        => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
-            'orderBy'           => ['dos' => 'asc'],
+            'ids'        => $memberIds,
+            'subscribed' => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'orderBy'    => ['dos' => 'asc'],
         ], false);
 
         // Get only members active in this month

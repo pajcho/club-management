@@ -86,12 +86,15 @@ class MemberGroup extends BaseModel {
         return Cache::tags($tags)->rememberForever(implode('|', $tags), function() use ($year, $month){
             $thisMembers = app('App\Modules\Members\Repositories\MemberRepositoryInterface');
 
+            // Get only ids of members that are or were in this group at some time
+            // This will lower number of required database queries to do all necessary calculations
+            $memberIds = $thisMembers->thatAreInGroupOnDate($this->attributes['id'], $year, $month);
+
             // Get all group members
             $members = $thisMembers->filter([
-                // We need to show old members that are now in new groups so we dont need this filter any more
-                // 'group_id'          => $this->id,
-                'subscribed'        => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
-                'orderBy'           => ['dos' => 'asc'],
+                'ids'        => $memberIds,
+                'subscribed' => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+                'orderBy'    => ['dos' => 'asc'],
             ], false);
 
             // Get only members active in this month
@@ -121,45 +124,6 @@ class MemberGroup extends BaseModel {
 
             return $payingMembersString;
         });
-    }
-
-    public function tmp(){
-        $this->members = app('App\Modules\Members\Repositories\MemberRepositoryInterface');
-
-        // Get all group members
-        $members = $this->members->filter([
-            // We need to show old members that are now in new groups so we dont need this filter any more
-            // 'group_id'          => $this->id,
-            'subscribed'        => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
-            'orderBy'           => ['dos' => 'asc'],
-        ], false);
-
-        // Get only members active in this month
-        $activeMembers = $members->filter(function($member) use ($year, $month){
-            return $member->inGroupOnDate($this->id, $year, $month) && $member->activeOnDate($year, $month);
-        })->values();
-
-        $freeOfChargeMembers = $activeMembers->filter(function($member) use ($year, $month){
-            return $member->freeOfChargeOnDate($year, $month);
-        })->values();
-
-        $payedMembers = $this->data($year, $month)->filter(function($memberData) use ($activeMembers){
-            $hasMember = $activeMembers->filter(function($activeMember) use ($memberData){
-                return $activeMember->id == $memberData->member_id;
-            })->values();
-
-            return $memberData->payed && count($hasMember);
-        });
-
-        $totalMembersCount = count($activeMembers) - count($freeOfChargeMembers);
-        $payedMembersCount = count($payedMembers);
-
-        $buttonClass = $payedMembersCount && ($totalMembersCount / $payedMembersCount == 1) ? 'success' : 'default';
-
-        // Generate string to return
-        $payingMembersString = '<span class="bold btn btn-xs btn-' . $buttonClass . '">'.$payedMembersCount.' / '.$totalMembersCount.'</span>';
-
-        return $payingMembersString;
     }
 
     /**
