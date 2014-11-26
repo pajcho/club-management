@@ -76,6 +76,8 @@
         <script src="{{ asset(theme_path('js/nprogress.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/select2.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/bootbox.min.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/d3.v3.min.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(theme_path('js/c3.min.js')) }}" type="text/javascript"></script>
 
         <!-- Custom project scripts -->
         <script src="{{ asset(theme_path('js/main.min.js')) }}" type="text/javascript"></script>

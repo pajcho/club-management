@@ -20,6 +20,7 @@
                     </ul>
                 </li>
 
+                <li {{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart" title="Dashboard" data-placement="bottom"></i> <span class="hidden-sm">Dashboard</span>')) }}</li>
                 <li{{ ($activeMenu == 'members' ? ' class="active"' : '') }}>
                     {{ HTML::decode(link_to('#', '<i class="fa fa-user"></i> Members <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
