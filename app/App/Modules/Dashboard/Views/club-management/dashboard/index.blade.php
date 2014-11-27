@@ -104,15 +104,50 @@
             var chart3 = c3.generate({
                 bindto: '#members-year-of-birth-chart',
                 data: {
-                    xs: data.memberYearsOfBirthAxes,
+                    x: 'x',
                     columns: data.membersYearOfBirth
                 },
                 axis: {
                     x: {
-                        label: 'Years old'
+                        label: 'Years old',
+                        type: 'category'
                     },
                     y: {
                         label: 'Number of new members'
+                    }
+                },
+                tooltip: {
+                    format: {
+                        title: function (d) { return d+1 + ' years old'; }
+                    },
+                    contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+
+                        var $$ = this, config = $$.config,
+                            titleFormat = config.tooltip_format_title || defaultTitleFormat,
+                            nameFormat = config.tooltip_format_name || function (name) { return name; },
+                            valueFormat = config.tooltip_format_value || defaultValueFormat, text, i, title, value, name, bgcolor;
+
+                        title = titleFormat(d[0].x); //title of tooltip is X-axis label
+
+                        for (i = 0; i < d.length; i++) {
+                            if (! (d[i] && (d[i].value || d[i].value === 0))) { continue; }
+                            if (d[i].value === 0) { continue; }
+
+                            if (! text) {
+                                text = "<table class='" + $$.CLASS.tooltip + "'>" + (title || title === 0 ? "<tr><th colspan='2'>" + title + "</th></tr>" : ""); //for the tooltip title
+                            }
+
+                            name = nameFormat(d[i].name); //for the columns data
+                            value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
+                            bgcolor = $$.levelColor ? $$.levelColor(d[i].value) : color(d[i].id);
+
+                            text += "<tr class='" + $$.CLASS.tooltipName + "-" + d[i].id + "'>";
+                            text += "<td class='name'><span style='background-color:" + bgcolor + "'></span>" + name + "</td>";
+                            text += "<td class='value'>" + value + "</td>";
+                            text += "</tr>";
+                        }
+
+                        return text && text + "</table>";
                     }
                 },
                 grid: {

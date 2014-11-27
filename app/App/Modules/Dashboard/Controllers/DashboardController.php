@@ -32,7 +32,6 @@ class DashboardController extends AdminController
         $yearlyMembers = $this->dashboard->newYearlyMembers();
         $membersYearOfBirthPie = $this->dashboard->membersYearOfBirth();
 
-        $totalMembers = array_sum($membersYearOfBirthPie);
         foreach($membersYearOfBirthPie as $key => $value)
         {
             $membersYearOfBirthPie[] = [(date('Y') - date('Y', strtotime($key))) . ' years', $value];
@@ -49,36 +48,74 @@ class DashboardController extends AdminController
                 ['New members per year'] + array_values($yearlyMembers)
             ],
             'membersYearOfBirthPie' => $membersYearOfBirthPie,
-            'membersYearOfBirth' => [],
-            'memberYearsOfBirthAxes' => [],
+            'membersYearOfBirth' => $this->generateMembersYearOfBirthData(),
         ];
-
-//        dd($data['membersYearOfBirthPie']);
-
-        foreach($this->dashboard->getSubscriptionYears() as $key => $year)
-        {
-            $memberYears = $this->dashboard->membersYearOfBirth($year);
-
-            if(!empty($memberYears))
-            {
-                $data['memberYearsOfBirthAxes'][$year] = 'x' . ($key + 1);
-
-                $yearsArray = array_keys($memberYears);
-                foreach($yearsArray as $yearsArrayKey => $yearsArrayValue)
-                {
-                    $yearsArray[$yearsArrayKey] = $year - date('Y', strtotime($yearsArrayValue));
-                }
-
-                $data['membersYearOfBirth'][] = ['x' . ($key + 1)] + $yearsArray;
-                $data['membersYearOfBirth'][] = [$year] + array_values($memberYears);
-            }
-        }
-
-//        echo json_encode($data['memberYearsOfBirthAxes']); exit;
 
         $data = json_encode($data);
 
         return View::make(Theme::view('dashboard.index'))->with(compact('data'));
+    }
+
+    private function generateMembersYearOfBirthData()
+    {
+        $return = [];
+        $arrayOfMemberYears = [];
+        $memberYearsOfBirth = [];
+        $subscriptionYears = $this->dashboard->getSubscriptionYears();
+
+        foreach($subscriptionYears as $key => $year)
+        {
+            $memberYearsOfBirth[$year] = $this->dashboard->membersYearOfBirth($year);
+            $memberYears = $memberYearsOfBirth[$year];
+
+            if(!empty($memberYears))
+            {
+                foreach($memberYears as $i => $o)
+                {
+                    $value = ($year - date('Y', strtotime($i)));
+                    if(!in_array($value, $arrayOfMemberYears))
+                        array_push($arrayOfMemberYears, $value);
+                }
+            }
+        }
+
+        $max = max($arrayOfMemberYears);
+
+        $arrayOfMemberYears = range(1, $max+1);
+
+        sort($arrayOfMemberYears);
+        array_unshift($arrayOfMemberYears, 'x');
+        $return[] = $arrayOfMemberYears;
+
+        foreach($subscriptionYears as $key => $year)
+        {
+            $memberYears = $memberYearsOfBirth[$year];
+
+            if(!empty($memberYears))
+            {
+                foreach($memberYears as $i => $o)
+                {
+                    $memberYears[$year - date('Y', strtotime($i)) + 1] = $o;
+                    unset($memberYears[$i]);
+                }
+
+                foreach($arrayOfMemberYears as $i => $o)
+                {
+                    if(is_numeric($o) && !array_key_exists($o, $memberYears))
+                    {
+                        $memberYears[$o] = '0';
+                    }
+                }
+
+                ksort($memberYears);
+
+                $tmpArray = array_values($memberYears);
+                array_unshift($tmpArray, $year);
+                $return[] = $tmpArray;
+            }
+        }
+
+        return $return;
     }
 
 }
