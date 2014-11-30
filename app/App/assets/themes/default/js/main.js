@@ -107,11 +107,24 @@ $(document).ready(function(){
         if($('.alert-message').length > 0)
         {
             $('.alert-message').each(function(){
-                if(!$(this).hasClass('alert-danger'))
-                {
-                    var element = $(this);
-                    window.setTimeout(function(){ return $('.close', element).click(); }, 3000);
-                }
+
+                var message = $('span', this).html();
+                var options = {
+                    // Toastr configuration options
+                    closeButton: true,
+                    positionClass: 'toast-bottom-right'
+                };
+
+                if($(this).hasClass('alert-success')) toastr.success(message, 'Success', options);
+                if($(this).hasClass('alert-warning')) toastr.warning(message, 'Warning', options);
+                if($(this).hasClass('alert-info')) toastr.info(message, 'Info', options);
+                if($(this).hasClass('alert-danger')) toastr.error(message, 'Error', options);
+
+                //if(!$(this).hasClass('alert-danger'))
+                //{
+                //    var element = $(this);
+                //    window.setTimeout(function(){ return $('.close', element).click(); }, 3000);
+                //}
             });
         }
 

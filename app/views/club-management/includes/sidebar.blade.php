@@ -1,6 +1,8 @@
 <ul class="nav nav-sidebar">
-    <li{{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart"></i> Dashboard')) }}</li>
-    <li class="nav-divider"></li>
+    @if($currentUser->isAdmin())
+        <li{{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart"></i> Dashboard')) }}</li>
+        <li class="nav-divider"></li>
+    @endif
     <li{{ ($activeMenu == 'members' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('member.index', '<i class="fa fa-user"></i> Members')) }}</li>
     <li>{{ HTML::decode(link_to_route('member.create', '<i class="fa fa-plus"></i> Create Member')) }}</li>
     <li class="nav-divider"></li>

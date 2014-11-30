@@ -5,6 +5,7 @@ use App\Modules\Dashboard\Repositories\DashboardRepositoryInterface;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use App\Service\Theme;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
@@ -28,32 +29,41 @@ class DashboardController extends AdminController
      */
     public function index()
     {
-        $monthlyMembers = $this->dashboard->newMonthlyMembers();
-        $yearlyMembers = $this->dashboard->newYearlyMembers();
-        $membersYearOfBirthPie = $this->dashboard->membersYearOfBirth();
+        $dashboard = $this->dashboard;
 
-        foreach($membersYearOfBirthPie as $key => $value)
-        {
-            $membersYearOfBirthPie[] = [(date('Y') - date('Y', strtotime($key))) . ' years', $value];
-            unset($membersYearOfBirthPie[$key]);
-        }
+        // Refresh dashboard data daily
+        $dataRaw = Cache::remember('dashboard', 24*60, function() use ($dashboard){
+            $monthlyMembers = $dashboard->newMonthlyMembers();
+            $yearlyMembers = $dashboard->newYearlyMembers();
+            $membersYearOfBirthPie = $dashboard->membersYearOfBirth();
 
-        $data = [
-            'monthlyMembers' => [
-                ['x'] + array_keys($monthlyMembers),
-                ['New members per month'] + array_values($monthlyMembers)
-            ],
-            'yearlyMembers' => [
-                ['x'] + array_keys($yearlyMembers),
-                ['New members per year'] + array_values($yearlyMembers)
-            ],
-            'membersYearOfBirthPie' => $membersYearOfBirthPie,
-            'membersYearOfBirth' => $this->generateMembersYearOfBirthData(),
-        ];
+            foreach ($membersYearOfBirthPie as $key => $value) {
+                $membersYearOfBirthPie[] = [(date('Y') - date('Y', strtotime($key))) . ' years', $value];
+                unset($membersYearOfBirthPie[ $key ]);
+            }
 
-        $data = json_encode($data);
+            return [
+                'monthlyMembers'        => [
+                    ['x'] + array_keys($monthlyMembers),
+                    ['New members per month'] + array_values($monthlyMembers)
+                ],
+                'yearlyMembers'         => [
+                    ['x'] + array_keys($yearlyMembers),
+                    ['New members per year'] + array_values($yearlyMembers)
+                ],
+                'membersYearOfBirthPie' => $membersYearOfBirthPie,
+                'membersYearOfBirth'    => $this->generateMembersYearOfBirthData(),
+                'totalMembers'          => $dashboard->totalMembers(),
+                'totalActiveMembers'    => $dashboard->totalActiveMembers(),
+                'totalGroups'           => $dashboard->totalGroups(),
+                'totalTrainers'         => $dashboard->totalTrainers(),
+                'upcomingBirthdays'     => $dashboard->upcomingBirthdays(),
+            ];
+        });
 
-        return View::make(Theme::view('dashboard.index'))->with(compact('data'));
+        $data = json_encode($dataRaw);
+
+        return View::make(Theme::view('dashboard.index'))->with(compact('data', 'dataRaw'));
     }
 
     private function generateMembersYearOfBirthData()
@@ -63,17 +73,14 @@ class DashboardController extends AdminController
         $memberYearsOfBirth = [];
         $subscriptionYears = $this->dashboard->getSubscriptionYears();
 
-        foreach($subscriptionYears as $key => $year)
-        {
-            $memberYearsOfBirth[$year] = $this->dashboard->membersYearOfBirth($year);
-            $memberYears = $memberYearsOfBirth[$year];
+        foreach ($subscriptionYears as $key => $year) {
+            $memberYearsOfBirth[ $year ] = $this->dashboard->membersYearOfBirth($year);
+            $memberYears = $memberYearsOfBirth[ $year ];
 
-            if(!empty($memberYears))
-            {
-                foreach($memberYears as $i => $o)
-                {
+            if (!empty($memberYears)) {
+                foreach ($memberYears as $i => $o) {
                     $value = ($year - date('Y', strtotime($i)));
-                    if(!in_array($value, $arrayOfMemberYears))
+                    if (!in_array($value, $arrayOfMemberYears))
                         array_push($arrayOfMemberYears, $value);
                 }
             }
@@ -81,29 +88,24 @@ class DashboardController extends AdminController
 
         $max = max($arrayOfMemberYears);
 
-        $arrayOfMemberYears = range(1, $max+1);
+        $arrayOfMemberYears = range(1, $max + 1);
 
         sort($arrayOfMemberYears);
         array_unshift($arrayOfMemberYears, 'x');
         $return[] = $arrayOfMemberYears;
 
-        foreach($subscriptionYears as $key => $year)
-        {
-            $memberYears = $memberYearsOfBirth[$year];
+        foreach ($subscriptionYears as $key => $year) {
+            $memberYears = $memberYearsOfBirth[ $year ];
 
-            if(!empty($memberYears))
-            {
-                foreach($memberYears as $i => $o)
-                {
-                    $memberYears[$year - date('Y', strtotime($i)) + 1] = $o;
-                    unset($memberYears[$i]);
+            if (!empty($memberYears)) {
+                foreach ($memberYears as $i => $o) {
+                    $memberYears[ $year - date('Y', strtotime($i)) + 1 ] = $o;
+                    unset($memberYears[ $i ]);
                 }
 
-                foreach($arrayOfMemberYears as $i => $o)
-                {
-                    if(is_numeric($o) && !array_key_exists($o, $memberYears))
-                    {
-                        $memberYears[$o] = '0';
+                foreach ($arrayOfMemberYears as $i => $o) {
+                    if (is_numeric($o) && !array_key_exists($o, $memberYears)) {
+                        $memberYears[ $o ] = '0';
                     }
                 }
 

@@ -17,6 +17,9 @@ Important
 - [x] When new member is created don't save current date to date_history table but instead use date of subscription
 - [x] When getting group members for payments and attendance first filter by date_history table and then check if members is valid
       This way we will make number of required database queries way lower than it is now
+- [x] Integrate toastr messages (http://codeseven.github.io/toastr/)
+- [ ] Page to see when are members due to renew doctors check (for all members)
+- [ ] Make dashboards trainer specific (show only group members)
       
 Less Important
 ------------------------------------
@@ -26,9 +29,11 @@ Less Important
     - [ ] Add club_id to every database table
     - [ ] When user is logged in, search for it's club and pull only corresponding details
     - [ ] Find a way to do this on most generic way possible, without having to rewrite every database query out there
-- [ ] Implement caching mechanism. This is very important but should be done correctly
+- [+] Implement caching mechanism. This is very important but should be done correctly
+    - [x] Add option to clear cache (under Settings drop down menu)
     - [x] Payed string caching, as this is most important thing for now
-
+    - [x] Cache dashboard data for 24 hours
+ 
 # Visual
 
 - [x] Add plugin for nicer tooltips
@@ -40,9 +45,11 @@ Less Important
 
 # Charts (not a priority just nice to have feature)
 
-- [ ] New members per year / month
-- [ ] Members that are still active in new year
+- [+] New members per year / month
+- [+] Member years in percents
+- [+] member years grouped by year of subscription
+- [ ] Total payments per month
 - [ ] Monthly new inactive members
-- [ ] Total members
-- [ ] Total inactive members
-- [ ] Incoming birthdays
+- [x] Total members
+- [x] Total active members
+- [x] Incoming birthdays

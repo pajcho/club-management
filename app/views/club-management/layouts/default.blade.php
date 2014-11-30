@@ -20,6 +20,7 @@
         
         <!-- BEGIN THEME STYLES -->
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
         <link href="{{ asset(theme_path('css/styles.min.css')) }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 
@@ -78,6 +79,7 @@
         <script src="{{ asset(theme_path('js/bootbox.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/d3.v3.min.js')) }}" type="text/javascript"></script>
         <script src="{{ asset(theme_path('js/c3.min.js')) }}" type="text/javascript"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript"></script>
 
         <!-- Custom project scripts -->
         <script src="{{ asset(theme_path('js/main.min.js')) }}" type="text/javascript"></script>
