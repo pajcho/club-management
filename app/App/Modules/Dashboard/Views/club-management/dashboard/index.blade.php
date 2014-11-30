@@ -45,16 +45,17 @@
 
                 <ul class="list-group">
                     @foreach($dataRaw['upcomingBirthdays'] as $birthday)
-                    <li class="list-group-item {{$birthday->dob->year(date('Y'))->isToday() ? 'text-success' : ''}}">
+                    <li class="list-group-item {{$birthday->dob->year(\Carbon\Carbon::now()->year)->isToday() ? 'text-success' : ''}}">
                         <div class="row">
                             <span class="col-lg-6 col-md-12 col-sm-6 bold">{{$birthday->full_name}}</span>
                             <span class="col-lg-6 col-md-12 col-sm-6">
-                                @if($birthday->dob->year(date('Y'))->isToday())
-                                    <strong>Today</strong>
-                                @elseif($birthday->dob->year(date('Y'))->isTomorrow())
-                                    <strong>Tomorrow</strong>
+                                {{\Carbon\Carbon::now()->year - $birthday->dob->year}} years
+                                @if($birthday->dob->year(\Carbon\Carbon::now()->year)->isToday())
+                                    today
+                                @elseif($birthday->dob->year(\Carbon\Carbon::now()->year)->isTomorrow())
+                                    tomorrow
                                 @else
-                                    {{$birthday->dob->year(date('Y'))->format('l, F jS')}}
+                                    on {{$birthday->dob->year(\Carbon\Carbon::now()->year)->format('l, F jS')}}
                                 @endif
                             </span>
                         </div>

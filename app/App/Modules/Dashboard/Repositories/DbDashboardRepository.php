@@ -4,6 +4,7 @@ use App\Modules\Members\Models\Member;
 use App\Modules\Members\Models\MemberGroup;
 use App\Modules\Users\Models\User;
 use App\Repositories\DbBaseRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DbDashboardRepository extends DbBaseRepository implements DashboardRepositoryInterface {
@@ -27,7 +28,7 @@ class DbDashboardRepository extends DbBaseRepository implements DashboardReposit
     public function totalActiveMembers()
     {
         return $this->members->all()->filter(function($item){
-            return $item->activeOnDate(date('Y'), date('m'));
+            return $item->activeOnDate(Carbon::now()->year, Carbon::now()->month);
         })->count();
     }
 
@@ -43,7 +44,7 @@ class DbDashboardRepository extends DbBaseRepository implements DashboardReposit
 
     public function upcomingBirthdays()
     {
-        $date = date('Y-m-d');
+        $date = Carbon::now()->format('Y-m-d');
         return $this->members->select(DB::raw("*,
             DATE_FORMAT('$date', '%Y') - DATE_FORMAT(dob, '%Y') + IF(
             DATE_FORMAT(dob, '%m%d') < DATE_FORMAT('$date', '%m%d'), 1, 0) AS new_age,
