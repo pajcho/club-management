@@ -93,6 +93,11 @@ class MemberGroupController extends AdminController {
 	public function show($id)
 	{
         $memberGroup = $this->memberGroups->find($id);
+
+        if (!$memberGroup) {
+            return Redirect::route('group.index')->withError('Invalid member group');
+        }
+
         $users = $this->users->getForSelect();
 
         return View::make(Theme::view('group.update'))->with(compact('memberGroup', 'users'));

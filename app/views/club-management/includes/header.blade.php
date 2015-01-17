@@ -15,6 +15,7 @@
                     {{ HTML::decode(link_to('#', $currentUser->full_name . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
                         <li>{{ HTML::decode(link_to_route('user.show', '<i class="fa fa-pencil"></i> Edit Profile', $currentUser->id)) }}</li>
+                        <li>{{ HTML::decode(link_to_route('user.attendance.index', '<i class="fa fa-clock-o"></i> Attendance', $currentUser->id)) }}</li>
                         <li class="nav-divider"></li>
                         <li>{{ HTML::decode(link_to_route('logout', '<i class="fa fa-power-off"></i> Logout</span>')) }}</li>
                     </ul>

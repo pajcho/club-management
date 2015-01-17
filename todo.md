@@ -19,8 +19,8 @@ Important
       This way we will make number of required database queries way lower than it is now
 - [x] Integrate toastr messages (http://codeseven.github.io/toastr/)
 - [ ] Page to see when are members due to renew doctors check (for all members)
-- [ ] For trainer type of users add back link to edit groups on group listing
-- [ ] Add link under profile dropdown of each user type to directly go and fill attendance details
+- [x] For trainer type of users add back link to edit groups on group listing
+- [x] Add link under profile dropdown of each user type to directly go and fill attendance details
 - [ ] Make dashboards trainer specific (show only group members) and after this enable dashboard to all user types
       
 Less Important

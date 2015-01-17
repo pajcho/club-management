@@ -23,9 +23,7 @@
                     <th>Hours this month</th>
                     <th>Members</th>
                     <th></th>
-                    @if($currentUser->isAdmin())
-                        <th width="80">Actions</th>
-                    @endif
+                    <th width="80">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,12 +40,12 @@
                             <td>
                                 {{ link_to_route('group.data.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) }}
                             </td>
-                            @if($currentUser->isAdmin())
-                                <td>
-                                    {{ HTML::decode(link_to_route('group.show', '<i class="fa fa-pencil"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                            <td>
+                                {{ HTML::decode(link_to_route('group.show', '<i class="fa fa-pencil"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) }}
+                                @if($currentUser->isAdmin())
                                     {{ HTML::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) }}
-                                </td>
-                            @endif
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 @else
