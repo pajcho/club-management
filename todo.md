@@ -22,6 +22,7 @@ Important
 - [x] For trainer type of users add back link to edit groups on group listing
 - [x] Add link under profile dropdown of each user type to directly go and fill attendance details
 - [ ] Make dashboards trainer specific (show only group members) and after this enable dashboard to all user types
+- [ ] Move configuration options to laravel's .env files
       
 Less Important
 ------------------------------------
