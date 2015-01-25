@@ -19,6 +19,6 @@
         Route::delete('{user}', array('as' => 'user.destroy', 'uses' => $controller . '@destroy'));
 
         Route::get('{user}/attendance', array('as' => 'user.attendance.index', 'uses' => $attendanceController . '@index'));
-        Route::put('{user}/attendance/{year}/{month}', array('as' => 'user.attendance.update', 'uses' => $attendanceController . '@update'))
-            ->where(array('group' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+'));
+        Route::put('{user}/attendance', array('as' => 'user.attendance.update', 'uses' => $attendanceController . '@update'))
+            ->where(array('user' => '[0-9]+'));
     });

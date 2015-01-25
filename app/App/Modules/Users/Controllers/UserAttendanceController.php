@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
-class UserAttendanceController extends AdminController {
+class UserAttendanceController extends AdminController
+{
 
     use EditableMonthsTrait;
 
@@ -35,13 +36,14 @@ class UserAttendanceController extends AdminController {
      * Display a listing of the resource.
      *
      * @param int $id
+     *
      * @return Response
      */
     public function index($id)
     {
         $user = $this->users->findWith($id, ['data']);
 
-        if(!$user) App::abort(404);
+        if (!$user) App::abort(404);
 
         $userData = $user->data()->orderBy('group_id', 'desc')->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
 
@@ -60,44 +62,38 @@ class UserAttendanceController extends AdminController {
          */
         $data = $user->groups()->get()->lists('name', 'id');
 
-        if($data)
-        {
+        if ($data) {
             // Make data to be array of arrays instead of values
-            foreach($data as $key => $value) $data[$key] = [
-                'name' => $value,
+            foreach ($data as $key => $value) $data[ $key ] = [
+                'name'  => $value,
                 'years' => [],
-                'data' => [],
+                'data'  => [],
             ];
 
             $months = $this->getEditableMonths(2014, 9);
 
-            foreach($months as $month)
-            {
-                $monthData = $userData->filter(function($userDataItem) use ($month){
+            foreach ($months as $month) {
+                $monthData = $userData->filter(function ($userDataItem) use ($month) {
                     return $userDataItem->year == $month->year && $userDataItem->month == $month->month;
                 });
 
                 // Populate every group array with this new data
-                foreach($data as $groupId => $groupData)
-                {
+                foreach ($data as $groupId => $groupData) {
                     $monthDataFound = false;
 
-                    foreach($monthData->all() as $monthDataItem)
-                    {
-                        if($monthDataItem->group_id == $groupId)
-                        {
-                            array_push($data[$monthDataItem->group_id]['data'], $monthDataItem);
+                    foreach ($monthData->all() as $monthDataItem) {
+                        if ($monthDataItem->group_id == $groupId) {
+                            array_push($data[ $monthDataItem->group_id ]['data'], $monthDataItem);
                             $monthDataFound = true;
                         }
                     }
 
-                    if(!$monthDataFound)
-                    {
-                        array_push($data[$groupId]['data'], new MemberGroupData([
-                            'group_id' => $groupId,
-                            'user_id' => $user->id,
-                            'year' => $month->year,
-                            'month' => $month->month,
+                    if (!$monthDataFound) {
+                        array_push($data[ $groupId ]['data'], new MemberGroupData([
+                            'group_id'   => $groupId,
+                            'user_id'    => $user->id,
+                            'year'       => $month->year,
+                            'month'      => $month->month,
                             'attendance' => json_encode([]),
                         ]));
                     }
@@ -105,11 +101,9 @@ class UserAttendanceController extends AdminController {
             }
 
             // Array of available years to be used as tabs on this page
-            foreach($data as $groupId => $groupData)
-            {
-                foreach($groupData['data'] as $item)
-                {
-                    if(!in_array($item->year, $data[$groupId]['years'])) array_push($data[$groupId]['years'], $item->year);
+            foreach ($data as $groupId => $groupData) {
+                foreach ($groupData['data'] as $item) {
+                    if (!in_array($item->year, $data[ $groupId ]['years'])) array_push($data[ $groupId ]['years'], $item->year);
                 }
             }
         }
@@ -140,7 +134,8 @@ class UserAttendanceController extends AdminController {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -151,7 +146,8 @@ class UserAttendanceController extends AdminController {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -162,21 +158,14 @@ class UserAttendanceController extends AdminController {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $userId
+     * @param  int $userId
+     *
      * @return Response
      */
-    public function update($userId, $year, $month)
+    public function update($userId)
     {
-        foreach(Input::get('data', []) as $userGroupId => $data)
-        {
-            $data = [
-                'user_id'     => $userId,
-                'year'          => $year,
-                'month'         => $month,
-                'attendance'    => json_encode($data['attendance']),
-            ];
-
-            $this->userGroupData->updateData($userGroupId, $data);
+        foreach (Input::get('data', []) as $details) {
+            $this->saveGroupDetails($userId, $details);
         }
 
         return Redirect::route('user.attendance.index', [$userId])->withSuccess('User data updated!');
@@ -185,7 +174,8 @@ class UserAttendanceController extends AdminController {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -199,13 +189,30 @@ class UserAttendanceController extends AdminController {
      */
     public function filterRequests()
     {
-        if($userId = Route::input('user'))
-        {
+        if ($userId = Route::input('user')) {
             // Allow only admin users and owners to edit their profile
             $this->beforeFilter('isAdminOr:' . $userId, ['only' => ['index', 'update']]);
         }
 
         // Allow only admin users to do requests here
         $this->beforeFilter('isAdminOr', ['except' => ['index', 'update']]);
+    }
+
+    /**
+     * @param $userId
+     * @param $details
+     */
+    private function saveGroupDetails($userId, $details)
+    {
+        foreach ($details['data'] as $userGroupId => $data) {
+            $data = [
+                'user_id'    => $userId,
+                'year'       => $details['year'],
+                'month'      => $details['month'],
+                'attendance' => json_encode($data['attendance']),
+            ];
+
+            $this->userGroupData->updateData($userGroupId, $data);
+        }
     }
 }
