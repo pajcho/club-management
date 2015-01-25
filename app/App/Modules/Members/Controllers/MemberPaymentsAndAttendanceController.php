@@ -73,6 +73,8 @@ class MemberPaymentsAndAttendanceController extends AdminController
             if (!in_array($value->year, $years)) array_push($years, $value->year);
         }
 
+        $data = $this->restructureData($data);
+
         return View::make(Theme::view('member.payments-and-attendance'))->with(compact('member', 'data', 'years'));
     }
 
@@ -171,6 +173,46 @@ class MemberPaymentsAndAttendanceController extends AdminController
 
         // Return message each time because why not :)
         return Redirect::route('member.payments.index', [$memberId])->withSuccess('Member data deleted!');
+    }
+
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function restructureData($data)
+    {
+        $return = [];
+
+        // Get all available years from all groups
+        $years = [];
+        foreach($data as $details)
+        {
+            array_push($years, $details->year);
+        }
+
+        $years = array_values(array_unique($years));
+        $years = array_map('intval', $years);
+        ksort($years, SORT_DESC);
+
+        // Populate array with group details sorted out by years
+        foreach($years as $year)
+        {
+            foreach($data as $details)
+            {
+                if($details->year == $year){
+                    $return[$year][] = $details;
+                }
+            }
+        }
+
+        // Remove empty years
+        foreach($return as $year => $details)
+        {
+            if(empty($details)) unset($return[$year]);
+        }
+
+        return $return;
     }
 
 }

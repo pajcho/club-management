@@ -235,6 +235,7 @@ class UserAttendanceController extends AdminController
         }
 
         $years = array_values(array_unique($years));
+        $years = array_map('intval', $years);
         ksort($years, SORT_DESC);
 
         // Populate array with group details sorted out by years
