@@ -206,12 +206,6 @@ class MemberPaymentsAndAttendanceController extends AdminController
             }
         }
 
-        // Remove empty years
-        foreach($return as $year => $details)
-        {
-            if(empty($details)) unset($return[$year]);
-        }
-
         return $return;
     }
 

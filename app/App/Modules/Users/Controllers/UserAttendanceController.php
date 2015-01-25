@@ -251,21 +251,10 @@ class UserAttendanceController extends AdminController
                         array_push($return[$year][$groupId]['data'], $groupDetails);
                     }
                 }
-            }
-        }
-        // Remove empty results
-        foreach($return as $year => $details)
-        {
-            foreach($details as $groupId => $data)
-            {
-                if(empty($data['data'])) unset($return[$year][$groupId]);
-            }
-        }
 
-        // Remove empty years
-        foreach($return as $year => $details)
-        {
-            if(empty($details)) unset($return[$year]);
+                // Remove empty results
+                if(empty($return[$year][$groupId]['data'])) unset($return[$year][$groupId]);
+            }
         }
 
         return $return;
