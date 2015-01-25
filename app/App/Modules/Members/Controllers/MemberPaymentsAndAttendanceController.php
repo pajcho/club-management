@@ -129,18 +129,10 @@ class MemberPaymentsAndAttendanceController extends AdminController
      *
      * @return Response
      */
-    public function update($memberId, $year, $month)
+    public function update($memberId)
     {
-        foreach (Input::get('data', []) as $memberGroupId => $data) {
-            $data = [
-                'member_id'  => $memberId,
-                'year'       => $year,
-                'month'      => $month,
-                'payed'      => array_get($data, 'payed', 0),
-                'attendance' => json_encode($data['attendance']),
-            ];
-
-            $this->groups->updateData($memberGroupId, $data);
+        foreach (Input::get('data', []) as $details) {
+            $this->saveGroupDetails($memberId, $details);
         }
 
         return Redirect::route('member.payments.index', [$memberId])->withSuccess('Member data updated!');
@@ -176,6 +168,25 @@ class MemberPaymentsAndAttendanceController extends AdminController
     }
 
     /**
+     * @param $memberId
+     * @param $details
+     */
+    private function saveGroupDetails($memberId, $details)
+    {
+        foreach ($details['data'] as $memberGroupId => $data) {
+            $data = [
+                'member_id'  => $memberId,
+                'year'       => $details['year'],
+                'month'      => $details['month'],
+                'payed'      => array_get($data, 'payed', 0),
+                'attendance' => json_encode($data['attendance']),
+            ];
+
+            $this->groups->updateData($memberGroupId, $data);
+        }
+    }
+
+    /**
      * @param $data
      *
      * @return array
@@ -186,8 +197,7 @@ class MemberPaymentsAndAttendanceController extends AdminController
 
         // Get all available years from all groups
         $years = [];
-        foreach($data as $details)
-        {
+        foreach ($data as $details) {
             array_push($years, $details->year);
         }
 
@@ -196,12 +206,10 @@ class MemberPaymentsAndAttendanceController extends AdminController
         ksort($years, SORT_DESC);
 
         // Populate array with group details sorted out by years
-        foreach($years as $year)
-        {
-            foreach($data as $details)
-            {
-                if($details->year == $year){
-                    $return[$year][] = $details;
+        foreach ($years as $year) {
+            foreach ($data as $details) {
+                if ($details->year == $year) {
+                    $return[ $year ][] = $details;
                 }
             }
         }

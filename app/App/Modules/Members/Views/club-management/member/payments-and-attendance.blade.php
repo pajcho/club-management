@@ -24,6 +24,7 @@
         </ul>
     </div>
 
+    {{ Former::open()->method('PUT')->action(route('member.payments.update', array($member->id))) }}
     <div class="tab-content">
         @foreach($data as $year => $details)
             <div role="tabpanel" class="tab-pane {{$details === reset($data) ? 'active' : ''}}" id="{{$year}}">
@@ -31,6 +32,9 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-11">
                         @foreach($details as $key => $dataItem)
+                            {{ Form::hidden('data[' . implode('-', [$year, $key]) . '][year]', $dataItem->year) }}
+                            {{ Form::hidden('data[' . implode('-', [$year, $key]) . '][month]', $dataItem->month) }}
+
                             <?php
                             // Defaults to a member that was inactive on a month that was not payed
                             $itemClass = 'info';
@@ -47,7 +51,6 @@
                             }
                             ?>
 
-                            {{ Former::open()->method('PUT')->action(route('member.payments.update', array($member->id, $dataItem->year, $dataItem->month))) }}
                             <table class="table table-bordered table-condensed">
                                 <thead>
                                 <tr>
@@ -92,8 +95,8 @@
                                     <td class="text-center">
                                         @if(!$member->freeOfChargeOnDate($dataItem->year, $dataItem->month, $member->freeOfCharge))
                                             <label for="payment_{{ $dataItem->member_id }}_{{ $dataItem->group_id }}_{{ $dataItem->month }}" style="width: 100%; height: 100%;">
-                                                {{ Form::hidden('data[' . $dataItem->group_id . '][payed]', 0) }}
-                                                {{ Form::checkbox('data[' . $dataItem->group_id . '][payed]', 1, $dataItem->payed == '1' ? true : false, array('id' => 'payment_' . $dataItem->member_id . '_' . $dataItem->group_id . '_' . $dataItem->month)) }}
+                                                {{ Form::hidden('data[' . implode('-', [$year, $key]) . '][data][' . $dataItem->group_id . '][payed]', 0) }}
+                                                {{ Form::checkbox('data[' . implode('-', [$year, $key]) . '][data][' . $dataItem->group_id . '][payed]', 1, $dataItem->payed == '1' ? true : false, array('id' => 'payment_' . $dataItem->member_id . '_' . $dataItem->group_id . '_' . $dataItem->month)) }}
                                             </label>
                                         @else
                                             <label for="payment_{{ $dataItem->group_id }}" style="width: 100%; height: 100%;" title="Free of charge"><i class="fa fa-star small"></i></label>
@@ -103,8 +106,8 @@
                                     @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
                                         <td class="text-center">
                                             <label for="attendance_{{ $dataItem->member_id }}_{{ $dataItem->group_id }}_{{ $dataItem->month }}_{{ $day->day }}" style="width: 100%; height: 100%;">
-                                                {{ Form::hidden('data[' . $dataItem->group_id . '][attendance][' . $day->day . ']', 0) }}
-                                                {{ Form::checkbox('data[' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, array('id' => 'attendance_' . $dataItem->member_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day)) }}
+                                                {{ Form::hidden('data[' . implode('-', [$year, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 0) }}
+                                                {{ Form::checkbox('data[' . implode('-', [$year, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, array('id' => 'attendance_' . $dataItem->member_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day)) }}
                                             </label>
                                         </td>
                                     @endforeach
@@ -121,12 +124,12 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                            {{ Former::close() }}
                         @endforeach
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
+    {{ Former::close() }}
 
 @stop

@@ -15,16 +15,17 @@
         Route::get('/', ['as' => 'member.index', 'uses' => $controller . '@index']);
         Route::get('create', ['as' => 'member.create', 'uses' => $controller . '@create']);
         Route::post('/', ['as' => 'member.store', 'uses' => $controller . '@store']);
-        Route::get('{member}', ['as' => 'member.show', 'uses' => $controller . '@show']);
-        Route::get('{member}/edit', ['as' => 'member.edit', 'uses' => $controller . '@edit']);
-        Route::put('{member}', ['as' => 'member.update', 'uses' => $controller . '@update']);
-        Route::delete('{member}', ['as' => 'member.destroy', 'uses' => $controller . '@destroy']);
+        Route::get('{member}', ['as' => 'member.show', 'uses' => $controller . '@show'])->where(['member' => '[0-9]+']);
+        Route::get('{member}/edit', ['as' => 'member.edit', 'uses' => $controller . '@edit'])->where(['member' => '[0-9]+']);
+        Route::put('{member}', ['as' => 'member.update', 'uses' => $controller . '@update'])->where(['member' => '[0-9]+']);
+        Route::delete('{member}', ['as' => 'member.destroy', 'uses' => $controller . '@destroy'])->where(['member' => '[0-9]+']);
 
-        Route::get('{member}/payments-and-attendance', ['as' => 'member.payments.index', 'uses' => $paymentsAndAttendanceController . '@index']);
-        Route::put('{member}/payments-and-attendance/{year}/{month}', ['as' => 'member.payments.update', 'uses' => $paymentsAndAttendanceController . '@update'])
-            ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+        Route::get('{member}/payments-and-attendance', ['as' => 'member.payments.index', 'uses' => $paymentsAndAttendanceController . '@index'])
+            ->where(['member' => '[0-9]+']);
+        Route::put('{member}/payments-and-attendance', ['as' => 'member.payments.update', 'uses' => $paymentsAndAttendanceController . '@update'])
+            ->where(['member' => '[0-9]+']);
         Route::delete('{member}/payments-and-attendance/{group}/{year}/{month}', ['as' => 'member.payments.destroy', 'uses' => $paymentsAndAttendanceController . '@destroy'])
-            ->where(['group' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+']);
+            ->where(['member' => '[0-9]+', 'group' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+']);
 
     });
 
@@ -33,16 +34,16 @@
         Route::get('/', ['as' => 'group.index', 'uses' => $groupController . '@index']);
         Route::get('create', ['as' => 'group.create', 'uses' => $groupController . '@create']);
         Route::post('/', ['as' => 'group.store', 'uses' => $groupController . '@store']);
-        Route::get('{group}', ['as' => 'group.show', 'uses' => $groupController . '@show']);
-        Route::get('{group}/edit', ['as' => 'group.edit', 'uses' => $groupController . '@edit']);
-        Route::put('{group}', ['as' => 'group.update', 'uses' => $groupController . '@update']);
-        Route::delete('{group}', ['as' => 'group.destroy', 'uses' => $groupController . '@destroy']);
+        Route::get('{group}', ['as' => 'group.show', 'uses' => $groupController . '@show'])->where(['group' => '[0-9]+']);
+        Route::get('{group}/edit', ['as' => 'group.edit', 'uses' => $groupController . '@edit'])->where(['group' => '[0-9]+']);
+        Route::put('{group}', ['as' => 'group.update', 'uses' => $groupController . '@update'])->where(['group' => '[0-9]+']);
+        Route::delete('{group}', ['as' => 'group.destroy', 'uses' => $groupController . '@destroy'])->where(['group' => '[0-9]+']);
 
         // Group PDF documents
         Route::get('{group}/attendance/{year}/{month}/{download?}', ['as' => 'group.attendance', 'uses' => $groupController . '@attendance'])
-            ->where(['year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download']);
+            ->where(['group' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download']);
         Route::get('{group}/payments/{year}/{month}/{download?}', ['as' => 'group.payments', 'uses' => $groupController . '@payments'])
-            ->where(['year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download']);
+            ->where(['group' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+', 'download' => 'download']);
 
         // Group data (Payments & Attendance)
         Route::group(['prefix' => '{group}/data'], function () use ($groupDataController) {
@@ -56,7 +57,7 @@
             // AJAX route to get number of members that have already payed membership for month
             Route::get('{year}/{month}/payment-data', ['as' => 'group.data.get.payment-data', 'uses' => $groupDataController . '@getPaymentData'])
                 ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
-            
+
         });
 
     });
