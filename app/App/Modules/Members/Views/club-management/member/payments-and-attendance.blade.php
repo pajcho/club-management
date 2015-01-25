@@ -16,6 +16,7 @@
         </div>
     </h1>
 
+
     <div role="tabpanel">
         <ul class="nav nav-tabs" role="tablist">
             @foreach($data as $year => $groups)
@@ -31,6 +32,11 @@
                 <div class="row">&nbsp;</div>
                 <div class="row">
                     <div class="col-lg-8 col-md-11">
+                        <div class="alert alert-info">
+                            <strong>New!!</strong> All data will be saved each time you submit a form. No need to submit
+                            one by one any more, just fill everything you want and click any
+                            {{ Form::submit('Update', array('class' => 'btn btn-xs btn-success')) }} button, including this one.
+                        </div>
                         @foreach($details as $key => $dataItem)
                             {{ Form::hidden('data[' . implode('-', [$year, $key]) . '][year]', $dataItem->year) }}
                             {{ Form::hidden('data[' . implode('-', [$year, $key]) . '][month]', $dataItem->month) }}
