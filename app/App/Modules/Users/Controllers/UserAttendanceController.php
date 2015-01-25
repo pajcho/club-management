@@ -108,6 +108,8 @@ class UserAttendanceController extends AdminController
             }
         }
 
+        $data = $this->restructureData($data);
+
         return View::make(Theme::view('user.attendance'))->with(compact('user', 'data'));
     }
 
@@ -214,5 +216,57 @@ class UserAttendanceController extends AdminController
 
             $this->userGroupData->updateData($userGroupId, $data);
         }
+    }
+
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function restructureData($data)
+    {
+        $return = [];
+
+        // Get all available years from all groups
+        $years = [];
+        foreach($data as $groupId => $details)
+        {
+            $years = array_merge($years, $details['years']);
+        }
+
+        $years = array_values(array_unique($years));
+        ksort($years, SORT_DESC);
+
+        // Populate array with group details sorted out by years
+        foreach($years as $year)
+        {
+            foreach($data as $groupId => $details)
+            {
+                $return[$year][$groupId] = ['name' => $details['name'], 'data' => []];
+
+                foreach($details['data'] as $groupDetails)
+                {
+                    if($groupDetails->year == $year){
+                        array_push($return[$year][$groupId]['data'], $groupDetails);
+                    }
+                }
+            }
+        }
+        // Remove empty results
+        foreach($return as $year => $details)
+        {
+            foreach($details as $groupId => $data)
+            {
+                if(empty($data['data'])) unset($return[$year][$groupId]);
+            }
+        }
+
+        // Remove empty years
+        foreach($return as $year => $details)
+        {
+            if(empty($details)) unset($return[$year]);
+        }
+
+        return $return;
     }
 }
