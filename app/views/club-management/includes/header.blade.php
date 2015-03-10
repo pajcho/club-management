@@ -10,22 +10,12 @@
             {{ link_to('/', site_title(), array('class' => 'navbar-brand')) }}
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    {{ HTML::decode(link_to('#', $currentUser->full_name . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
-                    <ul class="dropdown-menu">
-                        <li>{{ HTML::decode(link_to_route('user.show', '<i class="fa fa-pencil"></i> Edit Profile', $currentUser->id)) }}</li>
-                        <li>{{ HTML::decode(link_to_route('user.attendance.index', '<i class="fa fa-clock-o"></i> Attendance', $currentUser->id)) }}</li>
-                        <li class="nav-divider"></li>
-                        <li>{{ HTML::decode(link_to_route('logout', '<i class="fa fa-power-off"></i> Logout</span>')) }}</li>
-                    </ul>
-                </li>
-
+            <ul class="nav navbar-nav navbar-left">
                 @if($currentUser->isAdmin())
                     <li {{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart" title="Dashboard" data-placement="bottom"></i> <span class="hidden-sm">Dashboard</span>')) }}</li>
                 @endif
                 <li{{ ($activeMenu == 'members' ? ' class="active"' : '') }}>
-                    {{ HTML::decode(link_to('#', '<i class="fa fa-user"></i> Members <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                    {{ HTML::decode(link_to('#', '<i class="fa fa-user"></i> <span class="hidden-sm">Members</span> <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
                         <li>{{ HTML::decode(link_to_route('member.index', 'Members')) }}</li>
                         <li>{{ HTML::decode(link_to_route('member.create', 'Create Member')) }}</li>
@@ -38,7 +28,7 @@
                 </li>
 
                 <li{{ ($activeMenu == 'groups' ? ' class="active"' : '') }}>
-                    {{ HTML::decode(link_to('#', '<i class="fa fa-users"></i> Groups <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                    {{ HTML::decode(link_to('#', '<i class="fa fa-users"></i> <span class="hidden-sm">Groups</span> <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                     <ul class="dropdown-menu">
                         <li>{{ HTML::decode(link_to_route('group.index', 'Groups')) }}</li>
                         @if($currentUser->isAdmin())
@@ -48,14 +38,14 @@
                 </li>
                 @if($currentUser->isAdmin())
                     <li{{ ($activeMenu == 'users' ? ' class="active"' : '') }}>
-                        {{ HTML::decode(link_to('#', '<i class="fa fa-male"></i> Users <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                        {{ HTML::decode(link_to('#', '<i class="fa fa-male"></i> <span class="hidden-sm">Users</span> <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                         <ul class="dropdown-menu">
                             <li>{{ HTML::decode(link_to_route('user.index', 'Users')) }}</li>
                             <li>{{ HTML::decode(link_to_route('user.create', 'Create User')) }}</li>
                         </ul>
                     </li>
                     <li{{ ($activeMenu == 'settings' ? ' class="active"' : '') }}>
-                        {{ HTML::decode(link_to('#', '<i class="fa fa-cog"></i> Settings <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
+                        {{ HTML::decode(link_to('#', '<i class="fa fa-cog"></i> <span class="hidden-sm">Settings</span> <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) }}
                         <ul class="dropdown-menu">
                             <li>{{ HTML::decode(link_to_route('settings.index', 'Settings')) }}</li>
                             <li>{{ HTML::decode(link_to_route('settings.clear.cache', 'Clear Cache')) }}</li>
@@ -63,6 +53,20 @@
                     </li>
                     <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{{ HTML::decode(link_to_route('history.index', '<i class="fa fa-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm">History</span>')) }}</li>
                 @endif
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle user-avatar" data-toggle="dropdown">
+                        <img class="img-circle" width="40" height="40" src="{{ $currentUser->gravatar }}" />
+                        {{ $currentUser->full_name }}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>{{ HTML::decode(link_to_route('user.show', '<i class="fa fa-pencil"></i> Edit Profile', $currentUser->id)) }}</li>
+                        <li>{{ HTML::decode(link_to_route('user.attendance.index', '<i class="fa fa-clock-o"></i> Attendance', $currentUser->id)) }}</li>
+                        <li class="nav-divider"></li>
+                        <li>{{ HTML::decode(link_to_route('logout', '<i class="fa fa-power-off"></i> Logout</span>')) }}</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

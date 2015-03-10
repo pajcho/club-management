@@ -25,9 +25,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     protected $table = 'users';
     protected $softDelete = false;
 
-    protected $hidden = array('password');
-    protected $fillable = array('first_name', 'last_name', 'username', 'email', 'phone', 'address', 'notes', 'password', 'type');
-    protected $appends = array('full_name', 'group_ids');
+    protected $hidden = ['password'];
+    protected $fillable = ['first_name', 'last_name', 'username', 'email', 'phone', 'address', 'notes', 'password', 'type'];
+    protected $appends = ['full_name', 'group_ids', 'gravatar'];
 
     public function groups()
     {
@@ -88,6 +88,16 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     public function getGroupIdsAttribute()
     {
         return $this->groups()->get()->lists('id');
+    }
+
+    /**
+     * Get gravatar image path generated from users email
+     *
+     * @return string
+     */
+    public function getGravatarAttribute()
+    {
+        return "//www.gravatar.com/avatar/" . md5(strtolower(trim($this->attributes['email']))) . "?d=monsterid&s=80";
     }
 
 	/**
