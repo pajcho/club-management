@@ -30,7 +30,10 @@
                         <tr>
                             <td>{{ $history->getFrom() + $key }}</td>
                             <td>{{ $item->created_at->diffForHumans() }}</td>
-                            <td>{{ $item->message }}</td>
+                            <td>
+                                <img class="img-circle" width="20" height="20" src="{{ $item->user()->gravatar }}" />
+                                {{ $item->message }}
+                            </td>
                         </tr>
                     @endforeach
                 @else

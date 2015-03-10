@@ -28,7 +28,10 @@
                     @foreach($users as $key => $user)
                         <tr>
                             <td>{{ $users->getFrom() + $key }}</td>
-                            <td>{{ $user->full_name }}</td>
+                            <td>
+                                <img class="img-circle" width="20" height="20" src="{{ $user->gravatar }}" />
+                                {{ $user->full_name }}
+                            </td>
                             <td>{{ $user->email }}</td>
                             <td>{{ implode(', ', $user->groups->lists('name')) }}</td>
                             <td>{{ ucfirst($user->type) }}</td>
