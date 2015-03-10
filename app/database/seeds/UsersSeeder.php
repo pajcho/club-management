@@ -11,15 +11,15 @@ class UsersSeeder extends Seeder {
 	{
         $users = array();
 
-        // Add your users in this form
-//        array_push($users, array(
-//            'first_name' => 'first_name',
-//            'last_name' => 'last_name',
-//            'username' => 'username',
-//            'email' => 'email',
-//            'password' => Hash::make('password'),
-//            'type' => 'admin', // can be 'admin' or 'trainer'
-//        ));
+        // Add default user but you can add any number of users in this format
+        array_push($users, array(
+            'first_name' => $_ENV['ADMIN_FIRSTNAME'],
+            'last_name' => $_ENV['ADMIN_LASTNAME'],
+            'username' => $_ENV['ADMIN_USERNAME'],
+            'email' => $_ENV['ADMIN_EMAIL'],
+            'password' => Hash::make($_ENV['ADMIN_PASSWORD']),
+            'type' => 'admin', // can be 'admin' or 'trainer'
+        ));
 
 		// Delete all users
 		DB::table('users')->truncate();
