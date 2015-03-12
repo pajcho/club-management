@@ -7,7 +7,6 @@ composer.phar
 Envoy.blade.php
 .DS_Store
 Thumbs.db
-v2
 
 # PHP Storm and Vagrant related files and folders
 .idea
