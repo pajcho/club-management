@@ -1,7 +1,5 @@
 <?php
 
-    use Illuminate\Support\Facades\Config;
-
     /**
      * Site Title
      *
@@ -11,5 +9,5 @@
      */
     function site_title()
     {
-        return Config::get('settings.site_title');
+        return app('config')->get('settings.site_title');
     }

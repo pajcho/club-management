@@ -1,8 +1,6 @@
 <?php namespace App\Internal;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 
 trait HistorableTrait {
 
@@ -71,7 +69,7 @@ trait HistorableTrait {
     {
         if($this->shouldBeLogged($actionString))
         {
-            $historyRepo = App::make('App\Modules\History\Repositories\HistoryRepositoryInterface');
+            $historyRepo = app()->make('App\Modules\History\Repositories\HistoryRepositoryInterface');
 
             $historyRepo->create(array(
                 'historable_type' => get_class($this),
@@ -109,7 +107,7 @@ trait HistorableTrait {
     {
         if($userId = $this->getUserId())
         {
-            $user_model = Config::get('auth.model');
+            $user_model = app('config')->get('auth.model');
             return $user_model::find($userId);
         }
 

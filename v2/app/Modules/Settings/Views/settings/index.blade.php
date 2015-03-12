@@ -16,11 +16,11 @@
         @foreach($settings as $key => $setting)
 
             {{-- Wrap settings fields  --}}
-            @if(Config::get('settings.per_row', 2) > 1)
-                @if(($key+1)%Config::get('settings.per_row', 2) === 1)
+            @if(app('config')->get('settings.per_row', 2) > 1)
+                @if(($key+1)%app('config')->get('settings.per_row', 2) === 1)
                     <div class="row">
                 @endif
-                    <div class="col-md-{{ 12/Config::get('settings.per_row', 2) }}">
+                    <div class="col-md-{{ 12/app('config')->get('settings.per_row', 2) }}">
             @endif
 
             {{-- Display month settings differently --}}
@@ -31,9 +31,9 @@
             @endif
 
             {{-- Wrap settings fields  --}}
-            @if(Config::get('settings.per_row', 2) > 1)
+            @if(app('config')->get('settings.per_row', 2) > 1)
                     </div>
-                @if(($key+1)%Config::get('settings.per_row', 2) === 0 || ($key+1) === count($settings))
+                @if(($key+1)%app('config')->get('settings.per_row', 2) === 0 || ($key+1) === count($settings))
                     </div>
                 @endif
             @endif

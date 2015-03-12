@@ -1,7 +1,6 @@
 <?php namespace App\Modules\History\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Support\Facades\Config;
 
 class History extends BaseModel {
     
@@ -23,7 +22,7 @@ class History extends BaseModel {
      */
     public function user()
     {
-        $user_model = Config::get('auth.model');
+        $user_model = app('config')->get('auth.model');
         return $user_model::find($this->user_id);
     }
 }

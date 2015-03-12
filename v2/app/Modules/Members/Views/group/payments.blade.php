@@ -6,7 +6,7 @@
     <table class="table table-bordered table-condensed">
         <thead>
             <tr>
-                <th colspan="{{ 3 + count($months) }}" class="no-border">{{ Config::get('settings.club_name') }}</th>
+                <th colspan="{{ 3 + count($months) }}" class="no-border">{{ app('config')->get('settings.club_name') }}</th>
             </tr>
 
             <tr>

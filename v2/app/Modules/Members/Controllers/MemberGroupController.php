@@ -7,7 +7,6 @@ use App\Modules\Users\Repositories\UserRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
@@ -206,8 +205,8 @@ class MemberGroupController extends AdminController {
         $membersRepo = App::make('App\Modules\Members\Repositories\MemberRepositoryInterface');
         $memberGroup = $this->memberGroups->find($id);
 
-        $firstMonth = (int) Config::get('settings.season_starts', 9);
-        $lastMonth = (int) Config::get('settings.season_ends', 6);
+        $firstMonth = (int) app('config')->get('settings.season_starts', 9);
+        $lastMonth = (int) app('config')->get('settings.season_ends', 6);
 
         // Generate date limit
         $subscribedBefore = Carbon::createFromDate($year, $lastMonth, 1);

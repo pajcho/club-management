@@ -6,7 +6,6 @@ use App\Modules\Results\Internal\Validators\ResultValidator;
 use App\Modules\Results\Repositories\ResultCategoryRepositoryInterface;
 use App\Modules\Results\Repositories\ResultRepositoryInterface;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -180,12 +179,12 @@ class ResultController extends AdminController {
         $data['places'] = array('' => 'Place') + $data['places'];
 
         // Generate types
-        $types = Config::get('results::result.types', array());
+        $types = app('config')->get('results::result.types', array());
         $data['types'] = array_combine($types, $types);
         $data['types'] = array('' => 'Type') + $data['types'];
 
         // Generate subcategories
-        $subcategories = Config::get('results::result.subcategories', array());
+        $subcategories = app('config')->get('results::result.subcategories', array());
         $data['subcategories'] = array_combine($subcategories, $subcategories);
         $data['subcategories'] = array('' => 'Subcategory') + $data['subcategories'];
 
