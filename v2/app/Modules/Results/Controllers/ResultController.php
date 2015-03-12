@@ -5,7 +5,6 @@ use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use App\Modules\Results\Internal\Validators\ResultValidator;
 use App\Modules\Results\Repositories\ResultCategoryRepositoryInterface;
 use App\Modules\Results\Repositories\ResultRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
@@ -57,7 +56,7 @@ class ResultController extends AdminController {
         $filters_title = trim($filters_title, ' / ');
         $filters_title = $filters_title ?: 'Filter results';
 
-        return view(Theme::view('result.index'))->with(compact('results', 'filters_title', 'categories', 'subcategories', 'years', 'types'));
+        return view('result.index')->with(compact('results', 'filters_title', 'categories', 'subcategories', 'years', 'types'));
     }
 
     /**
@@ -70,7 +69,7 @@ class ResultController extends AdminController {
         // Get variables for selectbox
         extract($this->generateVariables());
 
-        return view(Theme::view('result.create'))->with(compact('categories', 'subcategories', 'members', 'years', 'places', 'types'));
+        return view('result.create')->with(compact('categories', 'subcategories', 'members', 'years', 'places', 'types'));
     }
 
     /**
@@ -116,7 +115,7 @@ class ResultController extends AdminController {
         // Get variables for selectbox
         extract($this->generateVariables());
 
-        return view(Theme::view('result.update'))->with(compact('result', 'categories', 'subcategories', 'members', 'years', 'places', 'types'));
+        return view('result.update')->with(compact('result', 'categories', 'subcategories', 'members', 'years', 'places', 'types'));
     }
 
     /**

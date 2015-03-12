@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Internal\EditableMonthsTrait;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
-use App\Services\Theme;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Cache;
@@ -52,7 +51,7 @@ class MemberGroupDataController extends AdminController {
         $months->setPath('/' . Request::path());
         $today = Carbon::now();
 
-        return view(Theme::view('group.data.index'))->with(compact('memberGroup', 'months', 'today'));
+        return view('group.data.index')->with(compact('memberGroup', 'months', 'today'));
 	}
 
 	/**
@@ -105,7 +104,7 @@ class MemberGroupDataController extends AdminController {
 
         $highlight = Input::get('highlight', false);
 
-        return view(Theme::view('group.data.update'))->with(compact('memberGroup', 'year', 'month', 'members', 'highlight'));
+        return view('group.data.update')->with(compact('memberGroup', 'year', 'month', 'members', 'highlight'));
 	}
 
 	/**

@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Users\Internal\Validators\UserValidator;
 use App\Modules\Users\Repositories\UserRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -44,7 +43,7 @@ class UserController extends AdminController
 
         $groups = ['' => 'Group'] + $this->groups->getForSelect();
 
-        return view(Theme::view('user.index'))->with(compact('users', 'groups'));
+        return view('user.index')->with(compact('users', 'groups'));
     }
 
     /**
@@ -57,7 +56,7 @@ class UserController extends AdminController
         $groups = $this->groups->getForSelect();
         $types  = $this->users->getTypesForSelect();
 
-        return view(Theme::view('user.create'))->with(compact('groups', 'types'));
+        return view('user.create')->with(compact('groups', 'types'));
     }
 
     /**
@@ -102,7 +101,7 @@ class UserController extends AdminController
         $groups = $this->groups->getForSelect();
         $types  = $this->users->getTypesForSelect();
 
-        return view(Theme::view('user.update'))->with(compact('user', 'groups', 'types'));
+        return view('user.update')->with(compact('user', 'groups', 'types'));
     }
 
     /**

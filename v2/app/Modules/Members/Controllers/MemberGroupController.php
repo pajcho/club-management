@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Modules\Members\Internal\Validators\MemberGroupValidator;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Users\Repositories\UserRepositoryInterface;
-use App\Services\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
@@ -41,7 +40,7 @@ class MemberGroupController extends AdminController {
 		// Get all members
         $memberGroups = $this->memberGroups->filter(Input::get());
         
-        return view(Theme::view('group.index'))->with('memberGroups', $memberGroups);
+        return view('group.index')->with('memberGroups', $memberGroups);
 	}
 
 	/**
@@ -53,7 +52,7 @@ class MemberGroupController extends AdminController {
 	{
         $users = $this->users->getForSelect();
 
-		return view(Theme::view('group.create'))->with(compact('users'));
+		return view('group.create')->with(compact('users'));
 	}
 
 	/**
@@ -100,7 +99,7 @@ class MemberGroupController extends AdminController {
 
         $users = $this->users->getForSelect();
 
-        return view(Theme::view('group.update'))->with(compact('memberGroup', 'users'));
+        return view('group.update')->with(compact('memberGroup', 'users'));
 	}
 
 	/**
@@ -186,7 +185,7 @@ class MemberGroupController extends AdminController {
             return $member->inGroupOnDate($id, $year, $month) && $member->activeOnDate($year, $month);
         })->values();
 
-        $view = view(Theme::view('group.attendance'))->with(compact('memberGroup', 'members', 'year', 'month'))->render();
+        $view = view('group.attendance')->with(compact('memberGroup', 'members', 'year', 'month'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.attendance.title') ? Lang::get('members::documents.attendance.title') : 'Monthly group attendance list') . ' ' . $year . ' ' . $month);
 
         return $download ? $pdf->download($view, $documentName) : $pdf->stream($view, $documentName);
@@ -242,7 +241,7 @@ class MemberGroupController extends AdminController {
             );
         })->values();
 
-        $view = view(Theme::view('group.payments'))->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'firstMonth', 'lastMonth'))->render();
+        $view = view('group.payments')->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'firstMonth', 'lastMonth'))->render();
         $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
 
         return $download ? $pdf->download($view, $documentName) : $pdf->stream($view, $documentName);

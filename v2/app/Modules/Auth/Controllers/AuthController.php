@@ -1,7 +1,6 @@
 <?php namespace App\Modules\Auth\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App\Services\Theme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -22,7 +21,7 @@ class AuthController extends BaseController {
      */
 	public function login()
 	{
-        return view(Theme::view('auth.login'));
+        return view('auth.login');
 	}
 
 	/**

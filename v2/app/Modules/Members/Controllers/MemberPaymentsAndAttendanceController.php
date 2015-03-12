@@ -5,7 +5,6 @@ use App\Internal\EditableMonthsTrait;
 use App\Modules\Members\Models\MemberGroupData;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -75,7 +74,7 @@ class MemberPaymentsAndAttendanceController extends AdminController
 
         $data = $this->restructureData($data);
 
-        return view(Theme::view('member.payments-and-attendance'))->with(compact('member', 'data', 'years'));
+        return view('member.payments-and-attendance')->with(compact('member', 'data', 'years'));
     }
 
     /**

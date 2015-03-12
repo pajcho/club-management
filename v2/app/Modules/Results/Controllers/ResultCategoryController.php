@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminController;
 use App\Modules\Results\Internal\Validators\ResultCategoryValidator;
 use App\Modules\Results\Repositories\ResultCategoryRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -36,7 +35,7 @@ class ResultCategoryController extends AdminController {
         $filters_title = 'Filter result categories';
         if(Input::get('name') ?: false) $filters_title = Input::get('name');
         
-        return view(Theme::view('result.category.index'))->with(compact('resultCategories', 'filters_title'));
+        return view('result.category.index')->with(compact('resultCategories', 'filters_title'));
 	}
 
 	/**
@@ -48,7 +47,7 @@ class ResultCategoryController extends AdminController {
 	{
         $categories = $this->resultCategories->getForSelect(true);
 
-		return view(Theme::view('result.category.create'))->with(compact('categories'));
+		return view('result.category.create')->with(compact('categories'));
 	}
 
 	/**
@@ -90,7 +89,7 @@ class ResultCategoryController extends AdminController {
         $resultCategory = $this->resultCategories->find($id);
         $categories = $this->resultCategories->getForSelect(true);
 
-        return view(Theme::view('result.category.update'))->with(compact('resultCategory', 'categories'));
+        return view('result.category.update')->with(compact('resultCategory', 'categories'));
 	}
 
 	/**

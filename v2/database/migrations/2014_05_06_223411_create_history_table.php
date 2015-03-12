@@ -18,7 +18,7 @@
                 $table->increments('id');
                 $table->string('historable_type');
                 $table->integer('historable_id');
-                $table->integer('user_id');
+                $table->integer('user_id')->nullable();
                 $table->text('message');
 
                 $table->timestamps();

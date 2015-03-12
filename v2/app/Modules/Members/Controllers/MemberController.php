@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Modules\Members\Internal\Validators\MemberValidator;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -62,7 +61,7 @@ class MemberController extends AdminController
         if (isset($groups[ Input::get('group_id') ?: false ])) $filters_title = $groups[ Input::get('group_id') ] . ' / ' . $filters_title;
         if (Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
 
-        return view(Theme::view('member.index'))->with(compact('members', 'groups', 'locations', 'member_status', 'member_free', 'filters_title'));
+        return view('member.index')->with(compact('members', 'groups', 'locations', 'member_status', 'member_free', 'filters_title'));
     }
 
     /**
@@ -74,7 +73,7 @@ class MemberController extends AdminController
     {
         $groups = $this->groups->getForSelect();
 
-        return view(Theme::view('member.create'))->with(compact('groups'));
+        return view('member.create')->with(compact('groups'));
     }
 
     /**
@@ -120,7 +119,7 @@ class MemberController extends AdminController
 
         $groups = $this->groups->getForSelect();
 
-        return view(Theme::view('member.update'))->with(compact('member', 'groups'));
+        return view('member.update')->with(compact('member', 'groups'));
     }
 
     /**

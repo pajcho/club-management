@@ -4,7 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Modules\Dashboard\Repositories\DashboardRepositoryInterface;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -63,7 +62,7 @@ class DashboardController extends AdminController
 
         $data = json_encode($dataRaw);
 
-        return view(Theme::view('dashboard.index'))->with(compact('data', 'dataRaw'));
+        return view('dashboard.index')->with(compact('data', 'dataRaw'));
     }
 
     private function generateMembersYearOfBirthData()

@@ -59,7 +59,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // Bind custom app classes
-        $this->app->bind('App\Services\Theme', 'App\Services\Theme');
         $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'App\Services\Registrar');
     }
 }

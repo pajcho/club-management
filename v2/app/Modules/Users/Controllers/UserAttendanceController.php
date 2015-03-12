@@ -5,7 +5,6 @@ use App\Internal\EditableMonthsTrait;
 use App\Modules\Members\Models\MemberGroupData;
 use App\Modules\Users\Repositories\UserGroupDataRepositoryInterface;
 use App\Modules\Users\Repositories\UserRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
@@ -109,7 +108,7 @@ class UserAttendanceController extends AdminController
 
         $data = $this->restructureData($data);
 
-        return view(Theme::view('user.attendance'))->with(compact('user', 'data'));
+        return view('user.attendance')->with(compact('user', 'data'));
     }
 
     /**

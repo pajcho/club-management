@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Modules\Settings\Repositories\SettingsRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -32,7 +31,7 @@ class SettingsController extends AdminController {
 		// Get all settings
         $settings = $this->settings->all();
 
-        return view(Theme::view('settings.index'))->with(compact('settings'));
+        return view('settings.index')->with(compact('settings'));
 	}
 
 	/**

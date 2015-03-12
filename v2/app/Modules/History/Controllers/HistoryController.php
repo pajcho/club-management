@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Modules\History\Repositories\HistoryRepositoryInterface;
-use App\Services\Theme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -34,6 +33,6 @@ class HistoryController extends AdminController {
         $filters_title = 'Filter history';
         if(Input::get('message') ?: false) $filters_title = Input::get('message');
 
-        return view(Theme::view('history.index'))->with(compact('history', 'filters_title'));
+        return view('history.index')->with(compact('history', 'filters_title'));
 	}
 }
