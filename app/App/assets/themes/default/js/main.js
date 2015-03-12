@@ -60,7 +60,14 @@ var confirmPopup =
                                 'value': link.data('method')
                             });
 
-                        form.append(hiddenInput).appendTo('body').submit();
+                        var hiddenToken =
+                            $('<input>', {
+                                'name': '_token',
+                                'type': 'hidden',
+                                'value': link.data('token')
+                            });
+
+                        form.append(hiddenInput).append(hiddenToken).appendTo('body').submit();
                     }
                 },
                 danger: {
