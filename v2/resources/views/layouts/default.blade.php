@@ -21,7 +21,7 @@
         <!-- BEGIN THEME STYLES -->
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-        <link href="{{ asset('css/styles.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(elixir('css/app.css')) }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -68,21 +68,7 @@
         <!-- Footer -->
         @include('includes/footer')
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{{ asset("js/jquery-1.11.0.min.js") }}"><\/script>')</script>
-        <script src="{{ asset('js/jquery.pjax.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/moment.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/nprogress.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/select2.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/bootbox.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/c3.min.js') }}" type="text/javascript"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript"></script>
-
-        <!-- Custom project scripts -->
-        <script src="{{ asset('js/main.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset(elixir('js/all.js')) }}" type="text/javascript"></script>
 
         @section('scripts')
 

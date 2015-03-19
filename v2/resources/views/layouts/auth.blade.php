@@ -19,7 +19,7 @@
         </script>
 
         <!-- BEGIN THEME STYLES -->
-        <link href="{{ asset('css/styles.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 
         <style>

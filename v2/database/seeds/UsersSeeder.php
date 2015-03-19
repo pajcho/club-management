@@ -18,7 +18,7 @@
                 'last_name'  => env('APP_ADMIN_LASTNAME', 'lastname'),
                 'username'   => env('APP_ADMIN_USERNAME', 'username'),
                 'email'      => env('APP_ADMIN_EMAIL', 'email@email.com'),
-                'password'   => bcrypt(env('APP_ADMIN_PASSWORD', 'password')),
+                'password'   => env('APP_ADMIN_PASSWORD', 'password'),
                 'type'       => 'admin', // can be 'admin' or 'trainer'
             ]);
         }
