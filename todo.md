@@ -25,6 +25,7 @@ Important
 - [ ] Move configuration options to laravel's .env files
 - [x] Change member and user attendance page to have tabs for each year to be easier to use
 - [x] Change member and user attendance forms to save all data once submitted instead one of submitting one by one
+- [ ] When changing DOS we have to update "date" column on each row in date_history table to correctly display member
       
 Less Important
 ------------------------------------
