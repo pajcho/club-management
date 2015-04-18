@@ -1,0 +1,10 @@
+/vendor
+/node_modules
+.env
+
+# Application related files and folders
+.idea
+.vagrant
+composer.phar
+.DS_Store
+Thumbs.db
