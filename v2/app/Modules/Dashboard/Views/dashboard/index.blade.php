@@ -117,7 +117,7 @@
     <script>
         $(function(){
 
-            var data = {{ $data }};
+            var data = {!! $data !!};
 
             var chart1 = c3.generate({
                 bindto: '#monthly-members-chart',
