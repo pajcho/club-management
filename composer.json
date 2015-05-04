@@ -3,28 +3,33 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
+	"type": "project",
 	"require": {
-		"raveren/kint": "v0.9",
-		"laravel/framework": "4.2.*",
-		"way/generators": "dev-master",
-		"fzaninotto/faker": "1.3.*",
-		"anahkiasen/former": "dev-develop",
+		"laravel/framework": "5.0.*",
+		"fzaninotto/faker": "~1.4",
+		"anahkiasen/former": "4.0.x-dev",
 		"webpatser/laravel-sanitize": "dev-master",
-		"vtalbot/pjax": "0.2.*",
-		"barryvdh/laravel-debugbar": "~1.8"
+		"jacobbennett/pjax": "0.6.*",
+		"barryvdh/laravel-debugbar": "~2.0",
+		"laravelcollective/html": "~5.0",
+		"laracasts/testdummy": "~2.1"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.0",
+		"phpspec/phpspec": "~2.1"
 	},
 	"autoload": {
 		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"database"
 		],
-        "psr-4": {
-            "App\\": "app/App/"
-        }
+		"psr-4": {
+			"App\\": "app/"
+		}
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/TestCase.php"
+		]
 	},
 	"scripts": {
 		"post-install-cmd": [
@@ -36,11 +41,12 @@
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [
+			"php -r \"copy('.env.example', '.env');\"",
 			"php artisan key:generate"
 		]
 	},
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+  	"minimum-stability": "stable"
 }

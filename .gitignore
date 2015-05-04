@@ -1,14 +1,11 @@
-/bootstrap/compiled.php
 /vendor
-composer.phar
-.env.*.php
-.env.php
-!.env.template.php
+/node_modules
+.env
 Envoy.blade.php
-.DS_Store
-Thumbs.db
 
-# PHP Storm and Vagrant related files and folders
+# Application related files and folders
 .idea
 .vagrant
-node_modules
+composer.phar
+.DS_Store
+Thumbs.db
