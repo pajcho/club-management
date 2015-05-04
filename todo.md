@@ -22,10 +22,11 @@ Important
 - [x] For trainer type of users add back link to edit groups on group listing
 - [x] Add link under profile dropdown of each user type to directly go and fill attendance details
 - [ ] Make dashboards trainer specific (show only group members) and after this enable dashboard to all user types
-- [ ] Move configuration options to laravel's .env files
+- [x] Move configuration options to laravel's .env files
 - [x] Change member and user attendance page to have tabs for each year to be easier to use
 - [x] Change member and user attendance forms to save all data once submitted instead one of submitting one by one
 - [ ] When changing DOS we have to update "date" column on each row in date_history table to correctly display member
+- [ ] Allow trainers to manage results for members in their own groups
       
 Less Important
 ------------------------------------
