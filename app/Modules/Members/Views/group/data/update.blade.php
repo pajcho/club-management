@@ -39,7 +39,7 @@
                             <th colspan="3">&nbsp;</th>
                             <th colspan="{{ count($memberGroup->trainingDays($year, $month)) + 1 }}" class="text-center">
                                 <strong>
-                                    {{ \Carbon\Carbon::createFromDate($year, $month, 1)->format('Y, F') }}
+                                    {{ \Carbon\Carbon::create($year, $month, 1)->format('Y, F') }}
                                 </strong>
                             </th>
                         </tr>
@@ -49,7 +49,7 @@
                             <th>Full Name</th>
                             <th class="text-center">Payment</th>
                             @foreach($memberGroup->trainingDays($year, $month) as $day)
-                                <th width="35" class="text-center">{{ $day->day }}</th>
+                                <th width="35" class="text-center {!! \Carbon\Carbon::create($year, $month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">{{ $day->day }}</th>
                             @endforeach
                             <th class="text-center"></th>
                         </tr>
@@ -58,7 +58,7 @@
                     <tbody>
                         @if($members->count())
                             @foreach($members as $key => $member)
-                                <tr {{ ($highlight == $member->id) ? 'class="warning"' : '' }}>
+                                <tr {!! ($highlight == $member->id) ? 'class="warning"' : '' !!}>
                                     <td width="50">{{ $key+1 }}</td>
                                     <td style="text-align: left;">{{ $member->full_name }}</td>
                                     <td class="text-center">
@@ -72,7 +72,7 @@
                                         @endif
                                     </td>
                                     @foreach($memberGroup->trainingDays($year, $month) as $day)
-                                        <td class="text-center">
+                                        <td class="text-center {!! \Carbon\Carbon::create($year, $month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">
                                             <label for="attendance_{{$member->id}}_{{$day->day}}" style="width: 100%; height: 100%;">
                                                 {!! Form::hidden('data[' . $member->id . '][attendance][' . $day->day . ']', 0) !!}
                                                 {!! Form::checkbox('data[' . $member->id . '][attendance][' . $day->day . ']', 1, $memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance($day->day) : false, array('id' => 'attendance_' . $member->id . '_' . $day->day)) !!}

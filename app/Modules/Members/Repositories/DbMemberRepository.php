@@ -206,7 +206,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
      */
     public function thatAreInGroupOnDate($groupId, $year, $month)
     {
-        $date = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        $date = Carbon::create($year, $month, 1)->endOfMonth();
 
         return DateHistory::where('type', 'group_id')
             ->where('value', $groupId)

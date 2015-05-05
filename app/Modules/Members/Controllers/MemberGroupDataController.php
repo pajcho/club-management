@@ -93,7 +93,7 @@ class MemberGroupDataController extends AdminController {
         // Get all group members
         $members = $this->members->filter([
             'ids'        => $memberIds,
-            'subscribed' => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'subscribed' => ['<=', Carbon::create($year, $month, 1)->endOfMonth()->toDateTimeString()],
             'orderBy'    => ['dos' => 'asc'],
         ], false);
 

@@ -17,10 +17,10 @@
                 <th colspan="{{ 3 + count($months) }}">
                     {{ Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments' }}
                     (
-                    {{ Lang::has('dates.month.' . $firstMonth) ? substr(Lang::get('dates.month.' . $firstMonth), 0, 3) : Carbon\Carbon::createFromDate($year, $firstMonth, 1)->format('M') }}
+                    {{ Lang::has('dates.month.' . $firstMonth) ? substr(Lang::get('dates.month.' . $firstMonth), 0, 3) : Carbon\Carbon::create($year, $firstMonth, 1)->format('M') }}
                     {{ head($months) }}
                     -
-                    {{ Lang::has('dates.month.' . $lastMonth) ? substr(Lang::get('dates.month.' . $lastMonth), 0, 3) : Carbon\Carbon::createFromDate($year, $lastMonth, 1)->format('M') }}
+                    {{ Lang::has('dates.month.' . $lastMonth) ? substr(Lang::get('dates.month.' . $lastMonth), 0, 3) : Carbon\Carbon::create($year, $lastMonth, 1)->format('M') }}
                     {{ last($months) }}
                     )
                 </th>
@@ -34,7 +34,7 @@
 
                 @foreach($months as $tmp_month => $tmp_year)
                     <th width="40">
-                        {{ Lang::has('dates.month.' . $tmp_month) ? substr(Lang::get('dates.month.' . $tmp_month), 0, 3) : Carbon\Carbon::createFromDate($tmp_year, $tmp_month, 1)->format('M') }}
+                        {{ Lang::has('dates.month.' . $tmp_month) ? substr(Lang::get('dates.month.' . $tmp_month), 0, 3) : Carbon\Carbon::create($tmp_year, $tmp_month, 1)->format('M') }}
                     </th>
                 @endforeach
 
@@ -54,7 +54,7 @@
                         @foreach($months as $tmp_month => $tmp_year)
 
                             {{-- We don't want anything displayed if user was not even subscribed --}}
-                            @if(Carbon\Carbon::createFromDate($tmp_year, $tmp_month, 1)->endOfMonth()->lt($member->dos))
+                            @if(Carbon\Carbon::create($tmp_year, $tmp_month, 1)->endOfMonth()->lt($member->dos))
                                 <td></td>
                             @else
                                 {{-- Mark month of subscription with border so we know when did member subscribed --}}

@@ -54,7 +54,7 @@
                                         {!!
                                             link_to_route(
                                                 'group.data.show',
-                                                \Carbon\Carbon::createFromDate($dataItem->year, $dataItem->month, 1)->format('F, Y'),
+                                                \Carbon\Carbon::create($dataItem->year, $dataItem->month, 1)->format('F, Y'),
                                                 array($dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $user->id),
                                                 array('class' => 'btn btn-xs btn-success')
                                             )
@@ -77,7 +77,7 @@
                                 <tr>
                                     <th>&nbsp;</th>
                                     @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
-                                        <th width="35" class="text-center">{{ $day->day }}</th>
+                                        <th width="35" class="text-center {!! \Carbon\Carbon::create($dataItem->year, $dataItem->month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">{{ $day->day }}</th>
                                     @endforeach
                                 </tr>
 
@@ -86,7 +86,7 @@
                                 <tr>
                                     <th>&nbsp;</th>
                                     @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
-                                        <td class="text-center">
+                                        <td class="text-center {!! \Carbon\Carbon::create($dataItem->year, $dataItem->month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">
                                             <label for="attendance_{{ $dataItem->user_id }}_{{ $dataItem->group_id }}_{{ $dataItem->month }}_{{ $day->day }}" style="width: 100%; height: 100%;">
                                                 {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 0) !!}
                                                 {!! Form::checkbox('data[' . implode('-', [$year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, array('id' => 'attendance_' . $dataItem->user_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day)) !!}

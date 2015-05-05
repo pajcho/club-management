@@ -175,7 +175,7 @@ class MemberGroupController extends AdminController {
         // Get all active group members
         $members = $membersRepo->filter([
             'ids'        => $memberGroup->id,
-            'subscribed' => ['<=', Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateTimeString()],
+            'subscribed' => ['<=', Carbon::create($year, $month, 1)->endOfMonth()->toDateTimeString()],
             'orderBy'    => ['dos' => 'asc'],
         ], false);
 
@@ -209,7 +209,7 @@ class MemberGroupController extends AdminController {
         $lastMonth = (int) app('config')->get('settings.season_ends', 6);
 
         // Generate date limit
-        $subscribedBefore = Carbon::createFromDate($year, $lastMonth, 1);
+        $subscribedBefore = Carbon::create($year, $lastMonth, 1);
         if($month > $lastMonth) $subscribedBefore = $subscribedBefore->addYear();
 
         // Get only ids of members that are or were in this group at some time
