@@ -1,5 +1,6 @@
 <?php
 
+    use Illuminate\Support\Facades\Session;
     use App\Modules\History\Models\History;
     use App\Modules\Members\Models\DateHistory;
     use App\Modules\Members\Models\Member;
