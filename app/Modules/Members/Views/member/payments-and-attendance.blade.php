@@ -26,6 +26,7 @@
     </div>
 
     {!! Former::open()->method('PUT')->action(route('member.payments.update', array($member->id))) !!}
+    {!! Former::token() !!}
     <div class="tab-content">
         @foreach($data as $year => $details)
             <div role="tabpanel" class="tab-pane {{$details === reset($data) ? 'active' : ''}}" id="{{$year}}">

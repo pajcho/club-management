@@ -29,6 +29,8 @@ elixir(function(mix) {
         'main.js'
     ]);
 
+    //mix.scripts(['one.js', 'two.js'], null, './resources/js');
+
     mix.version(["css/app.css", "js/all.js"]);
 
     mix.copy('resources/assets/fonts', 'public/build/fonts');
