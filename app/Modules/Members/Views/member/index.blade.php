@@ -32,7 +32,7 @@
             <tbody>
                 @if($members->count())
                     @foreach($members as $key => $member)
-                        <tr class="{{ $member->active ? '' : 'danger' }} {{ $member->freeOfCharge ? 'success' : '' }}">
+                        <tr class="active {{ $member->active ? '' : 'inactive' }} {{ $member->freeOfCharge ? 'free-of-charge' : '' }}">
                             <td>{{ $members->firstItem() + $key }}</td>
                             <td>{{ $member->full_name }}</td>
                             <td class="hidden-md hidden-sm hidden-xs">{{ $member->dob->format('d.m.Y') }}</td>
@@ -60,6 +60,17 @@
         </table>
     </div>
 
+    <div class="table-responsive hidden-sm hidden-xs">
+        <table class="table table-striped table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td class="inactive" width="50"> Inactive members </td>
+                    <td class="free-of-charge" width="200"> Free of charge members </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <div class="pjax-pagination">
         @if($members->count())
             @include('paginator/club', ['paginator' => $members->appends(Input::except('page', '_pjax'))])
@@ -67,3 +78,9 @@
     </div>
 
 @stop
+
+@section('styles')
+    <style>
+
+    </style>
+@endsection

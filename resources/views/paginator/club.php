@@ -18,9 +18,7 @@ $presenter = new ClubPresenter($paginator);
     </div>
 
     <div class="col-md-7 col-sm-12">
-        <ul class="pagination pull-right">
-            <?php echo $presenter->render(); ?>
-        </ul>
+        <?php echo $presenter->render(); ?>
     </div>
 </div>
 

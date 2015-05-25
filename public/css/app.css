@@ -7636,5 +7636,17 @@ body {
 .nav li .user-avatar img {
   margin-right: 10px;
 }
+tr.active,
+td.active {
+  border-left: 5px solid white;
+}
+tr.inactive,
+td.inactive {
+  border-left: 5px solid #d9534f;
+}
+tr.free-of-charge,
+td.free-of-charge {
+  border-left: 5px solid #5cb85c;
+}
 
 /*# sourceMappingURL=app.css.map */
