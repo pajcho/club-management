@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "630bfb28d344b8d2c9a5008ebfab5249",
+    "hash": "889ed0e1668d24e762f67995121a7656",
     "packages": [
         {
             "name": "anahkiasen/former",
@@ -2235,48 +2235,6 @@
                 "environment"
             ],
             "time": "2014-12-05 15:19:21"
-        },
-        {
-            "name": "webpatser/laravel-sanitize",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webpatser/laravel-sanitize.git",
-                "reference": "b7df547dd8901a297eab21c716639d217aa3a240"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webpatser/laravel-sanitize/zipball/b7df547dd8901a297eab21c716639d217aa3a240",
-                "reference": "b7df547dd8901a297eab21c716639d217aa3a240",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "laravel-library",
-            "autoload": {
-                "psr-0": {
-                    "Webpatser\\Sanitize": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christoph Kempen",
-                    "email": "christoph@downsized.nl",
-                    "homepage": "http://downsized.nl/",
-                    "role": "developer"
-                }
-            ],
-            "description": "Laravel package to sanatize a string for use as URL's. It uses the PHP Normalizer class and fills whitespace with dashes.",
-            "homepage": "https://github.com/webpatser/laravel-sanitize",
-            "keywords": [
-                "laravel sanitize URL"
-            ],
-            "time": "2013-11-01 14:19:01"
         }
     ],
     "packages-dev": [
@@ -3345,8 +3303,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "anahkiasen/former": 20,
-        "webpatser/laravel-sanitize": 20
+        "anahkiasen/former": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

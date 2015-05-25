@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
-use Webpatser\Sanitize\Sanitize;
 
 class MemberGroupController extends AdminController {
 
@@ -185,7 +183,7 @@ class MemberGroupController extends AdminController {
         })->values();
 
         $view = view('group.attendance')->with(compact('memberGroup', 'members', 'year', 'month'))->render();
-        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.attendance.title') ? Lang::get('members::documents.attendance.title') : 'Monthly group attendance list') . ' ' . $year . ' ' . $month);
+        $documentName = str_slug($memberGroup->name . ' ' . (Lang::has('members::documents.attendance.title') ? Lang::get('members::documents.attendance.title') : 'Monthly group attendance list') . ' ' . $year . ' ' . $month);
 
         return $download ? $pdf->download($view, $documentName) : $pdf->stream($view, $documentName);
     }
@@ -241,7 +239,7 @@ class MemberGroupController extends AdminController {
         })->values();
 
         $view = view('group.payments')->with(compact('memberGroup', 'members', 'months', 'year', 'month', 'firstMonth', 'lastMonth'))->render();
-        $documentName = Sanitize::string($memberGroup->name . ' ' . (Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
+        $documentName = str_slug($memberGroup->name . ' ' . (Lang::has('members::documents.payments.title') ? Lang::get('members::documents.payments.title') : 'Group payments') . ' ' . $year . ' ' . $month);
 
         return $download ? $pdf->download($view, $documentName) : $pdf->stream($view, $documentName);
     }

@@ -198,7 +198,6 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 
 		'Debugbar' 	=> 'Barryvdh\Debugbar\Facade',
-		'Sanitize' 	=> 'Webpatser\Sanitize\SanitizeFacade',
 		'Form' 		=> 'Collective\Html\FormFacade',
 		'Html' 		=> 'Collective\Html\HtmlFacade',
 		'Former' 	=> 'Former\Facades\Former',
