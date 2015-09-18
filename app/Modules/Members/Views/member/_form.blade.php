@@ -13,7 +13,7 @@
                 {!! Former::text('email')->label('Email') !!}
             </div>
             <div class="col-md-6">
-                {!! Former::select('group_id')->label('Group')->options($groups)->required() !!}
+                {!! Former::select('group_id')->label('Group')->options($groups) !!}
             </div>
         </div>
 

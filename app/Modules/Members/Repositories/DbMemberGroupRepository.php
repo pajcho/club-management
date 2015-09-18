@@ -2,6 +2,11 @@
 
 use App\Modules\Members\Models\MemberGroup;
 use App\Modules\Members\Models\MemberGroupData;
+use App\Modules\Users\Models\UserGroupData;
+use App\Modules\Members\Repositories\MemberRepositoryInterface;
+use App\Modules\Users\Repositories\UserRepositoryInterface;
+use App\Modules\Users\Repositories\UserGroupDataRepositoryInterface;
+use App\Modules\Members\Models\DateHistory;
 use App\Repositories\DbBaseRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,12 +18,22 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
     protected $perPage = 15;
 
     protected $modelData;
+    protected $dateHistory;
+    protected $members;
+    protected $users;
+    protected $userGroupData;
 
-    public function __construct(MemberGroup $model, MemberGroupData $modelData)
+    public function __construct(MemberGroup $model, MemberGroupData $modelData, DateHistory $dateHistory,
+                                MemberRepositoryInterface $members, UserRepositoryInterface $users,
+                                UserGroupDataRepositoryInterface $userGroupData)
     {
         parent::__construct($model);
 
         $this->modelData = $modelData;
+        $this->dateHistory = $dateHistory;
+        $this->members = $members;
+        $this->users = $users;
+        $this->userGroupData = $userGroupData;
     }
 
     public function preReturnFilters()
@@ -32,6 +47,30 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
                 $this->model = $this->model->trainedBy($currentUser);
             }
         }
+    }
+
+    public function preDelete($item)
+    {
+        // Remove members from this group before deleting
+        $item->members->each(function($member){
+            $this->members->update($member->id, ['group_id' => 0]);
+        });
+
+        // Remove this group from all trainers
+        $item->trainers->each(function($user) use ($item){
+            $user->groups()->detach($item->id);
+        });
+
+        // Remove all date history items
+        $this->dateHistory->where('type', 'group_id')->where('value', $item->id)->delete();
+
+        // Remove member group data
+        $this->modelData->where('group_id', $item->id)->delete();
+
+        // Remove trainer group data
+        $this->userGroupData->filter(['group_id' => $item->id])->each(function($dataItem){
+            $dataItem->delete();
+        });
     }
 
     /**
@@ -86,7 +125,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
      */
     public function getForSelect()
     {
-        return $this->all()->lists('name', 'id');
+        return ['0' => 'No Group'] + $this->all()->lists('name', 'id');
     }
 
     /**

@@ -36,7 +36,7 @@ class MemberGroupController extends AdminController {
 	{
 		// Get all members
         $memberGroups = $this->memberGroups->filter(Input::get());
-        
+
         return view('group.index')->with('memberGroups', $memberGroups);
 	}
 
@@ -140,12 +140,6 @@ class MemberGroupController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        // We can not delete group that has members
-        if(!$this->memberGroups->canBeDeleted($id))
-        {
-            return back()->withInput()->withError('Member group already has members! In order to delete this group first remove all members from it.');
-        }
-
         $this->memberGroups->delete($id);
 
         return back()->withInput()->withSuccess('Member group deleted!');
@@ -291,5 +285,5 @@ class MemberGroupController extends AdminController {
 
         return $data;
     }
-    
+
 }

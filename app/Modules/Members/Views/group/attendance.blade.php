@@ -45,7 +45,7 @@
                     {{ Lang::has('members::documents.attendance.phone') ? Lang::get('members::documents.attendance.phone') : 'Phone' }}
                 </th>
             </tr>
-        
+
         </thead>
         <tbody>
             @if($members->count())
@@ -68,6 +68,22 @@
                 @for($i = 0; $i < 34-(($key+1)%36); $i++)
                     <tr>
                         <td>{{ $key+$i+2 }}</td>
+                        <td>&nbsp;</td>
+
+                        @foreach($memberGroup->trainingDays($year, $month) as $day)
+                            <td>&nbsp;</td>
+                        @endforeach
+
+                        <td>&nbsp;</td>
+                    </tr>
+                @endfor
+
+            @else
+
+                {{-- If there are no members fill all of the page with empty rows, so new members can be hand written --}}
+                @for($i = 0; $i < 34; $i++)
+                    <tr>
+                        <td>{{ $i+1 }}</td>
                         <td>&nbsp;</td>
 
                         @foreach($memberGroup->trainingDays($year, $month) as $day)

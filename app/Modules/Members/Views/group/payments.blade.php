@@ -42,7 +42,7 @@
                     {{ Lang::has('members::documents.payments.phone') ? Lang::get('members::documents.payments.phone') : 'Phone' }}
                 </th>
             </tr>
-        
+
         </thead>
         <tbody>
             @if($members->count())
@@ -91,6 +91,22 @@
                 @for($i = 0; $i < 35-(($key+1)%36); $i++)
                     <tr>
                         <td>{{ $key+$i+2 }}</td>
+                        <td>&nbsp;</td>
+
+                        @foreach($months as $tmp_month => $tmp_year)
+                            <td>&nbsp;</td>
+                        @endforeach
+
+                        <td>&nbsp;</td>
+                    </tr>
+                @endfor
+
+            @else
+
+                {{-- If there are no members fill all of the page with empty rows, so new members can be hand written --}}
+                @for($i = 0; $i < 35; $i++)
+                    <tr>
+                        <td>{{ $i+1 }}</td>
                         <td>&nbsp;</td>
 
                         @foreach($months as $tmp_month => $tmp_year)

@@ -16,6 +16,13 @@
         </div>
     </h1>
 
+    @if(!$member->group)
+        <div class="alert alert-warning">
+            <i class="fa fa-exclamation-triangle"></i>
+            This member does not belong to any group at the moment. You can change this on
+            <a href="{{ route('member.show', array($member->id)) }}">member details page</a>.
+        </div>
+    @endif
 
     <div role="tabpanel">
         <ul class="nav nav-tabs" role="tablist">

@@ -22,10 +22,10 @@ class Member extends BaseModel {
     }
 
     public $timestamps = true;
-    
+
     protected $table = 'members';
     protected $softDelete = false;
-    
+
     protected $fillable = ['group_id', 'uid', 'first_name', 'last_name', 'email', 'phone', 'notes', 'dob', 'dos', 'doc', 'active', 'freeOfCharge'];
     protected $dates = ['dob', 'dos', 'doc'];
     protected $appends = ['full_name'];
@@ -248,7 +248,7 @@ class Member extends BaseModel {
 
     /**
      * Get member full name
-     * 
+     *
      * @return string
      */
     public function getFullNameAttribute()

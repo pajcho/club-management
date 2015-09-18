@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-4">
                 @if($currentUser->isAdmin())
-                    {!! Former::select('groups[]')->label('Groups')->options($groups)->required()->multiple()->dataPlaceholder('Select groups') !!}
+                    {!! Former::select('groups[]')->label('Groups')->options($groups)->multiple()->dataPlaceholder('Select groups') !!}
                 @endif
             </div>
         </div>

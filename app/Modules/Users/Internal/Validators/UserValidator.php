@@ -19,8 +19,7 @@ class UserValidator extends BaseValidator
             'last_name' => array('required'),
             'password' => array('required'),
             'password_confirm' => array('required', 'same:password'),
-            'type' => array('required', 'in:admin,trainer'),
-            'groups' => array('required'),
+            'type' => array('required', 'in:admin,trainer')
         ),
 
         'update' => array(

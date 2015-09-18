@@ -42,9 +42,10 @@ class MemberPaymentsAndAttendanceController extends AdminController
 
         if (!$member) app()->abort(404);
 
-        $memberData = $member->data()->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
         $data = [];
+        $years = [];
 
+        $memberData = $member->data()->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
         $months = $this->getEditableMonths($member->dos->year, $member->dos->month);
 
         foreach ($months as $month) {
@@ -55,8 +56,10 @@ class MemberPaymentsAndAttendanceController extends AdminController
             if ($monthData->count()) {
                 foreach ($monthData->all() as $monthDataItem) array_push($data, $monthDataItem);
             } else {
-                array_push($data, new MemberGroupData([
-                    'group_id'   => $member->getGroupOnDate($month->year, $month->month, $member->group_id),
+                $memberGroup = $member->getGroupOnDate($month->year, $month->month, $member->group_id);
+
+                $memberGroup && array_push($data, new MemberGroupData([
+                    'group_id'   => $memberGroup,
                     'member_id'  => $member->id,
                     'year'       => $month->year,
                     'month'      => $month->month,
@@ -67,7 +70,6 @@ class MemberPaymentsAndAttendanceController extends AdminController
         }
 
         // Array of available years to be used as tabs on this page
-        $years = [];
         foreach ($data as $key => $value) {
             if (!in_array($value->year, $years)) array_push($years, $value->year);
         }
