@@ -7,12 +7,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
             {!! link_to('/', site_title(), array('class' => 'navbar-brand')) !!}
+
+            <div class="mobile visible-xs">
+                <app-search></app-search>
+            </div>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 @if($currentUser->isAdmin())
-                    <li {{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{!! Html::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart" title="Dashboard" data-placement="bottom"></i> <span class="hidden-sm">Dashboard</span>')) !!}</li>
+                    <li {{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{!! Html::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart" title="Dashboard" data-placement="bottom"></i> <span class="hidden-sm hidden-md">Dashboard</span>')) !!}</li>
                 @endif
                 <li{{ ($activeMenu == 'members' ? ' class="active"' : '') }}>
                     {!! Html::decode(link_to('#', '<i class="fa fa-user"></i> <span class="hidden-sm">Members</span> <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))) !!}
@@ -51,14 +56,21 @@
                             <li>{!! Html::decode(link_to_route('settings.clear.cache', 'Clear Cache')) !!}</li>
                         </ul>
                     </li>
-                    <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{!! Html::decode(link_to_route('history.index', '<i class="fa fa-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm">History</span>')) !!}</li>
+                    <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{!! Html::decode(link_to_route('history.index', '<i class="fa fa-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm hidden-md">History</span>')) !!}</li>
                 @endif
+
+                <li class="hidden-xs">
+                  <div class="col-xs-12">
+                     <app-search></app-search>
+                  </div>
+                </li>
             </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle user-avatar" data-toggle="dropdown">
                         <img class="img-circle" width="40" height="40" src="{{ $currentUser->gravatar }}" />
-                        {{ $currentUser->full_name }}<span class="caret"></span>
+                        <span class="hidden-sm">{{ $currentUser->full_name }}</span><span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>{!! Html::decode(link_to_route('user.show', '<i class="fa fa-pencil"></i> Edit Profile', $currentUser->id)) !!}</li>

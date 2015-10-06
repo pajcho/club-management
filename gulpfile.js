@@ -12,27 +12,46 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.less('app.less');
 
+    // Generate application styles
+    mix.less('app.less', 'public/css/styles.css');
+
+    // Combine libraries and save to libraries.js file
     mix.scripts([
-        'jquery-1.11.0.min.js',
-        'jquery.pjax.js',
-        'bootstrap.js',
-        'moment.min.js',
-        'bootstrap-datetimepicker.js',
-        'nprogress.js',
-        'select2.js',
-        'bootbox.js',
-        'd3.v3.js',
-        'c3.js',
-        'toastr.js',
-        'main.js'
-    ]);
+        'libraries/jquery-1.11.0.min.js',
+        'libraries/jquery.pjax.js',
+        'libraries/bootstrap.js',
+        'libraries/moment.min.js',
+        'libraries/bootstrap-datetimepicker.js',
+        'libraries/nprogress.js',
+        'libraries/select2.js',
+        'libraries/bootbox.js',
+        'libraries/d3.v3.js',
+        'libraries/c3.js',
+        'libraries/toastr.js',
+        'libraries/underscore.min.js',
+        'libraries/angular.min.js',
 
-    //mix.scripts(['one.js', 'two.js'], null, './resources/js');
+    ], 'public/js/libraries.js');
 
-    mix.version(["css/app.css", "js/all.js"]);
+    // Generate application.js file
+    mix.browserify([
+        'app.js'
+    ], 'public/js/application.js');
 
+    // Now merge them both together into one file
+    mix.scripts([
+        'libraries.js',
+        'application.js'
+    ], 'public/js/scripts.js', 'public/js');
+
+    // Enable versioning
+    mix.version(["css/styles.css", "js/scripts.js"]);
+
+    // And copy fonts and images
     mix.copy('resources/assets/fonts', 'public/build/fonts');
     mix.copy('resources/assets/images', 'public/build/images');
+
+    // Copy html partials
+    mix.copy('resources/assets/**/*.html', 'public/html');
 });

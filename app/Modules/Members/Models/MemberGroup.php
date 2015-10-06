@@ -22,10 +22,10 @@ class MemberGroup extends BaseModel {
     }
 
     public $timestamps = true;
-    
+
     protected $table = 'member_groups';
     protected $softDelete = false;
-    
+
     protected $fillable = ['name', 'location', 'description', 'training', 'data'];
 
     protected $appends = ['total_monthly_time', 'trainer_ids'];

@@ -1,3 +1,5 @@
+window.angularApp = angular.module('angularApp', []);
+
 /**
  * Create a confirm modal
  * We want to send an HTTP DELETE request

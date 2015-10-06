@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="angularApp">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,16 +12,16 @@
                 {{ site_title() }}
 			@show
 		</title>
-        
+
         <script>
             // Set project base url to use in scripts when needed
             var baseUrl = "{{ url('/') }}";
         </script>
-        
+
         <!-- BEGIN THEME STYLES -->
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-        <link href="{{ asset(elixir('css/app.css')) }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset(elixir('css/styles.css')) }}" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -31,9 +31,9 @@
         <![endif]-->
 
         @section('styles')
-            
+
         @show
-        
+
     </head>
 
 	<body>
@@ -68,7 +68,7 @@
         <!-- Footer -->
         @include('includes/footer')
 
-        <script src="{{ asset(elixir('js/all.js')) }}" type="text/javascript"></script>
+        <script src="{{ asset(elixir('js/scripts.js')) }}" type="text/javascript"></script>
 
         @section('scripts')
 
