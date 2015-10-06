@@ -53,7 +53,10 @@ class SearchController extends AdminController
                     'type' => 'Members',
                     'title' => $member->full_name,
                     'group' => $member->group ? $member->group->name : '',
-                    'link' => route('member.update', $member->id),
+                    'link' => [
+                        'attendance' => route('member.payments.index', $member->id),
+                        'edit' => route('member.update', $member->id),
+                    ]
                 ];
             }
         }
@@ -65,7 +68,10 @@ class SearchController extends AdminController
                     'type' => 'Groups',
                     'title' => $memberGroup->name,
                     'subtitle' => '',
-                    'link' => route('group.update', $memberGroup->id),
+                    'link' => [
+                        'attendance' => route('group.data.index', $memberGroup->id),
+                        'edit' => route('group.update', $memberGroup->id),
+                    ]
                 ];
             }
         }
@@ -77,7 +83,10 @@ class SearchController extends AdminController
                     'type' => 'Trainers',
                     'title' => $user->full_name,
                     'subtitle' => '',
-                    'link' => route('user.update', $user->id),
+                    'link' => [
+                        'attendance' => route('user.attendance.index', $user->id),
+                        'edit' => route('user.update', $user->id),
+                    ]
                 ];
             }
         }

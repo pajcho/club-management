@@ -25784,7 +25784,7 @@ var SearchCtrl = (function () {
         value: function onEnter(active) {
             this.$window.location.href = this.data.find(function (item) {
                 return item.active;
-            }).link;
+            }).link.edit;
         }
     }]);
 

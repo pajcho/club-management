@@ -7701,6 +7701,18 @@ td.free-of-charge {
 .app-search .result-set .result-type .results .result.active {
   background-color: #EAF4F7;
 }
+.app-search .result-set .result-type .results .result a,
+.app-search .result-set .result-type .results .result a:hover,
+.app-search .result-set .result-type .results .result a:focus {
+  text-decoration: none;
+  color: inherit;
+}
+.app-search .result-set .result-type .results .result a.btn,
+.app-search .result-set .result-type .results .result a:hover.btn,
+.app-search .result-set .result-type .results .result a:focus.btn {
+  padding: 2px 4px 1px 1px;
+  margin-left: 5px;
+}
 .app-search .result-set .result-type .results .result .title {
   font-weight: bold;
   padding-right: 5px;

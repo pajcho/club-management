@@ -60,7 +60,7 @@ class SearchCtrl {
     }
 
     onEnter(active) {
-        this.$window.location.href = this.data.find((item) => item.active).link;
+        this.$window.location.href = this.data.find((item) => item.active).link.edit;
     }
 }
 
