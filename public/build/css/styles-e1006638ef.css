@@ -7665,8 +7665,8 @@ td.free-of-charge {
   width: 100%;
 }
 .mobile .navbar-form .input-group .result-set {
-  left: 0px;
-  min-width: 100%;
+  left: -90px;
+  min-width: calc(100% + 182px);
 }
 .app-search .result-set {
   position: absolute;
