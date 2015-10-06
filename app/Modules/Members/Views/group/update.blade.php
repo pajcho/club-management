@@ -9,7 +9,12 @@
 {{-- Page content --}}
 @section('content')
 
-    <h1 class="page-header"><i class="fa fa-users"></i> Member Groups <small>{{ $memberGroup->name }}</small></h1>
+    <h1 class="page-header">
+        <i class="fa fa-users"></i> Member Groups <small>{{ $memberGroup->name }}</small>
+        <div class="pull-right">
+            <a class="btn btn-sm btn-info" href="{{ route('group.data.index', array($memberGroup->id)) }}">Payments and Attendance <i class="fa fa-arrow-right"></i></a>
+        </div>
+    </h1>
 
     {!! Former::open()->method('PUT')->action(route('group.update', $memberGroup->id)) !!}
 
@@ -17,7 +22,7 @@
         {!! Former::populateField('trainers[]', $memberGroup->trainer_ids) !!}
 
         @include('group/_form')
-    
+
         <div class="well">
             {!!
                 Former::actions(
@@ -27,7 +32,7 @@
                 )
             !!}
         </div>
-    
+
     {!! Former::close() !!}
-    
+
 @stop
