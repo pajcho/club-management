@@ -7650,6 +7650,11 @@ tr.free-of-charge,
 td.free-of-charge {
   border-left: 5px solid #5cb85c;
 }
+.btn-circle {
+  border-radius: 50%;
+  line-height: 0.4;
+  padding: 0 1px 0 0;
+}
 .mobile {
   width: calc(100% - 150px);
   float: left;
