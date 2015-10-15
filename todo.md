@@ -27,6 +27,10 @@ Important
 - [x] Change member and user attendance forms to save all data once submitted instead one of submitting one by one
 - [ ] When changing DOS we have to update "date" column on each row in date_history table to correctly display member
 - [ ] Allow trainers to manage results for members in their own groups
+- [x] Add global search to header that is able to search groups, members and trainers
+- [x] Allow member group to be deleted even if it has members
+    - [x] Use soft delete for group
+    - [x] Preserve group data in order to be able to review data for deleted groups on member pages
       
 Less Important
 ------------------------------------
