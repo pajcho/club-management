@@ -85,14 +85,19 @@
                                         @if(!$member->activeOnDate($dataItem->year, $dataItem->month, $member->active))
                                             <small class="text-danger">Inactive!!</small>
                                         @endif
-                                        {!!
-                                            link_to_route(
-                                                'group.data.index',
-                                                $dataItem->group->name,
-                                                array($dataItem->group_id),
-                                                array('class' => 'pull-right btn btn-xs btn-' . ($member->group_id == $dataItem->group_id ? 'primary' : 'danger'))
-                                            )
-                                        !!}
+
+                                        @if($dataItem->group->trashed())
+                                            <button type="button" class="pull-right btn btn-xs btn-danger" title="This group has been deleted" data-placement="left">{{$dataItem->group->name}}</button>
+                                        @else
+                                            {!!
+                                                link_to_route(
+                                                    'group.data.index',
+                                                    $dataItem->group->name,
+                                                    array($dataItem->group_id),
+                                                    array( 'class' => 'pull-right btn btn-xs btn-' . ($member->group_id == $dataItem->group_id ? 'primary' : 'danger'))
+                                                )
+                                            !!}
+                                        @endif
                                     </th>
                                 </tr>
                                 <tr>

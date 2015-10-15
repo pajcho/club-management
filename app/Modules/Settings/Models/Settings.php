@@ -17,10 +17,6 @@ class Settings extends BaseModel {
         return '<strong>' . link_to_route('settings.index', $this->title) . '</strong>';
     }
 
-    public $timestamps = false;
-
     protected $table = 'settings';
-    protected $softDelete = false;
-    
     protected $fillable = array('title', 'key', 'value', 'description');
 }

@@ -133,10 +133,10 @@ class ResultCategoryController extends AdminController {
 	 */
 	public function destroy($id)
 	{
-        // We can not delete group that has members
+        // We can not delete result group if there are results linked to it
         if(!$this->resultCategories->canBeDeleted($id))
         {
-            return back()->withInput()->withError('Result category already has members! In order to delete this group first remove all members from it.');
+            return back()->withInput()->withError('Result category has results linked to it! In order to delete this group first unlink all results.');
         }
 
         $this->resultCategories->delete($id);

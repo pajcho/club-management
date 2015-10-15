@@ -41,69 +41,81 @@
 
                 @foreach($groups as $groupId => $groupData)
 
-                    <div class="col-md-12"><h2>{{ $groupData['name'] }}</h2></div>
-                    <div class="col-lg-8 col-md-11">
-                        @foreach($groupData['data'] as $key => $dataItem)
-                            {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][year]', $dataItem->year) !!}
-                            {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][month]', $dataItem->month) !!}
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="col-md-12">
+                            <h2>
+                                <span class="pull-left">{{ $groupData['group']->name }}</span>
+                                {!! Html::decode(Form::delete(route('user.attendance.destroy', array($user->id, $groupId, $year)), "Delete {$year} group data?", array('class' => 'pull-right btn btn-xs btn-link', 'title' => "Delete data {$year} for this group", 'data-modal-text' => "delete {$year} data for this group?"))) !!}
+                            </h2>
+                        </div>
+                        <div class="col-md-12">
+                            @foreach($groupData['data'] as $key => $dataItem)
+                                {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][year]', $dataItem->year) !!}
+                                {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][month]', $dataItem->month) !!}
 
-                            <table class="table table-bordered table-condensed">
-                                <thead>
-                                <tr>
-                                    <th colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 1 }}">
-                                        {!!
-                                            link_to_route(
-                                                'group.data.show',
-                                                \Carbon\Carbon::create($dataItem->year, $dataItem->month, 1)->format('F, Y'),
-                                                array($dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $user->id),
-                                                array('class' => 'btn btn-xs btn-success')
-                                            )
-                                        !!}
+                                <table class="table table-bordered table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 1 }}">
+                                            {!!
+                                                link_to_route(
+                                                    'group.data.show',
+                                                    \Carbon\Carbon::create($dataItem->year, $dataItem->month, 1)->format('F, Y'),
+                                                    array($dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $user->id),
+                                                    array('class' => 'btn btn-xs btn-success')
+                                                )
+                                            !!}
 
-                                        @if(($dataItem->year . '.' . $dataItem->month) === date('Y.n', time()))
-                                            <span class="label label-primary">Current month</span>
-                                        @endif
+                                            @if(($dataItem->year . '.' . $dataItem->month) === date('Y.n', time()))
+                                                <span class="label label-primary">Current month</span>
+                                            @endif
 
-                                        {!!
-                                            link_to_route(
-                                                'group.data.index',
-                                                $dataItem->group->name,
-                                                array($dataItem->group_id),
-                                                array('class' => 'pull-right btn btn-xs btn-primary')
-                                            )
-                                        !!}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>&nbsp;</th>
-                                    @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
-                                        <th width="35" class="text-center {!! \Carbon\Carbon::create($dataItem->year, $dataItem->month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">{{ $day->day }}</th>
-                                    @endforeach
-                                </tr>
+                                            @if($dataItem->group->trashed())
+                                                <button type="button" class="pull-right btn btn-xs btn-danger" title="This group has been deleted" data-placement="left">{{$dataItem->group->name}}</button>
+                                            @else
+                                                {!!
+                                                    link_to_route(
+                                                        'group.data.index',
+                                                        $dataItem->group->name,
+                                                        array($dataItem->group_id),
+                                                        array('class' => 'pull-right btn btn-xs btn-primary')
+                                                    )
+                                                !!}
+                                            @endif
 
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>&nbsp;</th>
-                                    @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
-                                        <td class="text-center {!! \Carbon\Carbon::create($dataItem->year, $dataItem->month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">
-                                            <label for="attendance_{{ $dataItem->user_id }}_{{ $dataItem->group_id }}_{{ $dataItem->month }}_{{ $day->day }}" style="width: 100%; height: 100%;">
-                                                {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 0) !!}
-                                                {!! Form::checkbox('data[' . implode('-', [$year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, array('id' => 'attendance_' . $dataItem->user_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day)) !!}
-                                            </label>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
+                                            <th width="35" class="text-center {!! \Carbon\Carbon::create($dataItem->year, $dataItem->month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">{{ $day->day }}</th>
+                                        @endforeach
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        @foreach($dataItem->group->trainingDays($dataItem->year, $dataItem->month) as $day)
+                                            <td class="text-center {!! \Carbon\Carbon::create($dataItem->year, $dataItem->month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">
+                                                <label for="attendance_{{ $dataItem->user_id }}_{{ $dataItem->group_id }}_{{ $dataItem->month }}_{{ $day->day }}" style="width: 100%; height: 100%;">
+                                                    {!! Form::hidden('data[' . implode('-', [$year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 0) !!}
+                                                    {!! Form::checkbox('data[' . implode('-', [$year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, array('id' => 'attendance_' . $dataItem->user_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day)) !!}
+                                                </label>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 1 }}" class="text-right">
+                                            {!! Form::submit('Update', array('class' => 'btn btn-xs btn-success')) !!}
                                         </td>
-                                    @endforeach
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 1 }}" class="text-right">
-                                        {!! Form::submit('Update', array('class' => 'btn btn-xs btn-success')) !!}
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        @endforeach
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            @endforeach
+                        </div>
                     </div>
                 @endforeach
             </div>

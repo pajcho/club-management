@@ -23,21 +23,17 @@ class MemberGroupData extends BaseModel {
         );
     }
 
-    public $timestamps = true;
-    
     protected $table = 'member_group_data';
-    protected $softDelete = false;
-    
     protected $fillable = array('group_id', 'member_id', 'year', 'month', 'payed', 'attendance');
 
     public function group()
     {
-        return $this->belongsTo('App\Modules\Members\Models\MemberGroup');
+        return $this->belongsTo(MemberGroup::class)->withTrashed();
     }
 
     public function member()
     {
-        return $this->belongsTo('App\Modules\Members\Models\Member');
+        return $this->belongsTo(Member::class);
     }
 
     public function attendance($search = null)

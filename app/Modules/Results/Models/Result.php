@@ -2,6 +2,7 @@
 
 use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
+use App\Modules\Members\Models\Member;
 
 class Result extends BaseModel {
 
@@ -17,20 +18,16 @@ class Result extends BaseModel {
         return 'for <strong>' . link_to_route('result.show', $this->member->full_name, $this->id) . '</strong>';
     }
 
-    public $timestamps = true;
-    
     protected $table = 'results';
-    protected $softDelete = false;
-    
     protected $fillable = array('member_id', 'category_id', 'subcategory', 'year', 'place', 'type', 'notes');
 
     public function member()
     {
-        return $this->belongsTo('App\Modules\Members\Models\Member');
+        return $this->belongsTo(Member::class);
     }
 
     public function category()
     {
-        return $this->belongsTo('App\Modules\Results\Models\ResultCategory', 'category_id');
+        return $this->belongsTo(ResultCategory::class, 'category_id');
     }
 }

@@ -43,27 +43,28 @@ class UserAttendanceController extends AdminController
 
         if (!$user) app()->abort(404);
 
+        $data = [];
         $userData = $user->data()->orderBy('group_id', 'desc')->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
+        $userGroups = $user->groups()->get();
 
-        /**
-         * Populate data with a list of group ids
-         * If user has 3 groups result would be something like this:
-         *
-         *  array(
-         *      12  => 'Group Name',
-         *      5   => 'Another Group Name',
-         *      18  => 'Group',
-         *  )
-         *
-         * IMPORTANT: We don't allow for empty array, because if user has no groups than there is no attendance :)
-         *
-         */
-        $data = $user->groups()->get()->lists('name', 'id');
+        foreach($userGroups->all() as $item) {
+            if(!isset($data[$item->id])) {
+                $data[$item->id] = $item;
+            }
+        }
+
+        // Add additional groups to data array as sometimes trainer no longer trains
+        // a group but was in the past, so we want to display this data too
+        foreach($userData->all() as $item) {
+            if(!isset($data[$item->group_id])) {
+                $data[$item->group_id] = $item->group;
+            }
+        }
 
         if ($data) {
             // Make data to be array of arrays instead of values
             foreach ($data as $key => $value) $data[ $key ] = [
-                'name'  => $value,
+                'group'  => $value,
                 'years' => [],
                 'data'  => [],
             ];
@@ -128,6 +129,30 @@ class UserAttendanceController extends AdminController
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param $userId
+     * @param $memberGroupId
+     * @param $year
+     *
+     * @return Response
+     */
+    public function destroy($userId, $memberGroupId, $year)
+    {
+        $user = $this->users->findWith($userId, ['data']);
+
+        if (!$user) app()->abort(404);
+
+        $user->data()
+            ->where('group_id', $memberGroupId)
+            ->where('year', $year)
+            ->delete();
+
+        // Return message each time because why not :)
+        return redirect(route('user.attendance.index', [$userId]))->withSuccess('User data deleted!');
+    }
+
+    /**
      * Filter user requests, because some actions
      * are only allowed to admin users
      */
@@ -182,7 +207,7 @@ class UserAttendanceController extends AdminController
         // Populate array with group details sorted out by years
         foreach ($years as $year) {
             foreach ($data as $groupId => $details) {
-                $return[ $year ][ $groupId ] = ['name' => $details['name'], 'data' => []];
+                $return[ $year ][ $groupId ] = ['group' => $details['group'], 'data' => []];
 
                 foreach ($details['data'] as $groupDetails) {
                     if ($groupDetails->year == $year) {

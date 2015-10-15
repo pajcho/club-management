@@ -2,13 +2,17 @@
 
 use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
+use App\Modules\Members\Repositories\MemberRepositoryInterface;
+use App\Modules\Users\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
 class MemberGroup extends BaseModel {
 
     /** History */
     use HistorableTrait;
+    use SoftDeletes;
     protected $temp;
 
     public function historyTable()
@@ -21,18 +25,14 @@ class MemberGroup extends BaseModel {
         return '<strong>' . link_to_route('group.show', $this->name, $this->id) . '</strong>';
     }
 
-    public $timestamps = true;
-
     protected $table = 'member_groups';
-    protected $softDelete = false;
-
+    protected $dates = ['deleted_at'];
     protected $fillable = ['name', 'location', 'description', 'training', 'data'];
-
     protected $appends = ['total_monthly_time', 'trainer_ids'];
 
     public function trainers()
     {
-        return $this->belongsToMany('App\Modules\Users\Models\User', 'users_groups', 'group_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'users_groups', 'group_id', 'user_id')->withTimestamps();
     }
 
     /**
@@ -53,14 +53,14 @@ class MemberGroup extends BaseModel {
 
     public function members()
     {
-        return $this->hasMany('App\Modules\Members\Models\Member', 'group_id');
+        return $this->hasMany(Member::class, 'group_id');
     }
 
     public function data($year = null, $month = null, $member_id = null)
     {
         if(!isset($this->temp['data'.$year.$month.$member_id]))
         {
-            $relation = $this->hasMany('App\Modules\Members\Models\MemberGroupData', 'group_id');
+            $relation = $this->hasMany(MemberGroupData::class, 'group_id');
 
             if(is_numeric($year)) $relation = $relation->where('member_group_data.year', $year);
             if(is_numeric($month)) $relation = $relation->where('member_group_data.month', $month);
@@ -84,7 +84,7 @@ class MemberGroup extends BaseModel {
         $tags = array('memberGroup', 'payedString', 'memberGroup:'.$this->attributes['id'], 'year:'.$year, 'month:'.$month);
 
         return Cache::tags($tags)->rememberForever(implode('|', $tags), function() use ($year, $month){
-            $thisMembers = app('App\Modules\Members\Repositories\MemberRepositoryInterface');
+            $thisMembers = app(MemberRepositoryInterface::class);
 
             // Get only ids of members that are or were in this group at some time
             // This will lower number of required database queries to do all necessary calculations

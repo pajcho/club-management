@@ -2,6 +2,7 @@
 
 use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
+use App\Modules\Members\Models\MemberGroup;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -24,23 +25,19 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         return '<strong>' . link_to_route('user.show', $this->full_name, $this->id) . '</strong>';
     }
 
-    public $timestamps = true;
-
     protected $table = 'users';
-    protected $softDelete = false;
-
     protected $hidden = ['password'];
     protected $fillable = ['first_name', 'last_name', 'username', 'email', 'phone', 'address', 'notes', 'password', 'type'];
     protected $appends = ['full_name', 'group_ids', 'gravatar'];
 
     public function groups()
     {
-        return $this->belongsToMany('App\Modules\Members\Models\MemberGroup', 'users_groups', 'user_id', 'group_id')->withTimestamps();
+        return $this->belongsToMany(MemberGroup::class, 'users_groups', 'user_id', 'group_id')->withTimestamps();
     }
 
     public function data()
     {
-        return $this->hasMany('App\Modules\Users\Models\UserGroupData');
+        return $this->hasMany(UserGroupData::class);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
+use App\Modules\Members\Models\MemberGroup;
 use Carbon\Carbon;
 
 class UserGroupData extends BaseModel {
@@ -23,21 +24,17 @@ class UserGroupData extends BaseModel {
         );
     }
 
-    public $timestamps = true;
-    
     protected $table = 'users_groups_data';
-    protected $softDelete = false;
-    
     protected $fillable = array('group_id', 'user_id', 'year', 'month', 'attendance');
 
     public function group()
     {
-        return $this->belongsTo('App\Modules\Members\Models\MemberGroup');
+        return $this->belongsTo(MemberGroup::class)->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Modules\Users\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     /**

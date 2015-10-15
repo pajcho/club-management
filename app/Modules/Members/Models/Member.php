@@ -2,6 +2,7 @@
 
 use App\Internal\HistorableTrait;
 use App\Models\BaseModel;
+use App\Modules\Results\Models\Result;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -21,28 +22,24 @@ class Member extends BaseModel {
         return '<strong>' . link_to_route('member.show', $this->full_name, $this->id) . '</strong>';
     }
 
-    public $timestamps = true;
-
     protected $table = 'members';
-    protected $softDelete = false;
-
     protected $fillable = ['group_id', 'uid', 'first_name', 'last_name', 'email', 'phone', 'notes', 'dob', 'dos', 'doc', 'active', 'freeOfCharge'];
     protected $dates = ['dob', 'dos', 'doc'];
     protected $appends = ['full_name'];
 
     public function group()
     {
-        return $this->belongsTo('App\Modules\Members\Models\MemberGroup');
+        return $this->belongsTo(MemberGroup::class);
     }
 
     public function data()
     {
-        return $this->hasMany('App\Modules\Members\Models\MemberGroupData');
+        return $this->hasMany(MemberGroupData::class);
     }
 
     public function dateHistory($type = false)
     {
-        $relationship = $this->hasMany('App\Modules\Members\Models\DateHistory');
+        $relationship = $this->hasMany(DateHistory::class);
 
         // Filter by type if required to do so
         return is_string($type) ? $relationship->where('type', $type) : $relationship;
@@ -50,7 +47,7 @@ class Member extends BaseModel {
 
     public function results()
     {
-        return $this->hasMany('App\Modules\Results\Models\Result');
+        return $this->hasMany(Result::class);
     }
 
     public function trainers()

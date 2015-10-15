@@ -21,4 +21,6 @@
             ->where(['user' => '[0-9]+']);
         put('{user}/attendance', ['as' => 'user.attendance.update', 'uses' => $attendanceController . '@update'])
             ->where(['user' => '[0-9]+']);
+        delete('{user}/attendance/{group}/{year}', ['as' => 'user.attendance.destroy', 'uses' => $attendanceController . '@destroy'])
+            ->where(['user' => '[0-9]+', 'group' => '[0-9]+', 'year' => '[0-9]+']);
     });

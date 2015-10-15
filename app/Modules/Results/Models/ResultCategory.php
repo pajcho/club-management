@@ -17,20 +17,21 @@ class ResultCategory extends BaseModel {
         return '<strong>' . link_to_route('result.category.show', $this->name, $this->id) . '</strong>';
     }
 
-    public $timestamps = true;
-    
     protected $table = 'result_categories';
-    protected $softDelete = false;
-    
     protected $fillable = array('name', 'parent_id');
 
     public function parent()
     {
-        return $this->hasOne('App\Modules\Results\Models\ResultCategory', 'parent_id', 'id');
+        return $this->hasOne(ResultCategory::class, 'parent_id', 'id');
     }
 
     public function children()
     {
-        return $this->hasMany('App\Modules\Results\Models\ResultCategory', 'parent_id', 'id');
+        return $this->hasMany(ResultCategory::class, 'parent_id', 'id');
+    }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class, 'category_id');
     }
 }

@@ -62,15 +62,15 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
         });
 
         // Remove all date history items
-        $this->dateHistory->where('type', 'group_id')->where('value', $item->id)->delete();
+//        $this->dateHistory->where('type', 'group_id')->where('value', $item->id)->delete();
 
         // Remove member group data
-        $this->modelData->where('group_id', $item->id)->delete();
+//        $this->modelData->where('group_id', $item->id)->delete();
 
         // Remove trainer group data
-        $this->userGroupData->filter(['group_id' => $item->id])->each(function($dataItem){
-            $dataItem->delete();
-        });
+//        $this->userGroupData->filter(['group_id' => $item->id])->each(function($dataItem){
+//            $dataItem->delete();
+//        });
     }
 
     /**
@@ -166,6 +166,6 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
         $dataToInsert->payed = $data['payed'];
         $dataToInsert->attendance = $data['attendance'];
 
-        $this->model->find($id)->data()->save($dataToInsert);
+        $this->model->withTrashed()->find($id)->data()->save($dataToInsert);
     }
 }

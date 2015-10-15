@@ -36,6 +36,10 @@ class DbResultCategoryRepository extends DbBaseRepository implements ResultCateg
 
     /**
      * Get all result categories as array to use for select box
+     *
+     * @param bool $includeEmpty
+     *
+     * @return array
      */
     public function getForSelect($includeEmpty = true)
     {
@@ -44,5 +48,17 @@ class DbResultCategoryRepository extends DbBaseRepository implements ResultCateg
         if($includeEmpty) $result = array('' => 'Category') + $result;
 
         return $result;
+    }
+
+    /**
+     * Check to see if result category can be deleted
+     *
+     * @param $id
+     *
+     * @return bool
+     */
+    public function canBeDeleted($id)
+    {
+        return $this->model->find($id)->results()->count() ? false : true;
     }
 }
