@@ -1,5 +1,9 @@
 <?php namespace App\Modules\Results\Providers;
 
+use App\Modules\Results\Repositories\DbResultCategoryRepository;
+use App\Modules\Results\Repositories\DbResultRepository;
+use App\Modules\Results\Repositories\ResultCategoryRepositoryInterface;
+use App\Modules\Results\Repositories\ResultRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ResultsProvider extends ServiceProvider
@@ -15,13 +19,7 @@ class ResultsProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(
-            'App\Modules\Results\Repositories\ResultRepositoryInterface',
-            'App\Modules\Results\Repositories\DbResultRepository'
-        );
-        $this->app->singleton(
-            'App\Modules\Results\Repositories\ResultCategoryRepositoryInterface',
-            'App\Modules\Results\Repositories\DbResultCategoryRepository'
-        );
+        $this->app->singleton(ResultRepositoryInterface::class, DbResultRepository::class);
+        $this->app->singleton(ResultCategoryRepositoryInterface::class, DbResultCategoryRepository::class);
     }
 }

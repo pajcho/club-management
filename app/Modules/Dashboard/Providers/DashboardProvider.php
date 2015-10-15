@@ -1,5 +1,7 @@
 <?php namespace App\Modules\Dashboard\Providers;
 
+use App\Modules\Dashboard\Repositories\DashboardRepositoryInterface;
+use App\Modules\Dashboard\Repositories\DbDashboardRepository;
 use Illuminate\Support\ServiceProvider;
 
 class DashboardProvider extends ServiceProvider
@@ -15,9 +17,6 @@ class DashboardProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(
-            'App\Modules\Dashboard\Repositories\DashboardRepositoryInterface',
-            'App\Modules\Dashboard\Repositories\DbDashboardRepository'
-        );
+        $this->app->singleton(DashboardRepositoryInterface::class, DbDashboardRepository::class);
     }
 }

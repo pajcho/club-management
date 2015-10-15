@@ -1,5 +1,7 @@
 <?php namespace App\Modules\Settings\Providers;
 
+use App\Modules\Settings\Repositories\DbSettingsRepository;
+use App\Modules\Settings\Repositories\SettingsRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class SettingsProvider extends ServiceProvider
@@ -14,15 +16,12 @@ class SettingsProvider extends ServiceProvider
 
         // Load settings option in configuration file so
         // we don't make database queries every time
-        $settings = $this->app->make('App\Modules\Settings\Repositories\SettingsRepositoryInterface');
+        $settings = $this->app->make(SettingsRepositoryInterface::class);
         $this->app['config']->set('settings', $settings->getForConfig());
     }
 
     public function register()
     {
-        $this->app->bind(
-            'App\Modules\Settings\Repositories\SettingsRepositoryInterface',
-            'App\Modules\Settings\Repositories\DbSettingsRepository'
-        );
+        $this->app->bind(SettingsRepositoryInterface::class, DbSettingsRepository::class);
     }
 }

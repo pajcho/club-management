@@ -1,5 +1,7 @@
 <?php namespace App\Modules\Search\Providers;
 
+use App\Modules\Search\Repositories\DbSearchRepository;
+use App\Modules\Search\Repositories\SearchRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class SearchProvider extends ServiceProvider
@@ -12,9 +14,6 @@ class SearchProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(
-            'App\Modules\Search\Repositories\SearchRepositoryInterface',
-            'App\Modules\Search\Repositories\DbSearchRepository'
-        );
+        $this->app->singleton(SearchRepositoryInterface::class, DbSearchRepository::class);
     }
 }

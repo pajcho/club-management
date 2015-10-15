@@ -1,5 +1,7 @@
 <?php namespace App\Internal;
 
+use App\Modules\History\Models\History;
+use App\Modules\History\Repositories\HistoryRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 trait HistorableTrait {
@@ -27,7 +29,7 @@ trait HistorableTrait {
 
     public function history()
     {
-        return $this->morphMany('\App\Modules\History\Models\History', 'historable');
+        return $this->morphMany(History::class, 'historable');
     }
 
     /**
@@ -69,7 +71,7 @@ trait HistorableTrait {
     {
         if($this->shouldBeLogged($actionString))
         {
-            $historyRepo = app()->make('App\Modules\History\Repositories\HistoryRepositoryInterface');
+            $historyRepo = app()->make(HistoryRepositoryInterface::class);
 
             $historyRepo->create(array(
                 'historable_type' => get_class($this),

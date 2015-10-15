@@ -1,5 +1,9 @@
 <?php namespace App\Modules\Members\Providers;
 
+use App\Modules\Members\Repositories\DbMemberGroupRepository;
+use App\Modules\Members\Repositories\DbMemberRepository;
+use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
+use App\Modules\Members\Repositories\MemberRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class MembersProvider extends ServiceProvider
@@ -15,13 +19,7 @@ class MembersProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(
-            'App\Modules\Members\Repositories\MemberRepositoryInterface',
-            'App\Modules\Members\Repositories\DbMemberRepository'
-        );
-        $this->app->singleton(
-            'App\Modules\Members\Repositories\MemberGroupRepositoryInterface',
-            'App\Modules\Members\Repositories\DbMemberGroupRepository'
-        );
+        $this->app->singleton(MemberRepositoryInterface::class, DbMemberRepository::class);
+        $this->app->singleton(MemberGroupRepositoryInterface::class, DbMemberGroupRepository::class);
     }
 }

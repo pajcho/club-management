@@ -1,5 +1,7 @@
 <?php namespace App\Modules\History\Providers;
 
+use App\Modules\History\Repositories\DbHistoryRepository;
+use App\Modules\History\Repositories\HistoryRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class HistoryProvider extends ServiceProvider
@@ -15,9 +17,6 @@ class HistoryProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(
-            'App\Modules\History\Repositories\HistoryRepositoryInterface',
-            'App\Modules\History\Repositories\DbHistoryRepository'
-        );
+        $this->app->singleton(HistoryRepositoryInterface::class, DbHistoryRepository::class);
     }
 }
