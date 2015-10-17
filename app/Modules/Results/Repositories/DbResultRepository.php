@@ -15,8 +15,10 @@ class DbResultRepository extends DbBaseRepository implements ResultRepositoryInt
         parent::__construct($model);
     }
 
-    public function filter(array $params, $paginate = true)
+    public function filter(array $params = [], $paginate = true)
     {
+        $this->paginate = !!$paginate;
+
         // Default filter by every database column
         foreach($this->columnNames as $column)
         {
@@ -69,6 +71,6 @@ class DbResultRepository extends DbBaseRepository implements ResultRepositoryInt
 
         $this->preReturnFilters();
 
-        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+        return $this->paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 }

@@ -76,7 +76,7 @@ class UserAttendanceController extends AdminController
 
         $data = [];
         $userData = $user->data()->orderBy('group_id', 'desc')->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
-        $userGroups = $this->userGroups->orderBy('name', 'asc')->all();
+        $userGroups = $this->userGroups->skipReturnFilters()->orderBy('name', 'asc')->all();
 
         // Make data to be array of arrays instead of values
         foreach ($userGroups->all() as $group) $data[$group->id] = [
@@ -163,11 +163,11 @@ class UserAttendanceController extends AdminController
     {
         if (Route::input('user')) {
             // Allow only admin users and owners to edit their profile
-            $this->middleware('allowOnlyAdminOrCurrentUser', ['only' => ['index', 'update']]);
+            $this->middleware('allowOnlyAdminOrCurrentUser', ['only' => ['index', 'show', 'update']]);
         }
 
         // Allow only admin users to do requests here
-        $this->middleware('allowOnlyAdmin', ['except' => ['index', 'update']]);
+        $this->middleware('allowOnlyAdmin', ['except' => ['index', 'show', 'update']]);
     }
 
     /**

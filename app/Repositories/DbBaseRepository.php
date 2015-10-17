@@ -5,12 +5,16 @@ abstract class DbBaseRepository extends BaseRepository {
 	protected $model;
 	protected $columnNames;
 	protected $orderBy = array('id' => 'asc');
+	protected $paginate = true;
 	protected $perPage = 15;
+
+    protected $skipReturnFilters;
 
 	public function __construct($model)
 	{
 		$this->model = $model;
         $this->columnNames = $this->model->getColumnNames();
+        $this->skipReturnFilters = false;
 	}
 
 	public function all()
@@ -72,8 +76,10 @@ abstract class DbBaseRepository extends BaseRepository {
 		return $item->delete();
 	}
 
-    public function filter(array $params, $paginate = true)
+    public function filter(array $params = [], $paginate = true)
     {
+        $this->paginate = !!$paginate;
+
         // Default filter by every database column
         foreach($this->columnNames as $column)
         {
@@ -95,7 +101,7 @@ abstract class DbBaseRepository extends BaseRepository {
 
         $this->preReturnFilters();
 
-        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+        return $this->paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 
     public function filterWith(array $with, array $params, $paginate = true)
@@ -107,6 +113,19 @@ abstract class DbBaseRepository extends BaseRepository {
 
     public function orderBy($column, $direction) {
         $this->model = $this->model->orderBy($column, $direction);
+
+        return $this;
+    }
+
+    public function skipReturnFilters() {
+        $this->skipReturnFilters = true;
+
+        return $this;
+    }
+
+    public function paginate($count = 15) {
+        $this->paginate = true;
+        $this->perPage = $count;
 
         return $this;
     }

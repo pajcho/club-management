@@ -46,6 +46,8 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
     public function filter(array $params = [], $paginate = true)
     {
+        $this->paginate = !!$paginate;
+
         // Default filter by every database column
         foreach($this->columnNames as $column)
         {
@@ -77,11 +79,13 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
                     break;
                 case 2:
                     $this->model = $this->model->where(function($query) use ($names){
-                        $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
-                        $query->where('last_name', 'LIKE', '%' . $names[1] . '%');
-                    })->orWhere(function($query) use ($names){
-                        $query->where('last_name', 'LIKE', '%' . $names[0] . '%');
-                        $query->where('first_name', 'LIKE', '%' . $names[1] . '%');
+                        $query->where(function($query) use ($names){
+                            $query->where('first_name', 'LIKE', '%' . $names[0] . '%');
+                            $query->where('last_name', 'LIKE', '%' . $names[1] . '%');
+                        })->orWhere(function($query) use ($names){
+                            $query->where('last_name', 'LIKE', '%' . $names[0] . '%');
+                            $query->where('first_name', 'LIKE', '%' . $names[1] . '%');
+                        });
                     });
                     break;
             }
@@ -113,7 +117,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
 
         $this->preReturnFilters();
 
-        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+        return $this->paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 
     /**

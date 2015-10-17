@@ -15,8 +15,10 @@ class DbHistoryRepository extends DbBaseRepository implements HistoryRepositoryI
         parent::__construct($model);
     }
 
-    public function filter(array $params = array(), $paginate = true)
+    public function filter(array $params = [], $paginate = true)
     {
+        $this->paginate = !!$paginate;
+
         // Filter by name
         if(isset($params['message']) && !empty($params['message']))
         {
@@ -31,6 +33,6 @@ class DbHistoryRepository extends DbBaseRepository implements HistoryRepositoryI
 
         $this->preReturnFilters();
 
-        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+        return $this->paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 }

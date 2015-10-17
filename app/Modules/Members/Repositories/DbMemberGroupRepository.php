@@ -40,7 +40,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
     {
         parent::preReturnFilters();
 
-        if($currentUser = Auth::user())
+        if(!$this->skipReturnFilters && $currentUser = Auth::user())
         {
             if($currentUser->isTrainer())
             {
@@ -60,6 +60,37 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
         $item->trainers->each(function($user) use ($item){
             $user->groups()->detach($item->id);
         });
+    }
+
+    public function filter(array $params = [], $paginate = true)
+    {
+        $this->paginate = !!$paginate;
+
+        // Default filter by every database column
+        foreach($this->columnNames as $column)
+        {
+            if(isset($params[$column]) && ($params[$column] === '0' || !empty($params[$column])))
+            {
+                $this->model = $this->model->where($column, '=', $params[$column]);
+            }
+        }
+
+        // Filter by search string
+        if(isset($params['search']) && !empty($params['search']))
+        {
+            $this->model = $this->model->where(function($query) use ($params){
+                $query->where('name', 'LIKE', '%' . $params['search'] . '%');
+                $query->orWhere('description', 'LIKE', '%' . $params['search'] . '%');
+            });
+        }
+
+        // Order by
+        foreach($this->orderBy as $orderBy => $orderDirection)
+            $this->model = $this->model->orderBy($orderBy, $orderDirection);
+
+        $this->preReturnFilters();
+
+        return $this->paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 
     /**

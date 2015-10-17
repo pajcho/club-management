@@ -15,8 +15,10 @@ class DbResultCategoryRepository extends DbBaseRepository implements ResultCateg
         parent::__construct($model);
     }
 
-    public function filter(array $params = array(), $paginate = true)
+    public function filter(array $params = [], $paginate = true)
     {
+        $this->paginate = !!$paginate;
+
         // Filter by name
         if(isset($params['name']) && !empty($params['name']))
         {
@@ -31,7 +33,7 @@ class DbResultCategoryRepository extends DbBaseRepository implements ResultCateg
 
         $this->preReturnFilters();
 
-        return $paginate ? $this->model->paginate($this->perPage) : $this->model->get();
+        return $this->paginate ? $this->model->paginate($this->perPage) : $this->model->get();
     }
 
     /**
