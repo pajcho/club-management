@@ -31,6 +31,7 @@ Important
 - [x] Allow member group to be deleted even if it has members
     - [x] Use soft delete for group
     - [x] Preserve group data in order to be able to review data for deleted groups on member pages
+- [x] Display trainers attendance per month instead of all at once like now
       
 Less Important
 ------------------------------------

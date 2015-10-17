@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Search\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 use App\Modules\Search\Repositories\SearchRepositoryInterface;
@@ -84,7 +85,7 @@ class SearchController extends AdminController
                     'title' => $user->full_name,
                     'subtitle' => '',
                     'link' => [
-                        'attendance' => route('user.attendance.index', $user->id),
+                        'attendance' => route('user.attendance.show', [$user->id, Carbon::now()->year, Carbon::now()->month]),
                         'edit' => route('user.update', $user->id),
                     ]
                 ];

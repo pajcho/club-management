@@ -3,10 +3,13 @@
 use App\Http\Controllers\AdminController;
 use App\Internal\EditableMonthsTrait;
 use App\Modules\Members\Models\MemberGroupData;
+use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Users\Repositories\UserGroupDataRepositoryInterface;
 use App\Modules\Users\Repositories\UserRepositoryInterface;
+use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -15,10 +18,13 @@ class UserAttendanceController extends AdminController
 {
     use EditableMonthsTrait;
 
+    private $monthsPerPage;
+    private $currentPage;
     private $users;
+    private $userGroups;
     private $userGroupData;
 
-    public function __construct(UserRepositoryInterface $users, UserGroupDataRepositoryInterface $userGroupData)
+    public function __construct(UserRepositoryInterface $users, UserGroupDataRepositoryInterface $userGroupData, MemberGroupRepositoryInterface $userGroups)
     {
         parent::__construct();
 
@@ -26,7 +32,10 @@ class UserAttendanceController extends AdminController
 
         View::share('activeMenu', 'users');
 
+        $this->monthsPerPage = 15;
+        $this->currentPage   = 1;
         $this->users         = $users;
+        $this->userGroups    = $userGroups;
         $this->userGroupData = $userGroupData;
     }
 
@@ -43,73 +52,67 @@ class UserAttendanceController extends AdminController
 
         if (!$user) app()->abort(404);
 
+        $months = $this->getEditableMonths(2014, 9);
+
+        $months = new Paginator(array_slice($months, (Input::get('page', $this->currentPage)-1) * $this->monthsPerPage, $this->monthsPerPage), count($months), $this->monthsPerPage);
+        $months->setPath('/' . Request::path());
+        $today = Carbon::now();
+
+        return view('user.attendance.index')->with(compact('user', 'months', 'today'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function show($id, $year, $month)
+    {
+        $user = $this->users->findWith($id, ['data']);
+
+        if (!$user) app()->abort(404);
+
         $data = [];
         $userData = $user->data()->orderBy('group_id', 'desc')->orderBy('year', 'desc')->orderBy('month', 'desc')->orderBy('created_at', 'desc')->get();
-        $userGroups = $user->groups()->get();
+        $userGroups = $this->userGroups->orderBy('name', 'asc')->all();
 
-        foreach($userGroups->all() as $item) {
-            if(!isset($data[$item->id])) {
-                $data[$item->id] = $item;
-            }
-        }
+        // Make data to be array of arrays instead of values
+        foreach ($userGroups->all() as $group) $data[$group->id] = [
+            'group'  => $group,
+            'data'  => [],
+        ];
 
-        // Add additional groups to data array as sometimes trainer no longer trains
-        // a group but was in the past, so we want to display this data too
-        foreach($userData->all() as $item) {
-            if(!isset($data[$item->group_id])) {
-                $data[$item->group_id] = $item->group;
-            }
-        }
+        $today = Carbon::now()->year($year)->month($month);
 
-        if ($data) {
-            // Make data to be array of arrays instead of values
-            foreach ($data as $key => $value) $data[ $key ] = [
-                'group'  => $value,
-                'years' => [],
-                'data'  => [],
-            ];
+        $monthData = $userData->filter(function ($userDataItem) use ($today) {
+            return $userDataItem->year == $today->year && $userDataItem->month == $today->month;
+        });
 
-            $months = $this->getEditableMonths(2014, 9);
+        // Populate every group array with this new data
+        foreach ($data as $groupId => $groupData) {
+            $monthDataFound = false;
 
-            foreach ($months as $month) {
-                $monthData = $userData->filter(function ($userDataItem) use ($month) {
-                    return $userDataItem->year == $month->year && $userDataItem->month == $month->month;
-                });
-
-                // Populate every group array with this new data
-                foreach ($data as $groupId => $groupData) {
-                    $monthDataFound = false;
-
-                    foreach ($monthData->all() as $monthDataItem) {
-                        if ($monthDataItem->group_id == $groupId) {
-                            array_push($data[ $monthDataItem->group_id ]['data'], $monthDataItem);
-                            $monthDataFound = true;
-                        }
-                    }
-
-                    if (!$monthDataFound) {
-                        array_push($data[ $groupId ]['data'], new MemberGroupData([
-                            'group_id'   => $groupId,
-                            'user_id'    => $user->id,
-                            'year'       => $month->year,
-                            'month'      => $month->month,
-                            'attendance' => json_encode([]),
-                        ]));
-                    }
+            foreach ($monthData->all() as $monthDataItem) {
+                if ($monthDataItem->group_id == $groupId) {
+                    array_push($data[ $monthDataItem->group_id ]['data'], $monthDataItem);
+                    $monthDataFound = true;
                 }
             }
 
-            // Array of available years to be used as tabs on this page
-            foreach ($data as $groupId => $groupData) {
-                foreach ($groupData['data'] as $item) {
-                    if (!in_array($item->year, $data[ $groupId ]['years'])) array_push($data[ $groupId ]['years'], $item->year);
-                }
+            if (!$monthDataFound) {
+                array_push($data[ $groupId ]['data'], new MemberGroupData([
+                    'group_id'   => $groupId,
+                    'user_id'    => $user->id,
+                    'year'       => $today->year,
+                    'month'      => $today->month,
+                    'attendance' => json_encode([]),
+                ]));
             }
         }
 
-        $data = $this->restructureData($data);
-
-        return view('user.attendance')->with(compact('user', 'data'));
+        return view('user.attendance.update')->with(compact('user', 'data', 'today'));
     }
 
     /**
@@ -125,7 +128,7 @@ class UserAttendanceController extends AdminController
             $this->saveGroupDetails($userId, $details);
         }
 
-        return redirect(route('user.attendance.index', [$userId]))->withSuccess('User data updated!');
+        return back()->withSuccess('User data updated!');
     }
 
     /**
@@ -183,43 +186,5 @@ class UserAttendanceController extends AdminController
 
             $this->userGroupData->updateData($userGroupId, $data);
         }
-    }
-
-    /**
-     * @param $data
-     *
-     * @return array
-     */
-    private function restructureData($data)
-    {
-        $return = [];
-
-        // Get all available years from all groups
-        $years = [];
-        foreach ($data as $groupId => $details) {
-            $years = array_merge($years, $details['years']);
-        }
-
-        $years = array_values(array_unique($years));
-        $years = array_map('intval', $years);
-        ksort($years, SORT_DESC);
-
-        // Populate array with group details sorted out by years
-        foreach ($years as $year) {
-            foreach ($data as $groupId => $details) {
-                $return[ $year ][ $groupId ] = ['group' => $details['group'], 'data' => []];
-
-                foreach ($details['data'] as $groupDetails) {
-                    if ($groupDetails->year == $year) {
-                        array_push($return[ $year ][ $groupId ]['data'], $groupDetails);
-                    }
-                }
-
-                // Remove empty results
-                if (empty($return[ $year ][ $groupId ]['data'])) unset($return[ $year ][ $groupId ]);
-            }
-        }
-
-        return $return;
     }
 }

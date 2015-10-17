@@ -19,6 +19,8 @@
 
         get('{user}/attendance', ['as' => 'user.attendance.index', 'uses' => UserAttendanceController::class . '@index'])
             ->where(['user' => '[0-9]+']);
+        get('{user}/attendance/{year}/{month}', ['as' => 'user.attendance.show', 'uses' => UserAttendanceController::class . '@show'])
+            ->where(['user' => '[0-9]+', 'year' => '[0-9]+', 'month' => '[0-9]+']);
         put('{user}/attendance', ['as' => 'user.attendance.update', 'uses' => UserAttendanceController::class . '@update'])
             ->where(['user' => '[0-9]+']);
         delete('{user}/attendance/{group}/{year}', ['as' => 'user.attendance.destroy', 'uses' => UserAttendanceController::class . '@destroy'])

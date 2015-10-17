@@ -105,9 +105,15 @@ abstract class DbBaseRepository extends BaseRepository {
         return $this->filter($params, $paginate);
     }
 
+    public function orderBy($column, $direction) {
+        $this->model = $this->model->orderBy($column, $direction);
+
+        return $this;
+    }
+
     public function preReturnFilters()
     {
-        // Define model filters here to call before queriing
+        // Define model filters here to call before querying
     }
 
     public function preDelete($item)

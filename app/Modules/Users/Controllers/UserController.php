@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Users\Internal\Validators\UserValidator;
 use App\Modules\Users\Repositories\UserRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -98,10 +99,11 @@ class UserController extends AdminController
 
         if (!$user) app()->abort(404);
 
+        $today  = Carbon::now();
         $groups = $this->groups->getForSelect();
         $types  = $this->users->getTypesForSelect();
 
-        return view('user.update')->with(compact('user', 'groups', 'types'));
+        return view('user.update')->with(compact('user', 'groups', 'types', 'today'));
     }
 
     /**

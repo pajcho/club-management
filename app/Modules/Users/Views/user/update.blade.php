@@ -12,7 +12,7 @@
     <h1 class="page-header">
         <i class="fa fa-male"></i> Users <small>{{ $user->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-sm btn-info" href="{{ route('user.attendance.index', array($user->id)) }}">Attendance <i class="fa fa-arrow-right"></i></a>
+            <a class="btn btn-sm btn-info" href="{{ route('user.attendance.show', array($user->id, $today->year, $today->month)) }}">Current Attendance</a>
         </div>
     </h1>
 
