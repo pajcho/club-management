@@ -12,8 +12,8 @@
     <h1 class="page-header">
         Users <small>{{ $user->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-info" href="{{ route('user.show', array($user->id)) }}">User details</a>
-            <a class="btn btn-info" href="{{ route('user.attendance.show', array($user->id, $today->year, $today->month)) }}">Current Attendance</a>
+            <a class="btn btn-info" href="{{ route('user.show', [$user->id]) }}">User details</a>
+            <a class="btn btn-info" href="{{ route('user.attendance.show', [$user->id, $today->year, $today->month]) }}">Current Attendance</a>
         </div>
     </h1>
 
@@ -32,14 +32,14 @@
                         <tr class="{{ $today->year == $month->year && $today->month == $month->month ? 'success bold' : '' }}">
                             <td>{{ $months->firstItem() + $key }}</td>
                             <td>
-                                {!! link_to_route('user.attendance.show', $month->format('Y, F'), array($user->id, $month->year, $month->month)) !!}
+                                {!! link_to_route('user.attendance.show', $month->format('Y, F'), [$user->id, $month->year, $month->month], ['class' => 'naked-link']) !!}
 
                                 @if($today->year == $month->year && $today->month == $month->month)
                                     <span class="label label-primary">Current month</span>
                                 @endif
                             </td>
                             <td>
-                                {!! Html::decode(link_to_route('user.attendance.show', '<i class="fa fa-icon fa-pencil text-success"></i> Update', array($user->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-default'))) !!}
+                                {!! Html::decode(link_to_route('user.attendance.show', '<i class="fa fa-icon fa-pencil text-success"></i> Update', [$user->id, $month->year, $month->month], ['class' => 'btn btn-xs btn-default'])) !!}
                             </td>
                         </tr>
                     @endforeach

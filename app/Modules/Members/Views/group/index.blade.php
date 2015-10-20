@@ -35,15 +35,15 @@
                             <td>{{ $memberGroup->location }}</td>
                             <td><i class="fa fa-icon fa-clock-o text-info"></i> {{ $memberGroup->total_monthly_time }} hours</td>
                             <td>
-                                {!! Html::decode(link_to_route('member.index', '<i class="fa fa-user text-info"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-default'))) !!}
+                                {!! Html::decode(link_to_route('member.index', '<i class="fa fa-user text-info"></i> View Members', ['group_id' => $memberGroup->id], ['class' => 'btn btn-xs btn-default'])) !!}
                             </td>
                             <td>
-                                {!! Html::decode(link_to_route('group.data.index', '<i class="fa fa-money text-info"></i> Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-default'))) !!}
+                                {!! Html::decode(link_to_route('group.data.index', '<i class="fa fa-money text-info"></i> Payments & Attendance', [$memberGroup->id], ['class' => 'btn btn-xs btn-default'])) !!}
                             </td>
                             <td>
-                                {!! Html::decode(link_to_route('group.show', '<i class="fa fa-pencil text-success"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
+                                {!! Html::decode(link_to_route('group.show', '<i class="fa fa-pencil text-success"></i>', [$memberGroup->id], ['class' => 'btn btn-xs btn-default', 'title' => 'Update this item'])) !!}
                                 @if($currentUser->isAdmin())
-                                    {!! Html::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) !!}
+                                    {!! Html::decode(Form::delete(route('group.destroy', [$memberGroup->id]), '<i class="fa fa-trash-o text-danger"></i>', ['class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'])) !!}
                                 @endif
                             </td>
                         </tr>
@@ -53,7 +53,7 @@
                         <td colspan="{{ $currentUser->isAdmin() ? 7 : 6 }}" align="center">
                             There are no member groups
                             @if($currentUser->isAdmin())
-                                <br/>{!! link_to_route('group.create', 'Create new member group', null, array('class' => 'btn btn-xs btn-info')) !!}
+                                <br/>{!! link_to_route('group.create', 'Create new member group', null, ['class' => 'btn btn-xs btn-info']) !!}
                             @endif
                         </td>
                     </tr>

@@ -41,8 +41,8 @@
                             <td>{{ $result->category->name }}</td>
                             <td>{{ $result->subcategory }}</td>
                             <td>
-                                {!! Html::decode(link_to_route('result.show', '<i class="fa fa-pencil text-success"></i>', array($result->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
-                                {!! Html::decode(Form::delete(route('result.destroy', array($result->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this result?'))) !!}
+                                {!! Html::decode(link_to_route('result.show', '<i class="fa fa-pencil text-success"></i>', [$result->id], ['class' => 'btn btn-xs btn-default', 'title' => 'Update this item'])) !!}
+                                {!! Html::decode(Form::delete(route('result.destroy', [$result->id]), '<i class="fa fa-trash-o text-danger"></i>', ['class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this result?'])) !!}
                             </td>
                         </tr>
                     @endforeach
@@ -50,7 +50,7 @@
                     <tr>
                         <td colspan="7" align="center">
                             There are no results <br/>
-                            {!! link_to_route('result.create', 'Create new result', null, array('class' => 'btn btn-xs btn-info')) !!}
+                            {!! link_to_route('result.create', 'Create new result', null, ['class' => 'btn btn-xs btn-info']) !!}
                         </td>
                     </tr>
                 @endif

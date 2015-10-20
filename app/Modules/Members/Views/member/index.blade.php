@@ -60,8 +60,8 @@
                             </td>
                             <td>{{ $member->phone }}</td>
                             <td>
-                                {!! Html::decode(link_to_route('member.show', '<i class="fa fa-pencil text-success"></i>', array($member->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
-                                {!! Html::decode(Form::delete(route('member.destroy', array($member->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member?'))) !!}
+                                {!! Html::decode(link_to_route('member.show', '<i class="fa fa-pencil text-success"></i>', [$member->id], ['class' => 'btn btn-xs btn-default', 'title' => 'Update this item'])) !!}
+                                {!! Html::decode(Form::delete(route('member.destroy', [$member->id]), '<i class="fa fa-trash-o text-danger"></i>', ['class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member?'])) !!}
                             </td>
                         </tr>
                     @endforeach
@@ -69,7 +69,7 @@
                     <tr>
                         <td colspan="10" align="center">
                             There are no members <br/>
-                            {!! link_to_route('member.create', 'Create new member', null, array('class' => 'btn btn-xs btn-info')) !!}
+                            {!! link_to_route('member.create', 'Create new member', null, ['class' => 'btn btn-xs btn-info']) !!}
                         </td>
                     </tr>
                 @endif

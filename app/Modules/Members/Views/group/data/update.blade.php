@@ -17,10 +17,10 @@
 
             <span class="col-md-4">
                 <div class="pull-right">
-                    {!! Html::decode(link_to_route('group.payments', '<i class="fa fa-print"></i> Payments', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Payments PDF'))) !!}
+                    {!! Html::decode(link_to_route('group.payments', '<i class="fa fa-print"></i> Payments', [$memberGroup->id, $year, $month], ['class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Payments PDF'])) !!}
 
                     @if($memberGroup->total_monthly_time)
-                        {!! Html::decode(link_to_route('group.attendance', '<i class="fa fa-print"></i> Attendance', array($memberGroup->id, $year, $month), array('class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Attendance PDF'))) !!}
+                        {!! Html::decode(link_to_route('group.attendance', '<i class="fa fa-print"></i> Attendance', [$memberGroup->id, $year, $month], ['class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Attendance PDF'])) !!}
                     @endif
                 </div>
             </span>
@@ -31,7 +31,7 @@
 
     <div class="row">
         <div class="col-lg-8 col-md-12">
-            {!! Former::open()->method('PUT')->action(route('group.data.update', array($memberGroup->id, $year, $month))) !!}
+            {!! Former::open()->method('PUT')->action(route('group.data.update', [$memberGroup->id, $year, $month])) !!}
 
                 <table class="table table-bordered table-condensed table-hover">
                     <thead>
@@ -61,7 +61,7 @@
                                 <tr {!! ($highlight == $member->id) ? 'class="warning"' : '' !!}>
                                     <td width="50">{{ $key+1 }}</td>
                                     <td style="text-align: left;">
-                                        {!! link_to_route('member.show', $member->full_name, array($member->id)) !!}
+                                        {!! link_to_route('member.show', $member->full_name, [$member->id], ['class' => 'naked-link']) !!}
                                     </td>
                                     <td class="text-center">
                                         @if(!$member->freeOfChargeOnDate($year, $month, $member->freeOfCharge))
@@ -77,12 +77,12 @@
                                         <td class="text-center {!! \Carbon\Carbon::create($year, $month, $day->day)->isSameDay(\Carbon\Carbon::now()) ? 'info' : '' !!}">
                                             <label for="attendance_{{$member->id}}_{{$day->day}}" style="width: 100%; height: 100%;">
                                                 {!! Form::hidden('data[' . $member->id . '][attendance][' . $day->day . ']', 0) !!}
-                                                {!! Form::checkbox('data[' . $member->id . '][attendance][' . $day->day . ']', 1, $memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance($day->day) : false, array('id' => 'attendance_' . $member->id . '_' . $day->day)) !!}
+                                                {!! Form::checkbox('data[' . $member->id . '][attendance][' . $day->day . ']', 1, $memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance($day->day) : false, ['id' => 'attendance_' . $member->id . '_' . $day->day]) !!}
                                             </label>
                                         </td>
                                     @endforeach
-                                    <td class="text-center {{ round(count(array_filter($memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance() : array(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) >= 50 ? 'success' : 'warning' }}">
-                                        {{ round(count(array_filter($memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance() : array(), function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) }}%
+                                    <td class="text-center {{ round(count(array_filter($memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance() : [], function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) >= 50 ? 'success' : 'warning' }}">
+                                        {{ round(count(array_filter($memberGroup->data($year, $month, $member->id) ? $memberGroup->data($year, $month, $member->id)->attendance() : [], function($value){ return $value == 1; })) / count($memberGroup->trainingDays($year, $month)) * 100) }}%
                                     </td>
 
                                 </tr>
@@ -94,7 +94,7 @@
                 <div class="well">
                     {!!
                         Former::actions(
-                            Former::link('Cancel', route('group.data.index', array($memberGroup->id))),
+                            Former::link('Cancel', route('group.data.index', [$memberGroup->id])),
                             Former::default_reset('Reset'),
                             Former::success_submit('Update')
                         )

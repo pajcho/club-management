@@ -36,8 +36,8 @@
                             <td>{{ implode(', ', $user->groups->lists('name')) }}</td>
                             <td>{{ ucfirst($user->type) }}</td>
                             <td>
-                                {!! Html::decode(link_to_route('user.show', '<i class="fa fa-pencil text-success"></i>', array($user->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
-                                {!! Html::decode(Form::delete(route('user.destroy', array($user->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this user?'))) !!}
+                                {!! Html::decode(link_to_route('user.show', '<i class="fa fa-pencil text-success"></i>', [$user->id], ['class' => 'btn btn-xs btn-default', 'title' => 'Update this item'])) !!}
+                                {!! Html::decode(Form::delete(route('user.destroy', [$user->id]), '<i class="fa fa-trash-o text-danger"></i>', ['class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this user?'])) !!}
                             </td>
                         </tr>
                     @endforeach
@@ -45,7 +45,7 @@
                     <tr>
                         <td colspan="7" align="center">
                             There are no users <br/>
-                            {!! link_to_route('user.create', 'Create new user', null, array('class' => 'btn btn-xs btn-info')) !!}
+                            {!! link_to_route('user.create', 'Create new user', null, ['class' => 'btn btn-xs btn-info']) !!}
                         </td>
                     </tr>
                 @endif
