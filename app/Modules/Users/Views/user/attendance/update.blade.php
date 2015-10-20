@@ -12,12 +12,12 @@
     <h1 class="page-header">
         Users <small>{{ $user->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-info" href="{{ route('user.show', array($user->id)) }}">User details</a>
-            <a class="btn btn-info" href="{{ route('user.attendance.index', array($user->id)) }}">Full Attendance</a>
+            <a class="btn btn-default" href="{{ route('user.show', [$user->id]) }}"><i class="fa fa-icon fa-pencil text-info"></i> User details</a>
+            <a class="btn btn-default" href="{{ route('user.attendance.index', [$user->id]) }}"><i class="fa fa-icon fa-list text-info"></i> Full Attendance</a>
         </div>
     </h1>
 
-    {!! Former::open()->method('PUT')->action(route('user.attendance.update', array($user->id))) !!}
+    {!! Former::open()->method('PUT')->action(route('user.attendance.update', [$user->id])) !!}
     <div class="row">
         @foreach($data as $groupId => $groupData)
 
@@ -39,8 +39,8 @@
                                         link_to_route(
                                             'group.data.show',
                                             $today->format('F, Y'),
-                                            array($dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $user->id),
-                                            array('class' => 'btn btn-xs btn-success')
+                                            [$dataItem->group_id, $dataItem->year, $dataItem->month, 'highlight' => $user->id],
+                                            ['class' => 'btn btn-xs btn-success']
                                         )
                                     !!}
 
@@ -48,8 +48,8 @@
                                         link_to_route(
                                             'group.data.index',
                                             $dataItem->group->name,
-                                            array($dataItem->group_id),
-                                            array('class' => 'pull-right btn btn-xs btn-primary')
+                                            [$dataItem->group_id],
+                                            ['class' => 'pull-right btn btn-xs btn-primary']
                                         )
                                     !!}
 
@@ -70,7 +70,7 @@
                                     <td class="text-center {!! $day->year($dataItem->year)->month($dataItem->month)->isToday() ? 'info' : '' !!}">
                                         <label for="attendance_{{ $dataItem->user_id }}_{{ $dataItem->group_id }}_{{ $dataItem->month }}_{{ $day->day }}" style="width: 100%; height: 100%;">
                                             {!! Form::hidden('data[' . implode('-', [$dataItem->year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 0) !!}
-                                            {!! Form::checkbox('data[' . implode('-', [$dataItem->year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, array('id' => 'attendance_' . $dataItem->user_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day)) !!}
+                                            {!! Form::checkbox('data[' . implode('-', [$dataItem->year, $groupId, $key]) . '][data][' . $dataItem->group_id . '][attendance][' . $day->day . ']', 1, $dataItem->attendance($day->day) == '1' ? true : false, ['id' => 'attendance_' . $dataItem->user_id . '_' . $dataItem->group_id . '_' . $dataItem->month . '_' . $day->day]) !!}
                                         </label>
                                     </td>
                                 @endforeach
@@ -79,7 +79,7 @@
                             <tfoot>
                             <tr>
                                 <td colspan="{{ count($dataItem->group->trainingDays($dataItem->year, $dataItem->month)) + 1 }}" class="text-right">
-                                    {!! Form::submit('Update', array('class' => 'btn btn-xs btn-success')) !!}
+                                    {!! Form::submit('Update', ['class' => 'btn btn-xs btn-success']) !!}
                                 </td>
                             </tr>
                             </tfoot>

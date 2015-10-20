@@ -12,7 +12,7 @@
     <h1 class="page-header">
         <i class="fa fa-user"></i> Members <small>{{ $member->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-sm btn-info" href="{{ route('member.payments.index', array($member->id)) }}">Payments and Attendance <i class="fa fa-arrow-right"></i></a>
+            <a class="btn btn-sm btn-default" href="{{ route('member.payments.index', array($member->id)) }}"><i class="fa fa-icon fa-clock-o text-info"></i> Payments and Attendance</a>
         </div>
     </h1>
 

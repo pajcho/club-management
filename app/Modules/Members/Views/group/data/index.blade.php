@@ -12,7 +12,7 @@
     <h1 class="page-header">
         Payments & Attendance <small>{{ $memberGroup->name }}</small>
         <div class="pull-right">
-            <a class="btn btn-info" href="{{ route('group.index') }}"><i class="fa fa-arrow-left"></i> Back to groups</a>
+            <a class="btn btn-default" href="{{ route('group.index') }}"><i class="fa fa-icon fa-list text-info"></i> Groups listing</a>
         </div>
     </h1>
 

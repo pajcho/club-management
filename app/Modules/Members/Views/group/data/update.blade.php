@@ -10,20 +10,16 @@
 @section('content')
 
     <h1 class="page-header">
-        <div class="col-lg-8 col-md-12">
-            <span class="col-md-8">
-                Payments & Attendance <small>{{ $memberGroup->name }}</small>
-            </span>
+        <div class="col-md-12">
+            Payments & Attendance <small>{{ $memberGroup->name }}</small>
 
-            <span class="col-md-4">
-                <div class="pull-right">
-                    {!! Html::decode(link_to_route('group.payments', '<i class="fa fa-print"></i> Payments', [$memberGroup->id, $year, $month], ['class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Payments PDF'])) !!}
+            <div class="pull-right">
+                {!! Html::decode(link_to_route('group.payments', '<i class="fa fa-print text-info"></i> Payments', [$memberGroup->id, $year, $month], ['class' => 'btn btn-default', 'target' => '_blank', 'title' => 'Print Payments PDF'])) !!}
 
-                    @if($memberGroup->total_monthly_time)
-                        {!! Html::decode(link_to_route('group.attendance', '<i class="fa fa-print"></i> Attendance', [$memberGroup->id, $year, $month], ['class' => 'btn btn-xs btn-link', 'target' => '_blank', 'title' => 'Print Attendance PDF'])) !!}
-                    @endif
-                </div>
-            </span>
+                @if($memberGroup->total_monthly_time)
+                    {!! Html::decode(link_to_route('group.attendance', '<i class="fa fa-print text-info"></i> Attendance', [$memberGroup->id, $year, $month], ['class' => 'btn btn-default', 'target' => '_blank', 'title' => 'Print Attendance PDF'])) !!}
+                @endif
+            </div>
         </div>
 
         <div class="clearfix"></div>

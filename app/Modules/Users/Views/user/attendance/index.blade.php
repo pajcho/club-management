@@ -12,8 +12,8 @@
     <h1 class="page-header">
         Users <small>{{ $user->full_name }}</small>
         <div class="pull-right">
-            <a class="btn btn-info" href="{{ route('user.show', [$user->id]) }}">User details</a>
-            <a class="btn btn-info" href="{{ route('user.attendance.show', [$user->id, $today->year, $today->month]) }}">Current Attendance</a>
+            <a class="btn btn-default" href="{{ route('user.show', [$user->id]) }}"><i class="fa fa-icon fa-pencil text-info"></i> User details</a>
+            <a class="btn btn-default" href="{{ route('user.attendance.show', [$user->id, $today->year, $today->month]) }}"><i class="fa fa-icon fa-clock-o text-info"></i> Current Attendance</a>
         </div>
     </h1>
 
