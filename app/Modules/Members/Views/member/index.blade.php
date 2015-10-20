@@ -20,7 +20,8 @@
             <thead>
                 <tr>
                     <th width="50">#</th>
-                    <th class="hidden-md hidden-sm hidden-xs" width="30"></th>
+                    <th width="25"></th>
+                    <th width="25"></th>
                     <th>Full Name</th>
                     <th class="hidden-md hidden-sm hidden-xs">Date of Birth</th>
                     <th class="hidden-md hidden-sm hidden-xs">Subscribed</th>
@@ -35,27 +36,38 @@
                     @foreach($members as $key => $member)
                         <tr>
                             <td>{{ $members->firstItem() + $key }}</td>
-                            <td class="hidden-md hidden-sm hidden-xs">
-                                <span class="btn btn-xs btn-circle {{$member->active ? 'btn-link' : 'btn-danger'}}" title="{{$member->active ? '' : 'Inactive member'}}">&nbsp;</span>
-                                <span class="btn btn-xs btn-circle {{$member->freeOfCharge ? 'btn-success' : 'btn-link'}}" title="{{$member->freeOfCharge ? 'Free of charge member' : ''}}">&nbsp;</span>
+                            <td>
+
+                                @if($member->group && $member->active)
+                                    @if($member->freeOfCharge)
+                                        <span class="fa fa-icon fa-money text-success" title="Free of charge member">&nbsp;</span>
+                                    @elseif($member->group->data($today->year, $today->month, $member->id) && $member->group->data($today->year, $today->month, $member->id)->payed)
+                                        <span class="fa fa-icon fa-money text-success" title="Payed for this month">&nbsp;</span>
+                                    @else
+                                        <span class="fa fa-icon fa-money text-danger" title="Not payed for this month">&nbsp;</span>
+                                    @endif
+                                @endif
+                            </td>
+                            <td>
+                                <i class="fa fa-icon text-{{$member->active ? 'success fa-smile-o' : 'danger fa-frown-o'}}" title="{{$member->active ? 'Active' : 'Inactive'}} member"></i>
                             </td>
                             <td>{{ $member->full_name }}</td>
                             <td class="hidden-md hidden-sm hidden-xs">{{ $member->dob->format('d.m.Y') }}</td>
                             <td class="hidden-md hidden-sm hidden-xs">{{ $member->dos->format('d.m.Y') }} ({{ $member->dos->diffForHumans() }})</td>
                             <td>{{ $member->email }}</td>
                             <td class="hidden-md hidden-sm hidden-xs">
-                                <span class="btn btn-xs btn-circle {{ $member->getMedicalExaminationClass() }}" title="{{ $member->getMedicalExaminationTitle() }}">&nbsp;</span>
+                                <span class="fa fa-icon fa-heart-o {{ $member->getMedicalExaminationClass() }}" title="{{ $member->getMedicalExaminationTitle() }}">&nbsp;</span>
                             </td>
                             <td>{{ $member->phone }}</td>
                             <td>
-                                {!! Html::decode(link_to_route('member.show', '<i class="fa fa-pencil"></i>', array($member->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) !!}
-                                {!! Html::decode(Form::delete(route('member.destroy', array($member->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member?'))) !!}
+                                {!! Html::decode(link_to_route('member.show', '<i class="fa fa-pencil text-success"></i>', array($member->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
+                                {!! Html::decode(Form::delete(route('member.destroy', array($member->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member?'))) !!}
                             </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="9" align="center">
+                        <td colspan="10" align="center">
                             There are no members <br/>
                             {!! link_to_route('member.create', 'Create new member', null, array('class' => 'btn btn-xs btn-info')) !!}
                         </td>

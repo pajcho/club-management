@@ -60,7 +60,9 @@
                             @foreach($members as $key => $member)
                                 <tr {!! ($highlight == $member->id) ? 'class="warning"' : '' !!}>
                                     <td width="50">{{ $key+1 }}</td>
-                                    <td style="text-align: left;">{{ $member->full_name }}</td>
+                                    <td style="text-align: left;">
+                                        {!! link_to_route('member.show', $member->full_name, array($member->id)) !!}
+                                    </td>
                                     <td class="text-center">
                                         @if(!$member->freeOfChargeOnDate($year, $month, $member->freeOfCharge))
                                             <label for="payment_{{$member->id}}" style="width: 100%; height: 100%;">

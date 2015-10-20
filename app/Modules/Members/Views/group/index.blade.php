@@ -33,17 +33,17 @@
                             <td>{{ $memberGroups->firstItem() + $key }}</td>
                             <td>{{ $memberGroup->name }}</td>
                             <td>{{ $memberGroup->location }}</td>
-                            <td>{{ $memberGroup->total_monthly_time }} hours</td>
+                            <td><i class="fa fa-icon fa-clock-o text-info"></i> {{ $memberGroup->total_monthly_time }} hours</td>
                             <td>
-                                {!! Html::decode(link_to_route('member.index', '<i class="fa fa-user"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-link'))) !!}
+                                {!! Html::decode(link_to_route('member.index', '<i class="fa fa-user text-info"></i> View Members', array('group_id' => $memberGroup->id), array('class' => 'btn btn-xs btn-default'))) !!}
                             </td>
                             <td>
-                                {!! link_to_route('group.data.index', 'Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-info')) !!}
+                                {!! Html::decode(link_to_route('group.data.index', '<i class="fa fa-money text-info"></i> Payments & Attendance', array($memberGroup->id), array('class' => 'btn btn-xs btn-default'))) !!}
                             </td>
                             <td>
-                                {!! Html::decode(link_to_route('group.show', '<i class="fa fa-pencil"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) !!}
+                                {!! Html::decode(link_to_route('group.show', '<i class="fa fa-pencil text-success"></i>', array($memberGroup->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
                                 @if($currentUser->isAdmin())
-                                    {!! Html::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) !!}
+                                    {!! Html::decode(Form::delete(route('group.destroy', array($memberGroup->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this member group?'))) !!}
                                 @endif
                             </td>
                         </tr>

@@ -22,9 +22,9 @@
                 <tr>
                     <th width="50">#</th>
                     <th>Month</th>
-                    <th width="210" class="text-center">Payed?</th>
-                    <th width="70">Actions</th>
-                    <th width="100">Documents</th>
+                    <th width="100" class="text-center">Payed?</th>
+                    <th width="100">Actions</th>
+                    <th width="170">Documents</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@
                         <tr class="{{ $today->year == $month->year && $today->month == $month->month ? 'success bold' : '' }}">
                             <td>{{ $months->firstItem() + $key }}</td>
                             <td>
-                                {{ $month->format('Y, F') }}
+                                {!! link_to_route('group.data.show', $month->format('Y, F'), array($memberGroup->id, $month->year, $month->month)) !!}
 
                                 @if($today->year == $month->year && $today->month == $month->month)
                                     <span class="label label-primary">Current month</span>
@@ -42,12 +42,12 @@
                             <td class="text-center ajax-content" data-url="{{route('group.data.get.payment-data', array($memberGroup->id, $month->year, $month->month))}}"></td>
                             {{--<td class="text-center">{{ $memberGroup->data($month->year, $month->month) ? $memberGroup->payedString($month->year, $month->month) : '' }}</td>--}}
                             <td>
-                                {!! link_to_route('group.data.show', 'Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) !!}
+                                {!! Html::decode(link_to_route('group.data.show', '<i class="fa fa-icon fa-pencil text-success"></i> Update', array($memberGroup->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-default'))) !!}
                             </td>
                             <td>
                                 <div class="dropdown">
                                     <a data-toggle="dropdown" href="#" class="btn btn-xs btn-default"><i class="fa fa-paperclip"></i> Documents <span class="caret"></span></a>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <ul class="dropdown-menu">
                                         <li>{!! Html::decode(link_to_route('group.payments', '<i class="fa fa-print"></i> Payments', array($memberGroup->id, $month->year, $month->month), array('target' => '_blank', 'title' => 'Print Payments PDF', 'data-placement' => 'left'))) !!}</li>
 
                                         @if($memberGroup->total_monthly_time)

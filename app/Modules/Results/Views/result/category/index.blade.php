@@ -31,8 +31,8 @@
                             <td>{{ $resultCategories->firstItem() + $key }}</td>
                             <td>{{ $category->name }}</td>
                             <td>
-                                {!! Html::decode(link_to_route('result.category.show', '<i class="fa fa-pencil"></i>', array($category->id), array('class' => 'btn btn-xs btn-success', 'title' => 'Update this item'))) !!}
-                                {!! Html::decode(Form::delete(route('result.category.destroy', array($category->id)), '<i class="fa fa-remove"></i>', array('class' => 'btn btn-xs btn-danger', 'title' => 'Delete this item', 'data-modal-text' => 'delete this result category?'))) !!}
+                                {!! Html::decode(link_to_route('result.category.show', '<i class="fa fa-pencil text-success"></i>', array($category->id), array('class' => 'btn btn-xs btn-default', 'title' => 'Update this item'))) !!}
+                                {!! Html::decode(Form::delete(route('result.category.destroy', array($category->id)), '<i class="fa fa-trash-o text-danger"></i>', array('class' => 'btn btn-xs btn-default', 'title' => 'Delete this item', 'data-modal-text' => 'delete this result category?'))) !!}
                             </td>
                         </tr>
                     @endforeach

@@ -259,7 +259,7 @@ class Member extends BaseModel {
      * @return string
      */
     public function getMedicalExaminationClass(){
-        return is_object($this->doc) ? ($this->doc->gte(Carbon::now()->startOfDay()) ? 'btn-success' : 'btn-danger') : 'btn-warning';
+        return is_object($this->doc) ? ($this->doc->gte(Carbon::now()->startOfDay()) ? 'text-success' : 'text-danger') : 'text-warning';
     }
 
     /**

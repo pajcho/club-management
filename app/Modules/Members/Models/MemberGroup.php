@@ -196,7 +196,7 @@ class MemberGroup extends BaseModel {
             $startOfMonth->addDay();
         }
 
-        return number_format($total/60, 2);
+        return rtrim(number_format($total/60, 2), '.00');
     }
 
     /**

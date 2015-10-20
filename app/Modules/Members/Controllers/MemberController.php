@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Modules\Members\Internal\Validators\MemberValidator;
 use App\Modules\Members\Repositories\MemberGroupRepositoryInterface;
 use App\Modules\Members\Repositories\MemberRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -35,6 +36,8 @@ class MemberController extends AdminController
     {
         $input = Input::get();
 
+        $today = Carbon::now();
+
         // Get all members
         $members = $this->members->filter($input);
 
@@ -61,7 +64,7 @@ class MemberController extends AdminController
         if (isset($groups[ Input::get('group_id') ?: false ])) $filters_title = $groups[ Input::get('group_id') ] . ' / ' . $filters_title;
         if (Input::get('name') ?: false) $filters_title = Input::get('name') . ' / ' . $filters_title;
 
-        return view('member.index')->with(compact('members', 'groups', 'locations', 'member_status', 'member_free', 'filters_title'));
+        return view('member.index')->with(compact('today', 'members', 'groups', 'locations', 'member_status', 'member_free', 'filters_title'));
     }
 
     /**

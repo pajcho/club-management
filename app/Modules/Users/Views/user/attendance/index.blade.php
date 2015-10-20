@@ -32,14 +32,14 @@
                         <tr class="{{ $today->year == $month->year && $today->month == $month->month ? 'success bold' : '' }}">
                             <td>{{ $months->firstItem() + $key }}</td>
                             <td>
-                                {{ $month->format('Y, F') }}
+                                {!! link_to_route('user.attendance.show', $month->format('Y, F'), array($user->id, $month->year, $month->month)) !!}
 
                                 @if($today->year == $month->year && $today->month == $month->month)
                                     <span class="label label-primary">Current month</span>
                                 @endif
                             </td>
                             <td>
-                                {!! link_to_route('user.attendance.show', 'Update', array($user->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-success')) !!}
+                                {!! Html::decode(link_to_route('user.attendance.show', '<i class="fa fa-icon fa-pencil text-success"></i> Update', array($user->id, $month->year, $month->month), array('class' => 'btn btn-xs btn-default'))) !!}
                             </td>
                         </tr>
                     @endforeach
