@@ -7665,7 +7665,19 @@ body {
   left: -90px;
   min-width: calc(100% + 182px);
 }
+.app-search .input-group {
+  width: 100%;
+}
+.app-search .input-group input {
+  border-radius: 0;
+}
 .app-search .result-set {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   position: absolute;
   top: 34px;
   left: -70px;
@@ -7673,35 +7685,27 @@ body {
   width: calc(100% + 70px);
   border-bottom: solid 4px lightgrey;
   background-color: white;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
 }
 .app-search .result-set .result-type {
-  float: left;
-  background-color: #fafafa;
-  width: 100%;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  background-color: #fafafa;
+  width: 100%;
 }
 .app-search .result-set .result-type > span {
+  -webkit-flex-basis: 70px;
+  -ms-flex-preferred-size: 70px;
+  flex-basis: 70px;
   color: lightgrey;
   font-size: 10px;
   padding: 5px 10px;
   text-align: right;
-  -webkit-flex-basis: 70px;
-  -ms-flex-preferred-size: 70px;
-  flex-basis: 70px;
 }
 .app-search .result-set .result-type .results {
-  background-color: white;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -7711,12 +7715,13 @@ body {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  background-color: white;
 }
 .app-search .result-set .result-type .results .result {
-  padding: 5px 10px;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
+  padding: 5px 10px;
 }
 .app-search .result-set .result-type .results .result:hover,
 .app-search .result-set .result-type .results .result.active {
@@ -7783,12 +7788,6 @@ body {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-}
-.app-header .navbar-collapse .app-header-menu-items > li.app-header-search .input-group {
-  width: 100%;
-}
-.app-header .navbar-collapse .app-header-menu-items > li.app-header-search .input-group input {
-  border-radius: 0;
 }
 .app-header .navbar-collapse .app-header-user {
   -webkit-flex: initial;

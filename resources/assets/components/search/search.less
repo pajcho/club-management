@@ -1,7 +1,6 @@
 @borderColor: lightgrey;
 
 .mobile {
-
     width: ~"calc(100% - 150px)";
     float: left;
 
@@ -25,7 +24,17 @@
 
 .app-search {
 
+    .input-group {
+        width: 100%;
+
+        input {
+            border-radius: 0;
+        }
+    }
+
     .result-set {
+        display: flex;
+        flex-direction: column;
         position: absolute;
         top: 34px;
         left: -70px;
@@ -34,40 +43,29 @@
         border-bottom: solid 4px @borderColor;
         background-color: white;
 
-        display: flex;
-        flex-direction: column;
-
         .result-type {
-
-            float: left;
+            flex: 1;
+            display: flex;
             background-color: #fafafa;
             width: 100%;
 
-            flex: 1;
-            display: flex;
-
             & > span {
+                flex-basis: 70px;
                 color: @borderColor;
                 font-size: 10px;
                 padding: 5px 10px;
                 text-align: right;
-
-                flex-basis: 70px;
             }
 
             .results {
-
-                background-color: white;
-
                 flex: 1;
                 display: flex;
                 flex-direction: column;
+                background-color: white;
 
                 .result {
-
-                    padding: 5px 10px;
-
                     flex: 1;
+                    padding: 5px 10px;
 
                     &:hover, &.active {
                         background-color: #EAF4F7;
