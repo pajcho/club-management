@@ -30,8 +30,12 @@
         top: 34px;
         left: -70px;
         min-width: 400px;
+        width: ~"calc(100% + 70px)";
         border-bottom: solid 4px @borderColor;
         background-color: white;
+
+        display: flex;
+        flex-direction: column;
 
         .result-type {
 
@@ -39,24 +43,31 @@
             background-color: #fafafa;
             width: 100%;
 
+            flex: 1;
+            display: flex;
+
             & > span {
-                float: left;
-                width: 70px;
                 color: @borderColor;
                 font-size: 10px;
                 padding: 5px 10px;
                 text-align: right;
+
+                flex-basis: 70px;
             }
 
             .results {
 
-                float: right;
-                width: ~"calc(100% - 70px)";
                 background-color: white;
+
+                flex: 1;
+                display: flex;
+                flex-direction: column;
 
                 .result {
 
                     padding: 5px 10px;
+
+                    flex: 1;
 
                     &:hover, &.active {
                         background-color: #EAF4F7;

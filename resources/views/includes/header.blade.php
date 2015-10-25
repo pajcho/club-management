@@ -1,6 +1,6 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-fixed-top app-header" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="navbar-header app-header-logo">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse:first">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -10,12 +10,12 @@
 
             {!! link_to('/', site_title(), array('class' => 'navbar-brand')) !!}
 
-            <div class="mobile visible-xs">
+            <div class="mobile visible-xs app-header-search">
                 <app-search></app-search>
             </div>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-left">
+            <ul class="nav navbar-nav app-header-menu-items">
                 @if($currentUser->isAdmin())
                     <li {{ ($activeMenu == 'dashboard' ? ' class="active"' : '') }}>{!! Html::decode(link_to_route('dashboard.index', '<i class="fa fa-line-chart" title="Dashboard" data-placement="bottom"></i> <span class="hidden-sm hidden-md">Dashboard</span>')) !!}</li>
                 @endif
@@ -59,14 +59,14 @@
                     <li {{ ($activeMenu == 'history' ? ' class="active"' : '') }}>{!! Html::decode(link_to_route('history.index', '<i class="fa fa-cloud" title="History" data-placement="bottom"></i> <span class="hidden-sm hidden-md">History</span>')) !!}</li>
                 @endif
 
-                <li class="hidden-xs">
+                <li class="hidden-xs app-header-search">
                   <div class="col-xs-12">
                      <app-search></app-search>
                   </div>
                 </li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav app-header-user">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle user-avatar" data-toggle="dropdown">
                         <img class="img-circle" width="40" height="40" src="{{ $currentUser->gravatar }}" />

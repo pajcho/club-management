@@ -1,11 +1,11 @@
-<form class="navbar-form pull-left app-search" role="search">
+<form class="navbar-form app-search" role="search">
     <div class="input-group">
         <input type="text" ng-model="search.query" ng-change="search.onQueryChange()" class="form-control" placeholder="Search" name="query" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }" autocomplete="off" />
         <div class="result-set" ng-if="search.query">
             <div class="result-type" ng-if="!search.loading" ng-repeat="(category, results) in search.results">
                 <span>{{category}}</span>
-                <div class="results" ng-repeat="result in results">
-                    <div class="result" ng-class="{active: result.active}">
+                <div class="results">
+                    <div class="result" ng-repeat="result in results" ng-class="{active: result.active}">
                         <a href="{{result.link.edit}}">
                             <span class="title">{{result.title}}</span>
                             <span class="sub-title" ng-if="result.group">in <strong>{{result.group}}</strong></span>

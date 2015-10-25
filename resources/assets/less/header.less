@@ -1,0 +1,65 @@
+@import "../components/search/search.less";
+
+.app-header {
+
+    .container-fluid {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .app-header-logo {
+        flex: initial;
+    }
+
+    .navbar-collapse {
+        flex: 1;
+        display: flex !important;
+
+        .app-header-menu-items {
+            flex: 1;
+            display: flex;
+
+            > li {
+                flex: initial;
+
+                &.app-header-search {
+                    flex: 1;
+
+                    .input-group {
+                        width: 100%;
+
+                        input {
+                            border-radius: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .app-header-user {
+            flex: initial;
+        }
+    }
+
+    @media (max-width: 767px) {
+
+        .container-fluid {
+            flex-direction: column;
+        }
+
+        .app-header-logo {
+            flex: 1;
+        }
+
+        .navbar-collapse {
+            height: 1px;
+            flex-direction: column;
+
+            .app-header-menu-items {
+                flex-direction: column;
+            }
+        }
+    }
+
+}
