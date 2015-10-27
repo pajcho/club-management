@@ -8,6 +8,7 @@
                     <div class="result" ng-repeat="result in results" ng-class="{active: result.active}">
                         <a href="{{result.link.edit}}">
                             <span class="title">{{result.title}}</span>
+                            <span class="sub-title" ng-if="result.uid">{{result.uid}}</span>
                             <span class="sub-title" ng-if="result.group">in <strong>{{result.group}}</strong></span>
                             <span class="sub-title" ng-if="result.subtitle">{{result.subtitle}}</span>
                         </a>

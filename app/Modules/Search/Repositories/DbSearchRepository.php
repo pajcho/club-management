@@ -22,6 +22,14 @@ class DbSearchRepository extends DbBaseRepository implements SearchRepositoryInt
     }
 
     public function findMembers($searchQuery) {
+
+        $searchByUid = $this->members->paginate(5)->orderBy('uid', 'ASC')->filter(['uid' => '%'.$searchQuery.'%']);
+
+        if($searchByUid->total()) {
+            return $searchByUid;
+        }
+
+        $this->members->reset();
         return $this->members->paginate(5)->filter(['name' => $searchQuery]);
     }
 

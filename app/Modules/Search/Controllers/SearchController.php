@@ -53,6 +53,7 @@ class SearchController extends AdminController
                     'active' => false,
                     'type' => 'Members',
                     'title' => $member->full_name,
+                    'uid' => $member->uid,
                     'group' => $member->group ? $member->group->name : '',
                     'link' => [
                         'attendance' => route('member.payments.index', $member->id),

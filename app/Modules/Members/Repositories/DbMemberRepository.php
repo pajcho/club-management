@@ -53,7 +53,8 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         {
             if(isset($params[$column]) && ($params[$column] === '0' || !empty($params[$column])))
             {
-                $this->model = $this->model->where($column, '=', $params[$column]);
+                $operator = starts_with($params[$column], '%') || ends_with($params[$column], '%') ? 'LIKE' : '=';
+                $this->model = $this->model->where($column, $operator, $params[$column]);
             }
         }
 

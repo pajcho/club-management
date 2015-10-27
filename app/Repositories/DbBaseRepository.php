@@ -3,6 +3,7 @@
 abstract class DbBaseRepository extends BaseRepository {
 
 	protected $model;
+    protected $cleanModel;
 	protected $columnNames;
 	protected $orderBy = array('id' => 'asc');
 	protected $paginate = true;
@@ -13,9 +14,14 @@ abstract class DbBaseRepository extends BaseRepository {
 	public function __construct($model)
 	{
 		$this->model = $model;
+        $this->cleanModel = $model;
         $this->columnNames = $this->model->getColumnNames();
         $this->skipReturnFilters = false;
 	}
+
+    public function reset() {
+        $this->__construct($this->cleanModel);
+    }
 
 	public function all()
 	{
