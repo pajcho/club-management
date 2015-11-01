@@ -45,7 +45,7 @@ class DbResultCategoryRepository extends DbBaseRepository implements ResultCateg
      */
     public function getForSelect($includeEmpty = true)
     {
-        $result = $this->all()->lists('name', 'id');
+        $result = $this->all()->lists('name', 'id')->all();
 
         if($includeEmpty) $result = array('' => 'Category') + $result;
 

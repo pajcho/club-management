@@ -135,6 +135,8 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+		'App\Providers\AuthServiceProvider',
+		'Illuminate\Broadcasting\BroadcastServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -148,6 +150,7 @@ return [
 		'Barryvdh\Debugbar\ServiceProvider',
 		'Collective\Html\HtmlServiceProvider',
 		'Former\FormerServiceProvider',
+		'Spatie\Backup\BackupServiceProvider',
 
 	],
 
@@ -196,6 +199,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+		'Gate'      => Illuminate\Support\Facades\Gate::class,
 
 		'Debugbar' 	=> 'Barryvdh\Debugbar\Facade',
 		'Form' 		=> 'Collective\Html\FormFacade',

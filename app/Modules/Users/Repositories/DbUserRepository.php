@@ -70,7 +70,7 @@ class DbUserRepository extends DbBaseRepository implements UserRepositoryInterfa
      */
     public function getForSelect()
     {
-        return $this->all()->lists('full_name', 'id');
+        return $this->all()->lists('full_name', 'id')->all();
     }
 
     /**

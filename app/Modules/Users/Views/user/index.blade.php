@@ -33,7 +33,7 @@
                                 {{ $user->full_name }}
                             </td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ implode(', ', $user->groups->lists('name')) }}</td>
+                            <td>{{ implode(', ', $user->groups->lists('name')->all()) }}</td>
                             <td>{{ ucfirst($user->type) }}</td>
                             <td>
                                 {!! Html::decode(link_to_route('user.show', '<i class="fa fa-pencil text-success"></i>', [$user->id], ['class' => 'btn btn-xs btn-default', 'title' => 'Update this item'])) !!}

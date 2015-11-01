@@ -6,12 +6,14 @@ use App\Modules\Members\Models\MemberGroup;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract {
+class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract, AuthorizableContract {
 
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, Authorizable;
 
     /** History */
     use HistorableTrait;
@@ -88,7 +90,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
      */
     public function getGroupIdsAttribute()
     {
-        return $this->groups()->get()->lists('id');
+        return $this->groups()->get()->lists('id')->all();
     }
 
     /**

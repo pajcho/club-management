@@ -58,13 +58,13 @@ class DbDashboardRepository extends DbBaseRepository implements DashboardReposit
     public function newMonthlyMembers()
     {
         return $this->members->select(DB::raw('COUNT(id) as total, dos as month, dos'))
-            ->groupBy(DB::raw('YEAR(dos)'))->groupBy(DB::raw('MONTH(dos)'))->get()->lists('total', 'month');
+            ->groupBy(DB::raw('YEAR(dos)'))->groupBy(DB::raw('MONTH(dos)'))->get()->lists('total', 'month')->all();
     }
 
     public function newYearlyMembers()
     {
         return $this->members->select(DB::raw('COUNT(id) as total, dos as year, dos'))
-            ->groupBy(DB::raw('YEAR(dos)'))->get()->lists('total', 'year');
+            ->groupBy(DB::raw('YEAR(dos)'))->get()->lists('total', 'year')->all();
     }
 
     public function membersYearOfBirth($year = null)
@@ -73,7 +73,7 @@ class DbDashboardRepository extends DbBaseRepository implements DashboardReposit
 
         if(!is_null($year)) $data = $data->where(DB::raw("YEAR(dos)"), $year);
 
-        return $data->groupBy(DB::raw('YEAR(dob)'))->get()->lists('total', 'year');
+        return $data->groupBy(DB::raw('YEAR(dob)'))->get()->lists('total', 'year')->all();
     }
 
     /** HELPER FUNCTIONS */
@@ -81,12 +81,12 @@ class DbDashboardRepository extends DbBaseRepository implements DashboardReposit
     public function getSubscriptionYears()
     {
         return $this->members->select(DB::raw('YEAR(dos) as year, dos'))
-            ->groupBy(DB::raw('YEAR(dos)'))->get()->lists('year');
+            ->groupBy(DB::raw('YEAR(dos)'))->get()->lists('year')->all();
     }
 
     public function getBirthYears()
     {
         return $this->members->select(DB::raw('YEAR(dob) as year, dob'))
-            ->groupBy(DB::raw('YEAR(dob)'))->get()->lists('year');
+            ->groupBy(DB::raw('YEAR(dob)'))->get()->lists('year')->all();
     }
 }

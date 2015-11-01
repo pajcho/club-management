@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
 
-class AppCommand extends Command {
+class AppInstall extends Command {
 
     /**
      * The console command name.
@@ -18,15 +18,6 @@ class AppCommand extends Command {
      * @var	string
      */
     protected $description = 'Install application by running migrations and database seeders';
-
-    /**
-     * Create a new command instance.
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.

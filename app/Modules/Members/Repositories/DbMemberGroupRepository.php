@@ -145,7 +145,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
      */
     public function getForSelect()
     {
-        return ['0' => 'No Group'] + $this->all()->lists('name', 'id');
+        return ['0' => 'No Group'] + $this->all()->lists('name', 'id')->all();
     }
 
     /**
@@ -155,7 +155,7 @@ class DbMemberGroupRepository extends DbBaseRepository implements MemberGroupRep
      */
     public function getLocationsForSelect()
     {
-        return $this->model->select('location')->distinct()->get()->lists('location', 'location');
+        return $this->model->select('location')->distinct()->get()->lists('location', 'location')->all();
     }
 
     /**

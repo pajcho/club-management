@@ -197,7 +197,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
     {
         return DateHistory::where('type', 'group_id')
             ->where('value', $groupId)
-            ->get()->lists('member_id');
+            ->get()->lists('member_id')->all();
     }
 
     /**
@@ -216,7 +216,7 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
         return DateHistory::where('type', 'group_id')
             ->where('value', $groupId)
             ->where('date', '<=', $date)
-            ->get()->lists('member_id');
+            ->get()->lists('member_id')->all();
     }
 
     /**
@@ -224,6 +224,6 @@ class DbMemberRepository extends DbBaseRepository implements MemberRepositoryInt
      */
     public function getForSelect()
     {
-        return $this->all()->lists('full_name', 'id');
+        return $this->all()->lists('full_name', 'id')->all();
     }
 }

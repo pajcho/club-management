@@ -134,7 +134,7 @@ class MemberGroup extends BaseModel {
      */
     public function getTrainerIdsAttribute()
     {
-        return $this->trainers()->get()->lists('id');
+        return $this->trainers()->get()->lists('id')->all();
     }
 
     /**
